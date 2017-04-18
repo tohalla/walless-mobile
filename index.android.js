@@ -2,13 +2,14 @@
 import React from 'react';
 import {AppRegistry} from 'react-native';
 
-import MainNavigator from './src/MainNavigator.component';
+import App from './src/app';
 
 export default class Walless extends React.Component {
   render() {
     return (
-      <MainNavigator />
+      <App />
     );
   }
 }
+
 AppRegistry.registerComponent('walless', () => Walless);

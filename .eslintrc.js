@@ -10,7 +10,9 @@ module.exports = {
     'flowtype'
   ],
   env: {
-    es6: true
+    es6: true,
+    fetch: true,
+    node: true
   },
   ecmaFeatures: {
     jsx: true

@@ -7,8 +7,12 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"apollo-client": "^1.0.3",
+		"graphql-tag": "^2.0.0",
 		"react": "16.0.0-alpha.6",
-		"react-native": "0.43.2"
+		"react-apollo": "^1.0.1",
+		"react-native": "^0.43.2",
+		"react-native-i18n": "^1.0.0"
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.2.1",
@@ -19,6 +23,7 @@
 		"eslint-plugin-babel": "^4.1.1",
 		"eslint-plugin-flowtype": "^2.30.4",
 		"eslint-plugin-react": "^6.10.3",
+		"isomorphic-fetch": "^2.2.1",
 		"jest": "19.0.2",
 		"react-test-renderer": "16.0.0-alpha.6"
 	},
