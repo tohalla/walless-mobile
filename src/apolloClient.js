@@ -1,9 +1,21 @@
+import {AsyncStorage} from 'react-native'
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
+
 import config from '../config';
 
 const networkInterface = createNetworkInterface({
   uri: `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.graphQL.endpoint}`
 });
+
+networkInterface.use([{
+  async applyMiddleware(req, next) {
+    const token = await AsyncStorage.getItem('Authorization');
+    if (token) {
+      req.options.headers.Authorization = `Bearer ${token}`;
+    }
+    next();
+  }
+}]);
 
 const dataIdFromObject = result =>
   result.id && result.__typename ?

@@ -6,11 +6,12 @@ import {ApolloProvider} from 'react-apollo';
 import MainNavigator from './MainNavigator.component';
 import translations from './translations';
 import apolloClient from './apolloClient';
+import store from './store';
 
 export default class App extends React.Component {
   render() {
     return (
-			<ApolloProvider client={apolloClient}>
+			<ApolloProvider client={apolloClient} store={store}>
 				<MainNavigator />
 			</ApolloProvider>
     );
