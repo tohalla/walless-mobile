@@ -3,7 +3,7 @@ import React from 'react';
 import I18n from 'react-native-i18n';
 import {ApolloProvider} from 'react-apollo';
 
-import MainNavigator from './MainNavigator.component';
+import MainNavigator from './navigation/MainNavigator.component';
 import translations from './translations';
 import apolloClient from './apolloClient';
 import store from './store';

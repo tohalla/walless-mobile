@@ -10,6 +10,9 @@ const networkInterface = createNetworkInterface({
 networkInterface.use([{
   async applyMiddleware(req, next) {
     const token = await AsyncStorage.getItem('Authorization');
+    if (!req.options.headers) {
+      req.options.headers = {};
+    }
     if (token) {
       req.options.headers.Authorization = `Bearer ${token}`;
     }

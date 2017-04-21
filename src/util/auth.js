@@ -22,10 +22,13 @@ export const authenticate = async (payload: Object) => {
 
 export default {
   authenticate: async (email: string, password: string) => {
-    AsyncStorage.setItem(
-    	'Authorization',
-    	(await authenticate({email, password})).token
-    );
+  	const token = (await authenticate({email, password})).token;
+  	if (typeof token === 'string') {
+	    await AsyncStorage.setItem(
+	    	'Authorization',
+	    	token
+	    );
+  	}
   },
   renew: async (token: string) => {
   },

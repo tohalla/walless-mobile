@@ -7,10 +7,13 @@ import {
 	StyleSheet
 } from 'react-native';
 import I18n from 'react-native-i18n';
+import {compose} from 'react-apollo';
 
+import routes from '../navigation/routes';
+import {getActiveAccount} from '../graphql/account/account.queries';
 import authenticationHandler from '../util/auth';
 
-export default class Authentication extends React.Component {
+class Authentication extends React.Component {
 	state = {
 		email: '',
 		password: ''
@@ -19,6 +22,15 @@ export default class Authentication extends React.Component {
 		const {email, password} = this.state;
 		authenticationHandler.authenticate(email, password);
 	};
+	constructor(props) {
+		super(props);
+	}
+	componentWillReceiveProps(props) {
+		const {getActiveAccount: {account} = {}} = props;
+		if (account) {
+			props.navigator.replace(routes.home)
+		}
+	}
 	render() {
 		const {email, password} = this.state;
 		return (
@@ -69,3 +81,7 @@ const styles = StyleSheet.create({
 		height: 40
 	}
 });
+
+export default compose(
+  getActiveAccount
+)(Authentication);
