@@ -4,11 +4,28 @@ import {
 	TouchableOpacity,
 	Text
 } from 'react-native';
+import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
+import {hasIn} from 'lodash/fp';
 
-export default class Home extends React.Component {
+import {setActiveRestaurant} from '../restaurant/restaurant';
+import {getRestaurant} from '../graphql/restaurant/restaurant.queries'
+
+const mapStateToProps = state => ({
+	restaurant: hasIn(['restaurant', 'activeRestaurant'])(state) ?
+		state.restaurant.activeRestaurant.id : null
+});
+
+class Home extends React.Component {
+	constructor(props) {
+		super(props);
+		props.setActiveRestaurant({id: 3});
+	}
 	render() {
-		return (
-			<View style={{
+		const {getRestaurant: {restaurant} = {}} = this.props;
+		return restaurant ?
+			<View />
+		: <View style={{
 				flex: 1,
 				alignItems: 'center',
 				justifyContent: 'center'
@@ -29,7 +46,11 @@ export default class Home extends React.Component {
 						{'scan qr code'}
 					</Text>
 				</TouchableOpacity>
-			</View>
-		);
+			</View>;
 	}
 }
+
+export default compose(
+	connect(mapStateToProps, {setActiveRestaurant}),
+	getRestaurant
+)(Home);
