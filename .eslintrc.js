@@ -11,8 +11,8 @@ module.exports = {
   ],
   env: {
     es6: true,
-    fetch: true,
-    node: true
+    node: true,
+    browser: true
   },
   ecmaFeatures: {
     jsx: true

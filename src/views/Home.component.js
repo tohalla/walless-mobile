@@ -9,7 +9,7 @@ import {compose} from 'react-apollo';
 import {hasIn} from 'lodash/fp';
 
 import {setActiveRestaurant} from '../restaurant/restaurant';
-import {getRestaurant} from '../graphql/restaurant/restaurant.queries'
+import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 
 const mapStateToProps = state => ({
 	restaurant: hasIn(['restaurant', 'activeRestaurant'])(state) ?
@@ -17,6 +17,9 @@ const mapStateToProps = state => ({
 });
 
 class Home extends React.Component {
+	static navigationOptions = {
+		drawerLabel: 'Home'
+	};
 	constructor(props) {
 		super(props);
 		props.setActiveRestaurant({id: 3});

@@ -10,11 +10,13 @@ import I18n from 'react-native-i18n';
 import {compose} from 'react-apollo';
 import {hasIn} from 'lodash/fp';
 
-import routes from '../navigation/routes';
 import {getActiveAccount} from '../graphql/account/account.queries';
 import authenticationHandler from '../util/auth';
 
 class Authentication extends React.Component {
+	static navigationOptions = {
+		drawerLabel: 'Authentication'
+	};
 	state = {
 		email: '',
 		password: ''
@@ -29,7 +31,7 @@ class Authentication extends React.Component {
 	componentWillReceiveProps(newProps) {
 		const {getActiveAccount: {account} = {}} = newProps;
 		if (account) {
-			newProps.navigator.replace(routes.home)
+			newProps.navigation.navigate('home');
 		}
 	}
 	render() {

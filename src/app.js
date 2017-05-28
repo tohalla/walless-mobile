@@ -22,4 +22,3 @@ Object.assign(
 	I18n,
 	{fallbacks: true, translations}
 );
-

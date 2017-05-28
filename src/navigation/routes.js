@@ -1,4 +1,7 @@
+import Home from '../views/Home.component';
+import Authentication from '../account/Authentication.component';
+
 export default {
-	authentication: {id: 'authentication', hideSideBar: true},
-	home: {id: 'home'}
-}
+	home: {screen: Home},
+	authentication: {screen: Authentication, display: account => !account}
+};
