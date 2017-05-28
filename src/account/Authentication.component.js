@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import I18n from 'react-native-i18n';
 import {compose} from 'react-apollo';
+import {hasIn} from 'lodash/fp';
 
 import routes from '../navigation/routes';
 import {getActiveAccount} from '../graphql/account/account.queries';
@@ -18,17 +19,17 @@ class Authentication extends React.Component {
 		email: '',
 		password: ''
 	};
-	authenticate = () => {
+	authenticate = async () => {
 		const {email, password} = this.state;
-		authenticationHandler.authenticate(email, password);
+		await authenticationHandler.authenticate(email, password);
+		if (hasIn(['getActiveAccount', 'data', 'refetch'])(this.props)) {
+			this.props.getActiveAccount.data.refetch();
+		}
 	};
-	constructor(props) {
-		super(props);
-	}
-	componentWillReceiveProps(props) {
-		const {getActiveAccount: {account} = {}} = props;
+	componentWillReceiveProps(newProps) {
+		const {getActiveAccount: {account} = {}} = newProps;
 		if (account) {
-			props.navigator.replace(routes.home)
+			newProps.navigator.replace(routes.home)
 		}
 	}
 	render() {
