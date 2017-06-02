@@ -8,33 +8,30 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import {hasIn} from 'lodash/fp';
 
-import {setActiveRestaurant} from '../restaurant/restaurant';
+import RestaurantNavigator from '../restaurant/RestaurantNavigator.component';
+import {setActiveRestaurant} from '../active.reducer';
 import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 
 const mapStateToProps = state => ({
-	restaurant: hasIn(['restaurant', 'activeRestaurant'])(state) ?
-		state.restaurant.activeRestaurant.id : null
+	restaurant: hasIn(['active', 'restaurant'])(state) ?
+		state.active.restaurant : null
 });
 
 class Home extends React.Component {
 	static navigationOptions = {
 		drawerLabel: 'Home'
 	};
-	constructor(props) {
-		super(props);
-		props.setActiveRestaurant({id: 3});
-	}
 	render() {
-		const {getRestaurant: {restaurant} = {}} = this.props;
+		const {getRestaurant: {restaurant} = {}, setActiveRestaurant} = this.props;
 		return restaurant ?
-			<View />
+			<RestaurantNavigator props={{restaurant}} />
 		: <View style={{
 				flex: 1,
 				alignItems: 'center',
 				justifyContent: 'center'
 			}}>
 				<TouchableOpacity
-						onPress={() => {}}
+						onPress={() => setActiveRestaurant(3)}
 						style={{
 							width: '100%',
 							padding: 12,

@@ -1,4 +1,5 @@
-import {AsyncStorage} from 'react-native'
+// @flow
+import {AsyncStorage} from 'react-native';
 
 import config from '../../config';
 
@@ -21,18 +22,18 @@ export const authenticate = async (payload: Object) => {
 };
 
 export default {
-  authenticate: async (email: string, password: string) => {
-  	const token = (await authenticate({email, password})).token;
-  	if (typeof token === 'string') {
-	    await AsyncStorage.setItem(
-	    	'Authorization',
-	    	token
-	    );
-  	}
+		authenticate: async (email: string, password: string) => {
+		const token = (await authenticate({email, password})).token;
+		if (typeof token === 'string') {
+			await AsyncStorage.setItem(
+				'Authorization',
+				token
+			);
+		}
   },
   renew: async (token: string) => {
   },
   logout: async () => {
-    AsyncStorage.removeItem('Authorization')
+    AsyncStorage.removeItem('Authorization');
   }
 };

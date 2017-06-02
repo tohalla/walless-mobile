@@ -11,7 +11,7 @@ const colors = {
 	gray: '#424242',
 	darkGray: '#212121',
 	black: '#000'
-}
+};
 
 export default Object.assign({
 	sideMenu: {
@@ -19,5 +19,5 @@ export default Object.assign({
 		foreground: colors.carrara
 	},
 	background: colors.white,
-	foreground: colors.darkGray,
+	foreground: colors.darkGray
 }, colors);
