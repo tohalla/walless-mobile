@@ -3,9 +3,11 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {hasIn} from 'lodash/fp';
+import {hasIn, map} from 'lodash/fp';
+import I18n from 'react-native-i18n';
 
 import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
+import {restaurantRoutes} from './RestaurantNavigator.component';
 
 const mapStateToProps = state => ({
 	restaurant: hasIn(['active', 'restaurant'])(state) ?
@@ -23,29 +25,35 @@ class Restaurant extends React.Component {
 			},
 			navigation
 		} = this.props;
-		console.log(this.props);
 		return typeof restaurant === 'object' ? (
 			<View>
 				<View>
 					<Text>{restaurant.name}</Text>
 					<Text>{restaurant.description}</Text>
 				</View>
-				<TouchableOpacity
-						onPress={() => navigation.navigate('menus')}
-						style={{
-							width: '100%',
-							padding: 12,
-							alignItems: 'center'
-						}}
-				>
-					<Text
-						style={{
-							fontSize: 18
-						}}
-					>
-						{'placeholder for browse menus'}
-					</Text>
-				</TouchableOpacity>
+				{
+					map(route => (
+						route.navigation ?
+							<TouchableOpacity
+									key={route.id}
+									onPress={() => navigation.navigate(route.id)}
+									style={{
+										width: '100%',
+										padding: 12,
+										alignItems: 'center'
+									}}
+							>
+								<Text
+									style={{
+										fontSize: 18
+									}}
+								>
+									{I18n.t(route.translationKey)}
+								</Text>
+							</TouchableOpacity> :
+						null
+					))(restaurantRoutes)
+				}
 			</View>
 		) : null;
 	}

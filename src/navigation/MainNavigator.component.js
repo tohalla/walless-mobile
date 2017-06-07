@@ -21,7 +21,7 @@ class MainNavigator extends React.Component {
 	shouldComponentUpdate = nextProps =>
 		!(
 			hasIn(['getActiveAccount', 'account'])(this.props) &&
-			hasIn(['getActiveAccount', 'account'])(this.props)
+			hasIn(['getActiveAccount', 'account'])(nextProps)
 		) ||
 		!isEqual(nextProps.getActiveAccount.account)(this.props.getActiveAccount.account)
 	render() {
