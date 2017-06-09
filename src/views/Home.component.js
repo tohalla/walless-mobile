@@ -1,32 +1,26 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
+import {addNavigationHelpers} from 'react-navigation';
 import {get} from 'lodash/fp';
 
-import RestaurantNavigator from '../restaurant/RestaurantNavigator.component';
-import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
-import {getServingLocation} from '../graphql/restaurant/servingLocation.queries';
-import {getActiveAccount} from '../graphql/account/account.queries';
+import RestaurantNavigator from '../navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state)
+  navigationState: get(['navigation', 'restaurant'])(state)
 });
 
 class Home extends React.Component {
   static navigationOptions = {
     drawerLabel: 'Home'
   };
-  render() {
-    const {
-      getRestaurant: {restaurant} = {}
-    } = this.props;
-    return<RestaurantNavigator props={{restaurant}} />;
-  }
+  render = () => (
+    <RestaurantNavigator
+        navigation={addNavigationHelpers({
+          dispatch: this.props.dispatch,
+          state: this.props.navigationState
+        })}
+    />
+  );
 }
 
-export default compose(
-  connect(mapStateToProps),
-  getServingLocation,
-  getRestaurant,
-  getActiveAccount
-)(Home);
+export default connect(mapStateToProps)(Home);

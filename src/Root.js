@@ -12,7 +12,7 @@ import apolloClient from './apolloClient';
 import store from './store';
 
 const mapStateToProps = state => ({
-  navigation: get(['navigation', 'mainNavigation'])(state)
+  navigationState: get(['navigation', 'main'])(state)
 });
 
 const App = connect(mapStateToProps)(
@@ -21,7 +21,7 @@ const App = connect(mapStateToProps)(
       <MainNavigation
           navigation={addNavigationHelpers({
             dispatch: this.props.dispatch,
-            state: this.props.navigation
+            state: this.props.navigationState
           })}
       />
     );

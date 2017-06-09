@@ -4,13 +4,12 @@ import {View, Text} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get, map} from 'lodash/fp';
-import {NavigationActions} from 'react-navigation';
 import I18n from 'react-native-i18n';
 
 import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 import Button from '../components/Button.component';
 import container from '../styles/container';
-import {restaurantRoutes} from './RestaurantNavigator.component';
+import {restaurantRoutes} from '../navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state)
@@ -18,25 +17,14 @@ const mapStateToProps = state => ({
 
 class Restaurant extends React.Component {
   static navigationOptions = {
-    title: 'Restaurant'
+    header: 'Restaurant'
   };
-  componentDidMount() {
-    if (!this.props.restaurant) {
-      this.props.navigation.dispatch(NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({routeName: 'scan'})
-        ]
-      }));
-    }
-  }
   render() {
     const {
       getRestaurant: {restaurant} = {},
       getActiveAccount: {account} = {},
       navigation
     } = this.props;
-    console.log(restaurant);
     return restaurant ? (
       <View>
         <View>

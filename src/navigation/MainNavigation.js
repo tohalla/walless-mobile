@@ -19,7 +19,8 @@ export default MainNavigation;
 
 const {router: {getStateForAction, getActionForPathAndParams}} = MainNavigation;
 
-export const mainNavigationReducer = (
+
+export const navigationReducer = (
   state = getStateForAction(getActionForPathAndParams('home')),
   action
 ) => getStateForAction(action, state) || state;
