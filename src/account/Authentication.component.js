@@ -39,7 +39,7 @@ class Authentication extends React.Component {
   render() {
     const {email, password} = this.state;
     return (
-      <View style={container.screenContainer}>
+      <View style={[container.screenContainer, container.centered]}>
         <TextInput
             autoCorrect={false}
             keyboardType="email-address"

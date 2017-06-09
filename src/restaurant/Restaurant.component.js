@@ -3,12 +3,12 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
+import {NavigationActions} from 'react-navigation';
 import {get, map} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 
 import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 import Button from '../components/Button.component';
-import container from '../styles/container';
 import {restaurantRoutes} from '../navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
@@ -17,12 +17,21 @@ const mapStateToProps = state => ({
 
 class Restaurant extends React.Component {
   static navigationOptions = {
-    header: 'Restaurant'
+    title: 'Restaurant'
   };
+  componentWillMount() {
+    if (!get(['getRestaurant', 'restaurant'])(this.props)) {
+      this.props.navigation.dispatch(NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({routeName: 'selection'})
+        ]
+      }));
+    }
+  }
   render() {
     const {
       getRestaurant: {restaurant} = {},
-      getActiveAccount: {account} = {},
       navigation
     } = this.props;
     return restaurant ? (
@@ -35,35 +44,15 @@ class Restaurant extends React.Component {
           map(route => (
             route.navigation &&
             <Button
-                key={route.id}
-                onPress={() => navigation.navigate({routeName: route.id})}
+                key={route.name}
+                onPress={() => navigation.navigate(route.name)}
             >
                 {I18n.t(route.translationKey)}
             </Button>
           ))(restaurantRoutes)
         }
       </View>
-    ) : (
-      <View style={container.screenContainer}>
-        {account ?
-          <Button light onPress={() => {}}>
-            {'Scan QR code'}
-          </Button> :
-          <Button
-              light
-              onPress={() => this.props.navigation.navigate('authentication')}
-          >
-              {I18n.t('account.authenticate')}
-          </Button>
-        }
-        <Button
-            light
-            onPress={() => this.props.navigation.navigate('browse')}
-        >
-            {'Browse restaurants'}
-        </Button>
-      </View>
-    );
+    ) : null;
   }
 }
 

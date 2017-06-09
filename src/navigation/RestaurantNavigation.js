@@ -3,6 +3,7 @@ import {StackNavigator} from 'react-navigation';
 import {View} from 'react-native';
 
 import Restaurant from '../restaurant/Restaurant.component';
+import Selection from '../restaurant/Selection.component';
 import Menus from '../restaurant/Menus.component';
 import MenuItems from '../restaurant/MenuItems.component';
 import Scan from '../restaurant/Scan.component';
@@ -10,25 +11,29 @@ import Scan from '../restaurant/Scan.component';
 export const restaurantRoutes = {
   scan: {
     screen: Scan,
-    id: 'scan'
+    name: 'scan'
   },
   home: {
     screen: Restaurant,
-    id: 'home'
+    name: 'home'
+  },
+  selection: {
+    screen: Selection,
+    name: 'selection'
   },
   menus: {
     screen: Menus,
     navigation: true,
     translationKey: 'restaurant.menus',
-    id: 'menus'
+    name: 'menus'
   },
   menuItems: {
     screen: MenuItems,
     navigation: true,
-    id: 'menuItems',
+    name: 'menuItems',
     translationKey: 'restaurant.menuItems'
   },
-  campaings: {screen: View, id: 'campaings'}
+  campaings: {screen: View, name: 'campaings'}
 };
 
 const RestaurantNavigation = new StackNavigator(
