@@ -2,12 +2,12 @@
 import React from 'react';
 import {AppRegistry} from 'react-native';
 
-import App from './src/app';
+import Root from './src/Root';
 
 export default class Walless extends React.Component {
   render() {
     return (
-      <App />
+      <Root />
     );
   }
 }

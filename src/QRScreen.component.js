@@ -15,6 +15,10 @@ export default class QRScreen extends React.Component {
     onSuccess: PropTypes.func.isRequired,
     onCancel: PropTypes.func
   };
+  constructor(props) { // use until camera working and qr codes have been setup
+    super(props);
+    props.onSuccess();
+  }
   handleBarCodeRead = data => {
     VibrationIOS.vibrate();
     this.props.onSuccess(data);

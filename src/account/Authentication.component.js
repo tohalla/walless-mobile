@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   View,
-  Button,
   TextInput,
   StyleSheet
 } from 'react-native';
@@ -10,6 +9,9 @@ import I18n from 'react-native-i18n';
 import {compose} from 'react-apollo';
 import {hasIn} from 'lodash/fp';
 
+import Button from '../components/Button.component';
+import colors from '../styles/colors';
+import container from '../styles/container';
 import {getActiveAccount} from '../graphql/account/account.queries';
 import authenticationHandler from '../util/auth';
 
@@ -37,51 +39,40 @@ class Authentication extends React.Component {
   render() {
     const {email, password} = this.state;
     return (
-      <View
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            width: '100%',
-            height: '100%'
-          }}
-      >
-        <View
-            style={{width: '80%'}}
+      <View style={container.screenContainer}>
+        <TextInput
+            autoCorrect={false}
+            keyboardType="email-address"
+            name="email"
+            onChangeText={email => this.setState({email})}
+            placeholder={I18n.t('account.email')}
+            style={styles.input}
+            value={email}
+        />
+        <TextInput
+            autoCorrect={false}
+            name="password"
+            onChangeText={password => this.setState({password})}
+            placeholder={I18n.t('account.password')}
+            secureTextEntry
+            style={styles.input}
+            value={password}
+        />
+        <Button
+            light
+            onPress={this.authenticate}
         >
-          <TextInput
-              autoCorrect={false}
-              keyboardType="email-address"
-              name="email"
-              onChangeText={email => this.setState({email})}
-              placeholder={I18n.t('account.email')}
-              style={styles.textInput}
-              value={email}
-          />
-          <TextInput
-              autoCorrect={false}
-              name="password"
-              onChangeText={password => this.setState({password})}
-              placeholder={I18n.t('account.password')}
-              secureTextEntry
-              style={styles.textInput}
-              value={password}
-          />
-          <Button
-              accessibilityLabel=""
-              onPress={this.authenticate}
-              title={I18n.t('account.authenticate')}
-          />
-        </View>
+          {I18n.t('account.authenticate')}
+        </Button>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  textInput: {
-    height: 40
+  input: {
+    height: 40,
+    backgroundColor: colors.carrara
   }
 });
 
