@@ -13,6 +13,7 @@ import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 import {getActiveAccount} from '../graphql/account/account.queries';
 import Button from '../components/Button.component';
 import container from '../styles/container';
+import colors from '../styles/colors';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state)
@@ -24,20 +25,20 @@ class Restaurant extends React.Component {
   };
   render() {
     const {
-      getActiveAccount: {account, data: {loading}} = {},
+      getActiveAccount: {account, data: {loading}} = {data: {}},
       navigation
     } = this.props;
     if (loading) {
       return (
         <View style={[container.screenContainer, container.centered]}>
-          <ActivityIndicator />
+          <ActivityIndicator color={colors.white} />
         </View>
       );
     }
     return (
       <View style={[container.screenContainer, container.centered]}>
         {account ?
-          <Button light onPress={() => {}}>
+          <Button light onPress={() => navigation.navigate('scan')}>
             {'Scan QR code'}
           </Button> :
           <Button

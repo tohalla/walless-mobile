@@ -1,39 +1,55 @@
 // @flow
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {NavigationActions} from 'react-navigation';
 import {get, map} from 'lodash/fp';
 import I18n from 'react-native-i18n';
+import {
+  setActiveServingLocation
+} from '../active.reducer';
 
+import {resetNavigation} from '../navigation/navigation';
+import container from '../styles/container';
+import colors from '../styles/colors';
 import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 import Button from '../components/Button.component';
 import {restaurantRoutes} from '../navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state)
+  restaurant: get(['active', 'restaurant'])(state),
+  servingLocation: get(['active', 'servingLocation'])(state)
 });
+
+const checkRestaurant = props => {
+  const {
+    getRestaurant: {restaurant, data: {loading}} = {data: {}},
+    navigation
+  } = props;
+  if (!restaurant && !loading) {
+    resetNavigation(navigation, 'selection');
+  }
+};
 
 class Restaurant extends React.Component {
   static navigationOptions = {
     title: 'Restaurant'
   };
-  componentWillMount() {
-    if (!get(['getRestaurant', 'restaurant'])(this.props)) {
-      this.props.navigation.dispatch(NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({routeName: 'selection'})
-        ]
-      }));
-    }
-  }
+  componentWillMount = () => checkRestaurant(this.props);
+  componentWillReceiveProps = newProps => checkRestaurant(newProps);
   render() {
     const {
-      getRestaurant: {restaurant} = {},
-      navigation
+      getRestaurant: {restaurant, data: {loading}} = {data: {}},
+      navigation,
+      setActiveServingLocation
     } = this.props;
+    if (loading) {
+      return (
+        <View style={[container.screenContainer, container.centered]}>
+          <ActivityIndicator color={colors.white} />
+        </View>
+      );
+    }
     return restaurant ? (
       <View>
         <View>
@@ -47,16 +63,19 @@ class Restaurant extends React.Component {
                 key={route.name}
                 onPress={() => navigation.navigate(route.name)}
             >
-                {I18n.t(route.translationKey)}
+              {I18n.t(route.translationKey)}
             </Button>
           ))(restaurantRoutes)
         }
+        <Button onPress={() => setActiveServingLocation(null)}>
+          {'ulos pöydästä'}
+        </Button>
       </View>
     ) : null;
   }
 }
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, {setActiveServingLocation}),
   getRestaurant
 )(Restaurant);

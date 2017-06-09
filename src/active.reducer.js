@@ -5,7 +5,10 @@ export default (state = {}, action) =>
 	action.type === SET_ACTIVE_RESTAURANT ?
 		Object.assign({}, state, {restaurant: action.payload})
 	: action.type === SET_ACTIVE_SERVING_LOCATION ?
-		Object.assign({}, state, {servingLocation: action.payload})
+		Object.assign({}, state, {
+      servingLocation: action.payload,
+      restaurant: action.payload ? state.restaurant : null
+    })
 	: state;
 
 export const setActiveRestaurant = payload => ({

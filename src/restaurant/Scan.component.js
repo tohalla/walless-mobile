@@ -13,7 +13,14 @@ import {
 import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 import {getServingLocation} from '../graphql/restaurant/servingLocation.queries';
 
+const mapStateToProps = state => ({
+  servingLocation: get(['active', 'servingLocation'])(state)
+});
+
 class Scan extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
   constructor(props) { // use until camera working and qr codes have been setup
     super(props);
     props.setActiveServingLocation(3);
@@ -22,6 +29,7 @@ class Scan extends React.Component {
     const restaurant = get(['getServingLocation', 'servingLocation', 'restaurant'])(newProps);
     if (restaurant !== get(['getServingLocation', 'servingLocation', 'restaurant'])(this.props)) {
       this.props.setActiveRestaurant(restaurant);
+      this.reset();
     }
   }
   reset = () => this.props.navigation.dispatch(NavigationActions.reset({
@@ -38,7 +46,7 @@ class Scan extends React.Component {
 };
 
 export default compose(
-  connect(null, {setActiveServingLocation, setActiveRestaurant}),
+  connect(mapStateToProps, {setActiveServingLocation, setActiveRestaurant}),
   getServingLocation,
   getRestaurant
 )(Scan);
