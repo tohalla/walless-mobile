@@ -59,6 +59,7 @@ Temporary Items
 
 
 ### Xcode ###
+*.xcworkspace
 build/
 *.pbxuser
 !default.pbxuser

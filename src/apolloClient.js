@@ -1,4 +1,4 @@
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage} from 'react-native';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
 
 import config from '../config';
