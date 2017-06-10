@@ -21,9 +21,11 @@ export default class Button extends React.Component {
           style={button.button}
           {...rest}
       >
-        <Text style={[button.buttonText, light && button.buttonTextLight]}>
-          {children}
-        </Text>
+        {typeof children === 'string' ?
+          <Text style={[button.buttonText, light && button.buttonTextLight]}>
+            {children}
+          </Text> : children
+        }
       </TouchableOpacity>
     );
   }

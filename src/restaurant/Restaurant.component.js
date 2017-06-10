@@ -8,6 +8,7 @@ import I18n from 'react-native-i18n';
 import {
   setActiveServingLocation
 } from '../active.reducer';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {resetNavigation} from '../navigation/navigation';
 import container from '../styles/container';
@@ -33,7 +34,8 @@ const checkRestaurant = props => {
 
 class Restaurant extends React.Component {
   static navigationOptions = {
-    title: 'Restaurant'
+    title: 'Restaurant',
+    headerRight: <Icon color={colors.foregroundDark} name="shopping-cart" />
   };
   componentWillMount = () => checkRestaurant(this.props);
   componentWillReceiveProps = newProps => checkRestaurant(newProps);

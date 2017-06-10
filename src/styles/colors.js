@@ -14,10 +14,7 @@ const colors = {
 };
 
 export default Object.assign({
-	sideMenu: {
-		background: colors.alizarin,
-		foreground: colors.carrara
-	},
-	background: colors.white,
-	foreground: colors.darkGray
+	background: colors.alizarin,
+	foreground: colors.carrara,
+  foregroundDark: colors.darkGray
 }, colors);
