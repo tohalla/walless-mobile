@@ -6,8 +6,7 @@ import {
   StyleSheet
 } from 'react-native';
 import I18n from 'react-native-i18n';
-import {compose} from 'react-apollo';
-import {hasIn} from 'lodash/fp';
+import {withApollo, compose} from 'react-apollo';
 
 import Button from '../components/Button.component';
 import colors from '../styles/colors';
@@ -23,18 +22,10 @@ class Authentication extends React.Component {
     email: '',
     password: ''
   };
-  componentWillReceiveProps(newProps) {
-    const {getActiveAccount: {account} = {}} = newProps;
-    if (account) {
-      newProps.navigation.navigate('home');
-    }
-  }
   authenticate = async () => {
     const {email, password} = this.state;
     await authenticationHandler.authenticate(email, password);
-    if (hasIn(['getActiveAccount', 'data', 'refetch'])(this.props)) {
-      this.props.getActiveAccount.data.refetch();
-    }
+    this.props.client.resetStore();
   };
   render() {
     const {email, password} = this.state;
@@ -76,6 +67,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default compose(
+export default withApollo(compose(
   getActiveAccount
-)(Authentication);
+)(Authentication));

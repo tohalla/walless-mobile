@@ -3,14 +3,13 @@ import {View} from 'react-native';
 import {DrawerNavigator} from 'react-navigation';
 
 import Home from '../views/Home.component';
-import Authentication from '../account/Authentication.component';
+import Account from '../account/Account.component';
 
 const routes = {
 	home: {screen: Home},
 	browse: {screen: View},
 	favorites: {screen: View},
-	account: {screen: View},
-	authentication: {screen: Authentication}
+	account: {screen: Account}
 };
 
 const MainNavigation = new DrawerNavigator(routes, {initialRouteName: 'home'});

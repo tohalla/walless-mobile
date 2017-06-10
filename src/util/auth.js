@@ -3,7 +3,7 @@ import {AsyncStorage} from 'react-native';
 
 import config from '../../config';
 
-export const authenticate = async (payload: Object) => {
+const requestToken = async (payload: Object) => {
   const response = await fetch(
     `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/${payload.token ? 'renewToken' : ''}`,
     {
@@ -22,10 +22,10 @@ export const authenticate = async (payload: Object) => {
 };
 
 export default {
-		authenticate: async (email: string, password: string) => {
-		const token = (await authenticate({email, password})).token;
+	authenticate: async (email: string, password: string) => {
+		const token = (await requestToken({email, password})).token;
 		if (typeof token === 'string') {
-			await AsyncStorage.setItem(
+			return await AsyncStorage.setItem(
 				'Authorization',
 				token
 			);
@@ -33,7 +33,5 @@ export default {
   },
   renew: async (token: string) => {
   },
-  logout: async () => {
-    AsyncStorage.removeItem('Authorization');
-  }
+  logout: () => AsyncStorage.removeItem('Authorization')
 };
