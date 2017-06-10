@@ -3,7 +3,8 @@ import React from 'react';
 import {
   View,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
@@ -20,16 +21,25 @@ class Authentication extends React.Component {
   };
   state = {
     email: '',
-    password: ''
+    password: '',
+    loading: false
   };
+  componentWillMount() {
+    this.setState({loading: false});
+  }
   authenticate = async () => {
     const {email, password} = this.state;
+    this.setState({loading: true});
     await authenticationHandler.authenticate(email, password);
-    this.props.client.resetStore();
+    await this.props.client.resetStore();
   };
   render() {
-    const {email, password} = this.state;
-    return (
+    const {email, password, loading} = this.state;
+    return loading ? (
+      <View style={[container.screenContainer, container.centered]}>
+        <ActivityIndicator color={colors.white} />
+      </View>
+    ) : (
       <View style={[container.screenContainer, container.centered]}>
         <TextInput
             autoCorrect={false}
