@@ -22,7 +22,7 @@ export default class Button extends React.Component {
           {...rest}
       >
         {typeof children === 'string' ?
-          <Text style={[button.buttonText, light && button.buttonTextLight]}>
+          <Text style={[button.buttonText, light ? button.buttonTextLight : button.buttonText]}>
             {children}
           </Text> : children
         }

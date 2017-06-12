@@ -8,11 +8,11 @@ import I18n from 'react-native-i18n';
 import {
   setActiveServingLocation
 } from '../active.reducer';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {resetNavigation} from '../navigation/navigation';
 import container from '../styles/container';
 import colors from '../styles/colors';
+import CartButton from './cart/CartButton.Component';
 import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
 import Button from '../components/Button.component';
 import {restaurantRoutes} from '../navigation/RestaurantNavigation';
@@ -35,7 +35,7 @@ const checkRestaurant = props => {
 class Restaurant extends React.Component {
   static navigationOptions = {
     title: 'Restaurant',
-    headerRight: <Icon color={colors.foregroundDark} name="shopping-cart" />
+    headerRight: <CartButton />
   };
   componentWillMount = () => checkRestaurant(this.props);
   componentWillReceiveProps = newProps => checkRestaurant(newProps);
@@ -47,7 +47,7 @@ class Restaurant extends React.Component {
     } = this.props;
     if (loading) {
       return (
-        <View style={[container.screenContainer, container.centered]}>
+        <View style={[container.screenContainer, container.centerContent]}>
           <ActivityIndicator color={colors.white} />
         </View>
       );
@@ -58,20 +58,22 @@ class Restaurant extends React.Component {
           <Text>{restaurant.name}</Text>
           <Text>{restaurant.description}</Text>
         </View>
-        {
-          map(route => (
-            route.navigation &&
-            <Button
-                key={route.name}
-                onPress={() => navigation.navigate(route.name)}
-            >
-              {I18n.t(route.translationKey)}
-            </Button>
-          ))(restaurantRoutes)
-        }
-        <Button onPress={() => setActiveServingLocation(null)}>
-          {'ulos pöydästä'}
-        </Button>
+        <View style={container.centerContent}>
+          {
+            map(route => (
+              route.navigation &&
+              <Button
+                  key={route.name}
+                  onPress={() => navigation.navigate(route.name)}
+              >
+                {I18n.t(route.translationKey)}
+              </Button>
+            ))(restaurantRoutes)
+          }
+          <Button onPress={() => setActiveServingLocation(null)}>
+            {'ulos pöydästä'}
+          </Button>
+        </View>
       </View>
     ) : null;
   }

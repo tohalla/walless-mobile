@@ -1,7 +1,9 @@
 // @flow
 import {StackNavigator} from 'react-navigation';
 import {View} from 'react-native';
+import {NavigationActions} from 'react-navigation';
 
+import {NAVIGATE} from './navigation.actions';
 import Restaurant from '../restaurant/Restaurant.component';
 import Selection from '../restaurant/Selection.component';
 import Menus from '../restaurant/Menus.component';
@@ -16,6 +18,10 @@ export const restaurantRoutes = {
   home: {
     screen: Restaurant,
     name: 'home'
+  },
+  cart: {
+    screen: View,
+    name: 'cart'
   },
   selection: {
     screen: Selection,
@@ -48,4 +54,6 @@ const {router: {getStateForAction, getActionForPathAndParams}} = RestaurantNavig
 export const navigationReducer = (
   state = getStateForAction(getActionForPathAndParams('home')),
   action
-) => getStateForAction(action, state) || state;
+) => action.type === NAVIGATE ?
+  getStateForAction(NavigationActions.navigate({routeName: action.payload}), state)
+: getStateForAction(action, state) || state;

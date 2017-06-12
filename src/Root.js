@@ -32,7 +32,7 @@ const App = compose(
       } = this.props;
       if (loading) {
         return (
-          <View style={[container.screenContainer, container.centered]}>
+          <View style={[container.screenContainer, container.centerContent]}>
             <ActivityIndicator color={colors.white} />
           </View>
         );

@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 import apolloClient from './apolloClient';
 import active from './active.reducer';
+import cart from './restaurant/cart.reducer';
 import {navigationReducer as main} from './navigation/MainNavigation';
 import {navigationReducer as restaurant} from './navigation/RestaurantNavigation';
 
@@ -15,7 +16,8 @@ const store = createStore(
   combineReducers({
     apollo: apolloClient.reducer(),
     active,
-    navigation
+    navigation,
+    cart
   }),
   {},
   compose(

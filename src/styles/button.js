@@ -3,10 +3,14 @@ import colors from './colors';
 
 export default StyleSheet.create({
   button: {
-    padding: 12
+    padding: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   buttonText: {
-    fontSize: 18
+    color: colors.link,
+    fontSize: 16
   },
   buttonTextLight: {
     color: colors.carrara

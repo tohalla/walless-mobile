@@ -7,6 +7,7 @@ const colors = {
 	carrara: '#F2F1EF',
 	gallery: '#EEEEEE',
 	iron: '#DADFE1',
+  river: '#3498db',
 	lightGray: '#9E9E9E',
 	gray: '#424242',
 	darkGray: '#212121',
@@ -16,5 +17,6 @@ const colors = {
 export default Object.assign({
 	background: colors.alizarin,
 	foreground: colors.carrara,
-  foregroundDark: colors.darkGray
+  foregroundDark: colors.darkGray,
+  link: colors.river
 }, colors);

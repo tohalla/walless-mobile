@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: colors.alizarin
   },
-  centered: {
+  centerContent: {
     justifyContent: 'center',
     alignItems: 'center'
   }

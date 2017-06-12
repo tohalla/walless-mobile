@@ -30,13 +30,13 @@ class Restaurant extends React.Component {
     } = this.props;
     if (loading) {
       return (
-        <View style={[container.screenContainer, container.centered]}>
+        <View style={[container.screenContainer, container.centerContent]}>
           <ActivityIndicator color={colors.white} />
         </View>
       );
     }
     return (
-      <View style={[container.screenContainer, container.centered]}>
+      <View style={[container.screenContainer, container.centerContent]}>
         {account ?
           <Button light onPress={() => navigation.navigate('scan')}>
             {'Scan QR code'}

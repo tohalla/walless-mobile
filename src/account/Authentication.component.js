@@ -36,11 +36,11 @@ class Authentication extends React.Component {
   render() {
     const {email, password, loading} = this.state;
     return loading ? (
-      <View style={[container.screenContainer, container.centered]}>
+      <View style={[container.screenContainer, container.centerContent]}>
         <ActivityIndicator color={colors.white} />
       </View>
     ) : (
-      <View style={[container.screenContainer, container.centered]}>
+      <View style={[container.screenContainer, container.centerContent]}>
         <TextInput
             autoCorrect={false}
             keyboardType="email-address"
