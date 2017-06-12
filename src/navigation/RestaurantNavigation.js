@@ -3,7 +3,6 @@ import {StackNavigator} from 'react-navigation';
 import {View} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 
-import {NAVIGATE} from 'walless/navigation/navigation.actions';
 import Restaurant from 'walless/restaurant/Restaurant.component';
 import Cart from 'walless/restaurant/cart/Cart.component';
 import Selection from 'walless/restaurant/Selection.component';
@@ -43,9 +42,11 @@ export const restaurantRoutes = {
   campaings: {screen: View, name: 'campaings'}
 };
 
+export const initialRouteName = 'home';
+
 const RestaurantNavigation = new StackNavigator(
   restaurantRoutes,
-  {initialRouteName: 'home'}
+  {initialRouteName}
 );
 
 export default RestaurantNavigation;
@@ -55,6 +56,8 @@ const {router: {getStateForAction, getActionForPathAndParams}} = RestaurantNavig
 export const navigationReducer = (
   state = getStateForAction(getActionForPathAndParams('home')),
   action
-) => action.type === NAVIGATE ?
-  getStateForAction(NavigationActions.navigate({routeName: action.payload}), state)
-: getStateForAction(action, state) || state;
+) =>
+  action.type === NavigationActions.NAVIGATE &&
+  action.routeName === state.routes[state.routes.length - 1].routeName ?
+    state
+  : getStateForAction(action, state);
