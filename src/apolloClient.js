@@ -1,6 +1,7 @@
 import {AsyncStorage} from 'react-native';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
 
+import authenticationHandler from 'walless/util/auth';
 import config from 'walless-native/config';
 
 const networkInterface = createNetworkInterface({
@@ -9,10 +10,12 @@ const networkInterface = createNetworkInterface({
 
 networkInterface.use([{
   async applyMiddleware(req, next) {
-    const token = await AsyncStorage.getItem('Authorization');
+    const [[, token], [, clientId]] =
+      await AsyncStorage.multiGet(['authorization', 'client-id']);
     if (!req.options.headers) {
       req.options.headers = {};
     }
+    req.options.headers['Client-Id'] = clientId || await authenticationHandler.fetchClientId();
     if (token) {
       req.options.headers.Authorization = `Bearer ${token}`;
     }

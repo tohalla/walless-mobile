@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import I18n from 'react-native-i18n';
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, View, AsyncStorage} from 'react-native';
 import {addNavigationHelpers} from 'react-navigation';
 import {ApolloProvider} from 'react-apollo';
 import {compose} from 'react-apollo';
@@ -16,6 +16,7 @@ import apolloClient from 'walless/apolloClient';
 import store from 'walless/store';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
+import authenticationHandler from 'walless/util/auth';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'main'])(state)
@@ -26,6 +27,19 @@ const App = compose(
   getActiveAccount
 )(
   class App extends React.Component {
+    componentWillReceiveProps = async (newProps) => {
+      if (
+        !get(['getActiveAccount', 'account'])(newProps) &&
+        !get(['getActiveAccount', 'data', 'loading'])(newProps)
+      ) {
+        const [[, refreshToken], [, clientId]] =
+          await AsyncStorage.multiGet(['refresh-token', 'client-id']);
+        if (refreshToken && clientId) {
+          await authenticationHandler.authenticate();
+          newProps.getActiveAccount.data.refetch();
+        }
+      }
+    }
     render() {
       const {
         getActiveAccount: {account, data: {loading}} = {data: {}}
