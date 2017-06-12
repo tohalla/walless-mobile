@@ -27,25 +27,27 @@ export class MenuItems extends React.Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => !isEqual(r1)(r2)
     });
+    const menu = props.menu || get(['navigation', 'state', 'params', 'menu'])(props);
     this.state = {
       dataSource: dataSource.cloneWithRows(
         Array.isArray(props.items) ?
           props.items
-        : typeof props.menu && props.menu === 'object' ?
-          props.menu.menuItems
+        : menu && typeof menu === 'object' ?
+          menu.menuItems
         : []
       )
     };
   };
   componentWillReceiveProps(newProps) {
     if (!isEqual(this.props.getMenuItemsByRestaurant)(newProps.getMenuItemsByRestaurant)) {
+      const menu = newProps.menu || get(['navigation', 'state', 'params', 'menu'])(newProps);
       this.setState({
         dataSource:
           this.state.dataSource.cloneWithRows(
             Array.isArray(newProps.items) ?
               newProps.items
-            : typeof newProps.menu && newProps.menu === 'object' ?
-              newProps.menu.menuItems
+            : menu && typeof menu === 'object' ?
+              menu.menuItems
             : Array.isArray(get(['getMenuItemsByRestaurant', 'menuItems'])(newProps)) ?
               newProps.getMenuItemsByRestaurant.menuItems
             : []

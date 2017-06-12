@@ -1,7 +1,7 @@
 import React from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {View, Text, ListView} from 'react-native';
+import {View, Text, ListView, TouchableOpacity} from 'react-native';
 import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 
@@ -46,7 +46,10 @@ class Menus extends React.Component {
         <ListView
             dataSource={dataSource}
             renderRow={menu => (
-              <View
+              <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('menuItems', {menu})
+                  }
                   style={{
                     backgroundColor: 'white',
                     borderBottomWidth: 1,
@@ -55,7 +58,7 @@ class Menus extends React.Component {
               >
                 <Text>{menu.name}</Text>
                 <Text>{menu.description}</Text>
-              </View>
+              </TouchableOpacity>
             )}
         />
       </View>
