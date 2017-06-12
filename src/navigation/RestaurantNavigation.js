@@ -5,6 +5,7 @@ import {NavigationActions} from 'react-navigation';
 
 import {NAVIGATE} from 'walless/navigation/navigation.actions';
 import Restaurant from 'walless/restaurant/Restaurant.component';
+import Cart from 'walless/restaurant/cart/Cart.component';
 import Selection from 'walless/restaurant/Selection.component';
 import Menus from 'walless/restaurant/Menus.component';
 import MenuItems from 'walless/restaurant/MenuItems.component';
@@ -20,7 +21,7 @@ export const restaurantRoutes = {
     name: 'home'
   },
   cart: {
-    screen: View,
+    screen: Cart,
     name: 'cart'
   },
   selection: {

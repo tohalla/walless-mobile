@@ -13,31 +13,43 @@ const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state)
 });
 
-class MenuItems extends React.Component {
+export class MenuItems extends React.Component {
   static navigationOptions = {
     title: 'Menus'
   };
   static PropTypes = {
     restaurant: PropTypes.object.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object),
     menu: PropTypes.object
   };
   constructor(props) {
     super(props);
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => !isEqual(r1)(r2)
+    });
     this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => !isEqual(r1)(r2)
-      })
+      dataSource: dataSource.cloneWithRows(
+        Array.isArray(props.items) ?
+          props.items
+        : typeof props.menu && props.menu === 'object' ?
+          props.menu.menuItems
+        : []
+      )
     };
   };
   componentWillReceiveProps(newProps) {
     if (!isEqual(this.props.getMenuItemsByRestaurant)(newProps.getMenuItemsByRestaurant)) {
       this.setState({
-        dataSource: Array.isArray(newProps.getMenuItemsByRestaurant.menuItems) ?
+        dataSource:
           this.state.dataSource.cloneWithRows(
-            typeof this.props.menu === 'object' ? this.props.menu.menuItems :
+            Array.isArray(newProps.items) ?
+              newProps.items
+            : typeof newProps.menu && newProps.menu === 'object' ?
+              newProps.menu.menuItems
+            : Array.isArray(get(['getMenuItemsByRestaurant', 'menuItems'])(newProps)) ?
               newProps.getMenuItemsByRestaurant.menuItems
-          ) :
-          this.state.dataSource.cloneWithRows([])
+            : []
+          )
       });
     }
   };
@@ -51,6 +63,7 @@ class MenuItems extends React.Component {
       >
         <ListView
             dataSource={dataSource}
+            enableEmptySections
             renderRow={item => (
               <View
                   style={{
