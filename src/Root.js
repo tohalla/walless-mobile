@@ -8,14 +8,14 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 
-import MainNavigation from './navigation/MainNavigation';
-import translations from './translations';
-import colors from './styles/colors';
-import container from './styles/container';
-import apolloClient from './apolloClient';
-import store from './store';
-import {getActiveAccount} from './graphql/account/account.queries';
-import Authentication from './account/Authentication.component';
+import MainNavigation from 'walless/navigation/MainNavigation';
+import translations from 'walless/translations';
+import colors from 'walless/styles/colors';
+import container from 'walless/styles/container';
+import apolloClient from 'walless/apolloClient';
+import store from 'walless/store';
+import {getActiveAccount} from 'walless/graphql/account/account.queries';
+import Authentication from 'walless/account/Authentication.component';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'main'])(state)

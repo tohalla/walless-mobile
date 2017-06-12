@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {addNavigationHelpers} from 'react-navigation';
 import {get} from 'lodash/fp';
 
-import RestaurantNavigator from '../navigation/RestaurantNavigation';
+import RestaurantNavigator from 'walless/navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'restaurant'])(state)

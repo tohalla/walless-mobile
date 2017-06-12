@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import {
   getMenuItemsByRestaurant
-} from '../graphql/restaurant/restaurant.queries';
+} from 'walless-graphql/restaurant/restaurant.queries';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state)

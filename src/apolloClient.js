@@ -1,7 +1,7 @@
 import {AsyncStorage} from 'react-native';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
 
-import config from '../config';
+import config from 'walless-native/config';
 
 const networkInterface = createNetworkInterface({
   uri: `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.graphQL.endpoint}`

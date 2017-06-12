@@ -3,12 +3,12 @@ import {StackNavigator} from 'react-navigation';
 import {View} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 
-import {NAVIGATE} from './navigation.actions';
-import Restaurant from '../restaurant/Restaurant.component';
-import Selection from '../restaurant/Selection.component';
-import Menus from '../restaurant/Menus.component';
-import MenuItems from '../restaurant/MenuItems.component';
-import Scan from '../restaurant/Scan.component';
+import {NAVIGATE} from 'walless/navigation/navigation.actions';
+import Restaurant from 'walless/restaurant/Restaurant.component';
+import Selection from 'walless/restaurant/Selection.component';
+import Menus from 'walless/restaurant/Menus.component';
+import MenuItems from 'walless/restaurant/MenuItems.component';
+import Scan from 'walless/restaurant/Scan.component';
 
 export const restaurantRoutes = {
   scan: {

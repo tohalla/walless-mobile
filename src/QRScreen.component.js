@@ -8,7 +8,7 @@ import Camera from 'react-native-camera';
 import PropTypes from 'prop-types';
 import I18n from 'react-native-i18n';
 
-import button from './styles/button';
+import button from 'walless/styles/button';
 
 export default class QRScreen extends React.Component {
   static propTypes = {

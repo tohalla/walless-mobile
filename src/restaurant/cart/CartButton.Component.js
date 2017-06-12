@@ -4,10 +4,10 @@ import {Text} from 'react-native';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 
-import {navigate} from '../../navigation/navigation.actions';
-import Button from '../../components/Button.component';
-import button from '../../styles/button';
-import colors from '../../styles/colors';
+import {navigate} from 'walless/navigation/navigation.actions';
+import Button from 'walless/components/Button.component';
+import button from 'walless/styles/button';
+import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
   items: get(['cart', 'items'])(state) || []

@@ -5,7 +5,7 @@ import {View, Text, ListView} from 'react-native';
 import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 
-import {getMenusByRestaurant} from '../graphql/restaurant/restaurant.queries';
+import {getMenusByRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state)

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import colors from './colors';
+import colors from 'walless/styles/colors';
 
 export default StyleSheet.create({
   screenContainer: {

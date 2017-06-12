@@ -1,7 +1,7 @@
 // @flow
 import {AsyncStorage} from 'react-native';
 
-import config from '../../config';
+import config from 'walless-native/config';
 
 const requestToken = async (payload: Object) => {
   const response = await fetch(

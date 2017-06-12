@@ -2,9 +2,9 @@ import React from 'react';
 import {View} from 'react-native';
 import {withApollo, compose} from 'react-apollo';
 
-import Button from '../components/Button.component';
-import authenticationHandler from '../util/auth';
-import {getActiveAccount} from '../graphql/account/account.queries';
+import Button from 'walless/components/Button.component';
+import authenticationHandler from 'walless/util/auth';
+import {getActiveAccount} from 'walless/graphql/account/account.queries';
 
 class Account extends React.Component {
   handleLogout = async () => {

@@ -2,8 +2,8 @@
 import {View} from 'react-native';
 import {DrawerNavigator} from 'react-navigation';
 
-import Home from '../views/Home.component';
-import Account from '../account/Account.component';
+import Home from 'walless/views/Home.component';
+import Account from 'walless/account/Account.component';
 
 const routes = {
 	home: {screen: Home},

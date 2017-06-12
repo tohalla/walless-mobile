@@ -9,11 +9,11 @@ import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 
-import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
-import {getActiveAccount} from '../graphql/account/account.queries';
-import Button from '../components/Button.component';
-import container from '../styles/container';
-import colors from '../styles/colors';
+import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
+import {getActiveAccount} from 'walless-graphql/account/account.queries';
+import Button from 'walless/components/Button.component';
+import container from 'walless/styles/container';
+import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state)

@@ -9,11 +9,11 @@ import {
 import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
 
-import Button from '../components/Button.component';
-import colors from '../styles/colors';
-import container from '../styles/container';
-import {getActiveAccount} from '../graphql/account/account.queries';
-import authenticationHandler from '../util/auth';
+import Button from 'walless/components/Button.component';
+import colors from 'walless/styles/colors';
+import container from 'walless/styles/container';
+import {getActiveAccount} from 'walless/graphql/account/account.queries';
+import authenticationHandler from 'walless/util/auth';
 
 class Authentication extends React.Component {
   static navigationOptions = {

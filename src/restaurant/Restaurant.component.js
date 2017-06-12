@@ -7,15 +7,15 @@ import {get, map} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {
   setActiveServingLocation
-} from '../active.reducer';
+} from 'walless/active.reducer';
 
-import {resetNavigation} from '../navigation/navigation';
-import container from '../styles/container';
-import colors from '../styles/colors';
-import CartButton from './cart/CartButton.Component';
-import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
-import Button from '../components/Button.component';
-import {restaurantRoutes} from '../navigation/RestaurantNavigation';
+import {resetNavigation} from 'walless/navigation/navigation';
+import container from 'walless/styles/container';
+import colors from 'walless/styles/colors';
+import CartButton from 'walless/restaurant/cart/CartButton.Component';
+import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
+import Button from 'walless/components/Button.component';
+import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state),

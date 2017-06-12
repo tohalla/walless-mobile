@@ -5,13 +5,13 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 
-import QRScreen from '../QRScreen.component';
+import QRScreen from 'walless/QRScreen.component';
 import {
   setActiveServingLocation,
   setActiveRestaurant
-} from '../active.reducer';
-import {getRestaurant} from '../graphql/restaurant/restaurant.queries';
-import {getServingLocation} from '../graphql/restaurant/servingLocation.queries';
+} from 'walless/active.reducer';
+import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
+import {getServingLocation} from 'walless-graphql/restaurant/servingLocation.queries';
 
 const mapStateToProps = state => ({
   servingLocation: get(['active', 'servingLocation'])(state)
