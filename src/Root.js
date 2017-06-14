@@ -1,67 +1,11 @@
-// @flow
 import React from 'react';
 import I18n from 'react-native-i18n';
-import {ActivityIndicator, View, AsyncStorage} from 'react-native';
-import {addNavigationHelpers} from 'react-navigation';
 import {ApolloProvider} from 'react-apollo';
-import {compose} from 'react-apollo';
-import {connect} from 'react-redux';
-import {get} from 'lodash/fp';
+import App from 'walless/App';
 
-import MainNavigation from 'walless/navigation/MainNavigation';
 import translations from 'walless/translations';
-import colors from 'walless/styles/colors';
-import container from 'walless/styles/container';
 import apolloClient from 'walless/apolloClient';
 import store from 'walless/store';
-import {getActiveAccount} from 'walless/graphql/account/account.queries';
-import Authentication from 'walless/account/Authentication.component';
-import authenticationHandler from 'walless/util/auth';
-
-const mapStateToProps = state => ({
-  navigationState: get(['navigation', 'main'])(state)
-});
-
-const App = compose(
-  connect(mapStateToProps),
-  getActiveAccount
-)(
-  class App extends React.Component {
-    componentWillReceiveProps = async (newProps) => {
-      if (
-        !get(['getActiveAccount', 'account'])(newProps) &&
-        !get(['getActiveAccount', 'data', 'loading'])(newProps)
-      ) {
-        const [[, refreshToken], [, clientId]] =
-          await AsyncStorage.multiGet(['refresh-token', 'client-id']);
-        if (refreshToken && clientId) {
-          await authenticationHandler.authenticate();
-          newProps.getActiveAccount.data.refetch();
-        }
-      }
-    }
-    render() {
-      const {
-        getActiveAccount: {account, data: {loading}} = {data: {}}
-      } = this.props;
-      if (loading) {
-        return (
-          <View style={[container.screenContainer, container.centerContent]}>
-            <ActivityIndicator color={colors.white} />
-          </View>
-        );
-      }
-      return account ? (
-        <MainNavigation
-            navigation={addNavigationHelpers({
-              dispatch: this.props.dispatch,
-              state: this.props.navigationState
-            })}
-        />
-      ) : <Authentication />;
-    }
-  }
-);
 
 export default class Root extends React.Component {
   render = () => (
