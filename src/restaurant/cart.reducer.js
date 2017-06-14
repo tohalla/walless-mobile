@@ -1,4 +1,4 @@
-const SET_CART_ITEMS = 'SET_CART_ITEMS';
+import {SET_CART_ITEMS} from 'walless/actionTypes';
 
 export default (state = {items: []}, action) =>
   action.type === SET_CART_ITEMS ?

@@ -1,5 +1,7 @@
-const SET_ACTIVE_RESTAURANT = 'SET_ACTIVE_RESTAURANT';
-const SET_ACTIVE_SERVING_LOCATION = 'SET_ACTIVE_SERVING_LOCATION';
+import {
+  SET_ACTIVE_RESTAURANT,
+  SET_ACTIVE_SERVING_LOCATION
+} from 'walless/actionTypes';
 
 export default (state = {}, action) =>
 	action.type === SET_ACTIVE_RESTAURANT ?

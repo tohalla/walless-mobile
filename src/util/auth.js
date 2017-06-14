@@ -63,15 +63,20 @@ const fetchClientId = async () => {
 const authenticate = async (email: string, password: string) => {
   const response = await requestToken({email, password});
   const {token, refreshToken} = response;
-  if (typeof token === 'string') {
+  if (typeof token === 'string' && typeof refreshToken === 'string') {
     return await AsyncStorage.multiSet([
       ['authorization', token],
       ['refresh-token', refreshToken]
     ]);
+  } else {
+    return await (refreshToken ?
+      AsyncStorage.setItem('refresh-token', refreshToken) :
+      AsyncStorage.setItem('authorization', token)
+    );
   }
 };
 
-const logout = async () => {
+const logout = async ({}) => {
   await fetch(
     `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/client`,
     {
