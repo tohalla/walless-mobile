@@ -18,7 +18,8 @@ import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state),
-  servingLocation: get(['active', 'servingLocation'])(state)
+  servingLocation: get(['active', 'servingLocation'])(state),
+  language: state.translation.language
 });
 
 const checkRestaurant = props => {
@@ -39,7 +40,16 @@ class Restaurant extends React.Component {
   componentWillReceiveProps = newProps => checkRestaurant(newProps);
   render() {
     const {
-      getRestaurant: {restaurant, data: {loading}} = {data: {}},
+      getRestaurant: {
+        restaurant: {
+          information: {
+            [this.props.language]: {
+              name, description
+            } = {}
+          }
+        },
+        data: {loading}
+      } = {data: {}, restaurant: {information: {}}},
       navigation,
       setActiveServingLocation
     } = this.props;
@@ -50,11 +60,11 @@ class Restaurant extends React.Component {
         </View>
       );
     }
-    return restaurant ? (
+    return (
       <View>
         <View>
-          <Text>{restaurant.name}</Text>
-          <Text>{restaurant.description}</Text>
+          <Text>{name}</Text>
+          <Text>{description}</Text>
         </View>
         <View style={container.centerContent}>
           {
@@ -73,7 +83,7 @@ class Restaurant extends React.Component {
           </Button>
         </View>
       </View>
-    ) : null;
+    );
   }
 }
 

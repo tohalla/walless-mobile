@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 import apolloClient from 'walless/apolloClient';
 import reducers from 'walless/reducers';
+import {fetchLanguages} from 'walless/translation.reducer';
 
 const store = createStore(
   reducers,
@@ -12,5 +13,6 @@ const store = createStore(
   )
 );
 
+store.dispatch(fetchLanguages);
 
 export default store;

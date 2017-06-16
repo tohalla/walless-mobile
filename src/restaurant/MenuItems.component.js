@@ -10,7 +10,8 @@ import {
 } from 'walless-graphql/restaurant/restaurant.queries';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state)
+  restaurant: get(['active', 'restaurant'])(state),
+  language: state.translation.language
 });
 
 export class MenuItems extends React.Component {
@@ -54,6 +55,38 @@ export class MenuItems extends React.Component {
       });
     }
   };
+  handleRenderMenuItem = menuItem => {
+    const {
+      information: {
+        [this.props.language]: {
+          name, description
+        } = {}
+      }
+    } = menuItem;
+    return (
+      <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('menuItem', {menuItem})
+          }
+          style={{
+            backgroundColor: 'white',
+            borderBottomWidth: 1,
+            borderColor: 'lightgray'
+          }}
+      >
+        <View
+            style={{
+              backgroundColor: 'white',
+              borderBottomWidth: 1,
+              borderColor: 'lightgray'
+            }}
+        >
+          <Text>{name}</Text>
+          <Text>{description}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   render() {
     const {dataSource} = this.state;
     return (
@@ -65,29 +98,7 @@ export class MenuItems extends React.Component {
         <ListView
             dataSource={dataSource}
             enableEmptySections
-            renderRow={menuItem => (
-              <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('menuItem', {menuItem})
-                  }
-                  style={{
-                    backgroundColor: 'white',
-                    borderBottomWidth: 1,
-                    borderColor: 'lightgray'
-                  }}
-              >
-                <View
-                    style={{
-                      backgroundColor: 'white',
-                      borderBottomWidth: 1,
-                      borderColor: 'lightgray'
-                    }}
-                >
-                  <Text>{menuItem.name}</Text>
-                  <Text>{menuItem.description}</Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            renderRow={this.handleRenderMenuItem}
         />
       </View>
     );

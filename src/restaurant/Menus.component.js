@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import {getMenusByRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state)
+  restaurant: get(['active', 'restaurant'])(state),
+  language: state.translation.language
 });
 
 class Menus extends React.Component {
@@ -32,6 +33,30 @@ class Menus extends React.Component {
       });
     }
   };
+  handleRenderMenu = menu => {
+    const {
+      information: {
+        [this.props.language]: {
+          name, description
+        } = {}
+      }
+    } = menu;
+    return (
+      <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('menuItems', {menu})
+          }
+          style={{
+            backgroundColor: 'white',
+            borderBottomWidth: 1,
+            borderColor: 'lightgray'
+          }}
+      >
+        <Text>{name}</Text>
+        <Text>{description}</Text>
+      </TouchableOpacity>
+    );
+  }
   render() {
     const {dataSource} = this.state;
     return (
@@ -42,21 +67,7 @@ class Menus extends React.Component {
       >
         <ListView
             dataSource={dataSource}
-            renderRow={menu => (
-              <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('menuItems', {menu})
-                  }
-                  style={{
-                    backgroundColor: 'white',
-                    borderBottomWidth: 1,
-                    borderColor: 'lightgray'
-                  }}
-              >
-                <Text>{menu.name}</Text>
-                <Text>{menu.description}</Text>
-              </TouchableOpacity>
-            )}
+            renderRow={this.handleRenderMenu}
         />
       </View>
     );
