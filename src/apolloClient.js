@@ -18,14 +18,27 @@ const apolloClient = new ApolloClient({
 networkInterface.
   use([{
     async applyMiddleware(req, next) {
-      const [[, token], [, clientId]] =
-        await AsyncStorage.multiGet(['authorization', 'client-id']);
+      const [[, token], [, clientId], [, expiration], [, refreshToken]] =
+        await AsyncStorage.multiGet([
+          'authorization',
+          'client-id',
+          'expiration',
+          'refresh-token'
+        ]);
+      let auth = token;
+      if (Number(expiration) < Date.now() / 1000 || !expiration) {
+        await AsyncStorage.multiRemove(['expiration', 'authorization']);
+        if (refreshToken && clientId) {
+          await authenticationHandler.authenticate();
+          auth = await AsyncStorage.getItem('authorization');
+        }
+      }
       if (!req.options.headers) {
         req.options.headers = {};
       }
       req.options.headers['Client-Id'] = clientId || await authenticationHandler.fetchClientId();
-      if (token) {
-        req.options.headers.Authorization = `Bearer ${token}`;
+      if (auth) {
+        req.options.headers.Authorization = `Bearer ${auth}`;
       }
       next();
     }

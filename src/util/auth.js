@@ -62,18 +62,14 @@ const fetchClientId = async () => {
 
 const authenticate = async (email: string, password: string) => {
   const response = await requestToken({email, password});
-  const {token, refreshToken} = response;
-  if (typeof token === 'string' && typeof refreshToken === 'string') {
-    return await AsyncStorage.multiSet([
-      ['authorization', token],
-      ['refresh-token', refreshToken]
-    ]);
-  } else {
-    return await (refreshToken ?
-      AsyncStorage.setItem('refresh-token', refreshToken) :
-      AsyncStorage.setItem('authorization', token)
-    );
-  }
+  const {token, refreshToken, expiresAt} = response;
+  return await AsyncStorage.multiSet([
+    ['expiration', expiresAt.toString()]
+  ].concat(
+      typeof token === 'string' ? [['authorization', token]]: [],
+      typeof refreshToken === 'string' ? [['refresh-token', refreshToken]] : []
+    )
+  );
 };
 
 const logout = async ({}) => {
