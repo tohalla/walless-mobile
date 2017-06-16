@@ -12,9 +12,6 @@ const mapStateToProps = state => ({
 });
 
 class Menus extends React.Component {
-  static navigationOptions = {
-    title: 'Menus'
-  };
   static PropTypes = {
     restaurant: PropTypes.object.isRequired
   };

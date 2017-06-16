@@ -12,7 +12,6 @@ import {
 import {resetNavigation} from 'walless/navigation/navigation';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
-import CartButton from 'walless/restaurant/cart/CartButton.Component';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Button from 'walless/components/Button.component';
 import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
@@ -34,8 +33,7 @@ const checkRestaurant = props => {
 
 class Restaurant extends React.Component {
   static navigationOptions = {
-    title: 'Restaurant',
-    headerRight: <CartButton />
+    title: 'Restaurant'
   };
   componentWillMount = () => checkRestaurant(this.props);
   componentWillReceiveProps = newProps => checkRestaurant(newProps);
@@ -61,14 +59,14 @@ class Restaurant extends React.Component {
         <View style={container.centerContent}>
           {
             map(route => (
-              route.navigation &&
+              restaurantRoutes[route].navigation &&
               <Button
-                  key={route.name}
-                  onPress={() => navigation.navigate(route.name)}
+                  key={route}
+                  onPress={() => navigation.navigate(route)}
               >
-                {I18n.t(route.translationKey)}
+                {I18n.t(restaurantRoutes[route].translationKey)}
               </Button>
-            ))(restaurantRoutes)
+            ))(Object.keys(restaurantRoutes))
           }
           <Button onPress={() => setActiveServingLocation(null)}>
             {'ulos pöydästä'}

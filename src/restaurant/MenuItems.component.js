@@ -1,7 +1,7 @@
 import React from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {View, Text, ListView} from 'react-native';
+import {View, Text, ListView, TouchableOpacity} from 'react-native';
 import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 
@@ -14,9 +14,6 @@ const mapStateToProps = state => ({
 });
 
 export class MenuItems extends React.Component {
-  static navigationOptions = {
-    title: 'Menus'
-  };
   static PropTypes = {
     restaurant: PropTypes.object.isRequired,
     items: PropTypes.arrayOf(PropTypes.object),
@@ -34,6 +31,8 @@ export class MenuItems extends React.Component {
           props.items
         : menu && typeof menu === 'object' ?
           menu.menuItems
+        : Array.isArray(get(['getMenuItemsByRestaurant', 'menuItems'])(props)) ?
+          props.getMenuItemsByRestaurant.menuItems
         : []
       )
     };
@@ -66,17 +65,28 @@ export class MenuItems extends React.Component {
         <ListView
             dataSource={dataSource}
             enableEmptySections
-            renderRow={item => (
-              <View
+            renderRow={menuItem => (
+              <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('menuItem', {menuItem})
+                  }
                   style={{
                     backgroundColor: 'white',
                     borderBottomWidth: 1,
                     borderColor: 'lightgray'
                   }}
               >
-                <Text>{item.name}</Text>
-                <Text>{item.description}</Text>
-              </View>
+                <View
+                    style={{
+                      backgroundColor: 'white',
+                      borderBottomWidth: 1,
+                      borderColor: 'lightgray'
+                    }}
+                >
+                  <Text>{menuItem.name}</Text>
+                  <Text>{menuItem.description}</Text>
+                </View>
+              </TouchableOpacity>
             )}
         />
       </View>
