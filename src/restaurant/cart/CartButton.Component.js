@@ -6,7 +6,7 @@ import {get} from 'lodash/fp';
 import {NavigationActions} from 'react-navigation';
 
 import Button from 'walless/components/Button.component';
-import button from 'walless/styles/button';
+import header from 'walless/styles/header';
 import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
@@ -23,12 +23,12 @@ class CartButton extends React.Component {
           }
       >
         <Icon
-            color={colors.link}
+            color={colors.headerForeground}
             name="shopping-cart"
             size={20}
         />
         {items.length ?
-          <Text style={button.buttonText}>{items.length}</Text> : null
+          <Text style={header.headerText}>{items.length}</Text> : null
         }
       </Button>
     );

@@ -23,7 +23,7 @@ class Scan extends React.Component {
   };
   constructor(props) { // use until camera working and qr codes have been setup
     super(props);
-    props.setActiveServingLocation(3);
+    props.setActiveServingLocation(5);
   }
   componentWillReceiveProps(newProps) {
     const restaurant = get(['getServingLocation', 'servingLocation', 'restaurant'])(newProps);
@@ -40,7 +40,7 @@ class Scan extends React.Component {
   }));
   render = () => (
     <QRScreen
-        onSuccess={() => this.props.setActiveServingLocation(3)}
+        onSuccess={() => this.props.setActiveServingLocation(5)}
     />
   );
 };

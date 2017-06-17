@@ -33,9 +33,6 @@ const checkRestaurant = props => {
 };
 
 class Restaurant extends React.Component {
-  static navigationOptions = {
-    title: 'Restaurant'
-  };
   componentWillMount = () => checkRestaurant(this.props);
   componentWillReceiveProps = newProps => checkRestaurant(newProps);
   render() {
@@ -61,7 +58,7 @@ class Restaurant extends React.Component {
       );
     }
     return (
-      <View>
+      <View style={[container.container, container.light]}>
         <View>
           <Text>{name}</Text>
           <Text>{description}</Text>

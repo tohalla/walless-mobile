@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import {
   getMenuItemsByRestaurant
 } from 'walless-graphql/restaurant/restaurant.queries';
+import container from 'walless/styles/container';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state),
@@ -61,28 +62,21 @@ export class MenuItems extends React.Component {
         [this.props.language]: {
           name, description
         } = {}
-      }
+      },
+      price,
+      currency: {symbol}
     } = menuItem;
     return (
       <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('menuItem', {menuItem})
-          }
-          style={{
-            backgroundColor: 'white',
-            borderBottomWidth: 1,
-            borderColor: 'lightgray'
-          }}
+          onPress={() =>this.props.navigation.navigate('menuItem', {menuItem})}
+          style={[container.row, container.padded]}
       >
-        <View
-            style={{
-              backgroundColor: 'white',
-              borderBottomWidth: 1,
-              borderColor: 'lightgray'
-            }}
-        >
+        <View>
           <Text>{name}</Text>
           <Text>{description}</Text>
+        </View>
+        <View style={{justifyContent: 'center', marginLeft: 'auto'}}>
+          <Text>{`${price} ${symbol}`}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -90,11 +84,7 @@ export class MenuItems extends React.Component {
   render() {
     const {dataSource} = this.state;
     return (
-      <View
-          style={{
-            height: '100%'
-          }}
-      >
+      <View style={[container.container, container.light]}>
         <ListView
             dataSource={dataSource}
             enableEmptySections

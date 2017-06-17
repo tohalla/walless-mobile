@@ -6,6 +6,7 @@ import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 
 import {getMenusByRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
+import container from 'walless/styles/container';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state),
@@ -46,11 +47,7 @@ class Menus extends React.Component {
           onPress={() =>
             this.props.navigation.navigate('menuItems', {menu})
           }
-          style={{
-            backgroundColor: 'white',
-            borderBottomWidth: 1,
-            borderColor: 'lightgray'
-          }}
+          style={[container.row, container.padded]}
       >
         <Text>{name}</Text>
         <Text>{description}</Text>
@@ -60,13 +57,10 @@ class Menus extends React.Component {
   render() {
     const {dataSource} = this.state;
     return (
-      <View
-          style={{
-            height: '100%'
-          }}
-      >
+      <View style={[container.container, container.light]}>
         <ListView
             dataSource={dataSource}
+            enableEmptySections
             renderRow={this.handleRenderMenu}
         />
       </View>
