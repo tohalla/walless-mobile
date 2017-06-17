@@ -21,12 +21,12 @@ export const restaurantRoutes = {
   menus: {
     screen: Menus,
     navigation: true,
-    translationKey: 'restaurant.menus'
+    translationKey: 'restaurant.restaurant.menus'
   },
   menuItems: {
     screen: MenuItems,
     navigation: true,
-    translationKey: 'restaurant.menuItems'
+    translationKey: 'restaurant.restaurant.menuItems'
   },
   menuItem: {screen: MenuItem},
   campaings: {screen: View}
