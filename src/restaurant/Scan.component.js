@@ -4,6 +4,7 @@ import {NavigationActions} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
+import LoadContent from 'walless/components/LoadContent.component';
 
 import QRScreen from 'walless/QRScreen.component';
 import {
@@ -14,21 +15,26 @@ import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {getServingLocation} from 'walless-graphql/restaurant/servingLocation.queries';
 
 const mapStateToProps = state => ({
-  servingLocation: get(['active', 'servingLocation'])(state)
+  servingLocation: get(['active', 'servingLocation'])(state),
+  restaurant: get(['active', 'restaurant'])(state)
 });
 
 class Scan extends React.Component {
   static navigationOptions = {
     header: null
   };
-  constructor(props) { // use until camera working and qr codes have been setup
-    super(props);
-    props.setActiveServingLocation(5);
+  componentDidMount() { // use until camera working and qr codes have been setup
+    this.props.setActiveServingLocation(5);
   }
   componentWillReceiveProps(newProps) {
     const restaurant = get(['getServingLocation', 'servingLocation', 'restaurant'])(newProps);
-    if (restaurant !== get(['getServingLocation', 'servingLocation', 'restaurant'])(this.props)) {
+    if (
+      restaurant !== get(['getServingLocation', 'servingLocation', 'restaurant'])(this.props) &&
+      !get(['getServingLocation', 'data', 'loading'])(newProps)
+    ) {
       this.props.setActiveRestaurant(restaurant);
+    }
+    if (!get(['getRestaurant', 'data', 'loading'])(newProps) && newProps.restaurant) {
       this.reset();
     }
   }
@@ -39,9 +45,11 @@ class Scan extends React.Component {
     ]
   }));
   render = () => (
-    <QRScreen
-        onSuccess={() => this.props.setActiveServingLocation(5)}
-    />
+    <LoadContent loadProps={this.props}>
+      <QRScreen
+          onSuccess={() => {}}
+      />
+    </LoadContent>
   );
 };
 

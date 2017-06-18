@@ -1,12 +1,15 @@
-import {StyleSheet} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import colors from 'walless/styles/colors';
 
-export default StyleSheet.create({
+export default EStyleSheet.create({
   button: {
-    padding: 12,
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  padded: {
+    padding: '0.5rem'
   },
   buttonText: {
     color: colors.link,

@@ -21,9 +21,11 @@ export default EStyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignSelf: 'stretch',
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderColor: 'lightgray'
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+  spread: {
+    justifyContent: 'space-between'
   },
   padded: {
     padding: '0.5rem 1rem'

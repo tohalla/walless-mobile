@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import {NavigationActions} from 'react-navigation';
@@ -28,7 +28,11 @@ class CartButton extends React.Component {
             size={20}
         />
         {items.length ?
-          <Text style={header.headerText}>{items.length}</Text> : null
+          <View style={header.cartItems}>
+            <Text style={{color: colors.headerBackground}}>
+              {items.length > 99 ? '*' : items.length}
+            </Text>
+          </View> : null
         }
       </Button>
     );

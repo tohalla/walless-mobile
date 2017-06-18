@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
   language: state.translation.language
 });
 
-export class MenuItems extends React.Component {
+class MenuItems extends React.Component {
   static PropTypes = {
     restaurant: PropTypes.object.isRequired,
     items: PropTypes.arrayOf(PropTypes.object),

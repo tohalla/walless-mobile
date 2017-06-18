@@ -11,14 +11,18 @@ export default class Button extends React.Component {
       PropTypes.node
     ]).isRequired,
     light: PropTypes.bool,
-    onPress: PropTypes.func.isRequired
-  }
+    onPress: PropTypes.func.isRequired,
+    padded: PropTypes.bool
+  };
+  static defaultProps = {
+    padded: true
+  };
   render() {
-    const {onPress, children, light, ...rest} = this.props;
+    const {onPress, children, padded, light, ...rest} = this.props;
     return (
       <TouchableOpacity
           onPress={onPress}
-          style={button.button}
+          style={[button.button].concat(padded ? button.padded : [])}
           {...rest}
       >
         {typeof children === 'string' ?

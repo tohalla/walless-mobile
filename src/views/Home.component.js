@@ -37,15 +37,17 @@ class Home extends React.Component {
           dispatch: this.props.dispatch,
           state: this.props.navigationState,
           language: this.props.language,
-          titles: Object.keys(restaurantRoutes).reduce((prev, key) =>
-            Object.assign(
-              {},
-              prev,
-              {[key]: restaurantRoutes[key].translationKey ?
-                I18n.t(restaurantRoutes[key].translationKey) : null
-              },
-              {home: name}
-            ), {}
+          titles: Object.assign(
+            Object.keys(restaurantRoutes).reduce((prev, key) =>
+              Object.assign(
+                {},
+                prev,
+                {[key]: restaurantRoutes[key].translationKey ?
+                  I18n.t(restaurantRoutes[key].translationKey) : null
+                }
+              ), {}
+            ),
+            {home: name}
           )
         })}
     />

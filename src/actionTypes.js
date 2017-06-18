@@ -4,3 +4,4 @@ export const SET_ACTIVE_SERVING_LOCATION = 'SET_ACTIVE_SERVING_LOCATION';
 
 // cart reducer
 export const SET_CART_ITEMS = 'SET_CART_ITEMS';
+export const ADD_CART_ITEMS = 'ADD_CART_ITEMS';

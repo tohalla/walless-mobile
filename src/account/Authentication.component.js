@@ -3,11 +3,11 @@ import React from 'react';
 import {
   View,
   TextInput,
-  StyleSheet,
-  ActivityIndicator
+  StyleSheet
 } from 'react-native';
 import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
+import LoadContent from 'walless/components/LoadContent.component';
 
 import Button from 'walless/components/Button.component';
 import colors from 'walless/styles/colors';
@@ -35,37 +35,35 @@ class Authentication extends React.Component {
   };
   render() {
     const {email, password, loading} = this.state;
-    return loading ? (
-      <View style={[container.screenContainer, container.centerContent]}>
-        <ActivityIndicator color={colors.white} />
-      </View>
-    ) : (
-      <View style={[container.screenContainer, container.centerContent]}>
-        <TextInput
-            autoCorrect={false}
-            keyboardType="email-address"
-            name="email"
-            onChangeText={email => this.setState({email})}
-            placeholder={I18n.t('account.email')}
-            style={styles.input}
-            value={email}
-        />
-        <TextInput
-            autoCorrect={false}
-            name="password"
-            onChangeText={password => this.setState({password})}
-            placeholder={I18n.t('account.password')}
-            secureTextEntry
-            style={styles.input}
-            value={password}
-        />
-        <Button
-            light
-            onPress={this.authenticate}
-        >
-          {I18n.t('account.authenticate')}
-        </Button>
-      </View>
+    return (
+      <LoadContent loadProps={this.props} loading={loading}>
+        <View style={[container.screenContainer, container.centerContent]}>
+          <TextInput
+              autoCorrect={false}
+              keyboardType="email-address"
+              name="email"
+              onChangeText={email => this.setState({email})}
+              placeholder={I18n.t('account.email')}
+              style={styles.input}
+              value={email}
+          />
+          <TextInput
+              autoCorrect={false}
+              name="password"
+              onChangeText={password => this.setState({password})}
+              placeholder={I18n.t('account.password')}
+              secureTextEntry
+              style={styles.input}
+              value={password}
+          />
+          <Button
+              light
+              onPress={this.authenticate}
+          >
+            {I18n.t('account.authenticate')}
+          </Button>
+        </View>
+      </LoadContent>
     );
   }
 }

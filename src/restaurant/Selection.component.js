@@ -1,9 +1,6 @@
 // @flow
 import React from 'react';
-import {
-  ActivityIndicator,
-  View
-} from 'react-native';
+import {View} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
@@ -13,7 +10,7 @@ import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {getActiveAccount} from 'walless-graphql/account/account.queries';
 import Button from 'walless/components/Button.component';
 import container from 'walless/styles/container';
-import colors from 'walless/styles/colors';
+import LoadContent from 'walless/components/LoadContent.component';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state)
@@ -25,36 +22,31 @@ class Restaurant extends React.Component {
   };
   render() {
     const {
-      getActiveAccount: {account, data: {loading}} = {data: {}},
+      getActiveAccount: {account} = {},
       navigation
     } = this.props;
-    if (loading) {
-      return (
-        <View style={[container.screenContainer, container.centerContent]}>
-          <ActivityIndicator color={colors.white} />
-        </View>
-      );
-    }
     return (
-      <View style={[container.screenContainer, container.centerContent]}>
-        {account ?
-          <Button light onPress={() => navigation.navigate('scan')}>
-            {'Scan QR code'}
-          </Button> :
+      <LoadContent loadProps={this.props}>
+        <View style={[container.screenContainer, container.centerContent]}>
+          {account ?
+            <Button light onPress={() => navigation.navigate('scan')}>
+              {'Scan QR code'}
+            </Button> :
+            <Button
+                light
+                onPress={() => navigation.navigate('authentication')}
+            >
+                {I18n.t('account.authenticate')}
+            </Button>
+          }
           <Button
               light
-              onPress={() => navigation.navigate('authentication')}
+              onPress={() => navigation.navigate('browse')}
           >
-              {I18n.t('account.authenticate')}
+              {'Browse restaurants'}
           </Button>
-        }
-        <Button
-            light
-            onPress={() => navigation.navigate('browse')}
-        >
-            {'Browse restaurants'}
-        </Button>
-      </View>
+        </View>
+      </LoadContent>
     );
   }
 }

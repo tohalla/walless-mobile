@@ -21,7 +21,10 @@ export const restaurantRoutes = {
     screen: Restaurant,
     translationKey: 'restaurant.restaurant'
   },
-  cart: {screen: Cart},
+  cart: {
+    screen: Cart,
+    translationKey: 'restaurant.cart.cart'
+  },
   selection: {screen: Selection},
   menus: {
     screen: Menus,
@@ -47,7 +50,7 @@ const RestaurantNavigation = new StackNavigator(
       title: titles[state.routeName],
       headerRight: <CartButton />,
       headerStyle: header.header,
-      headerTitleStyle: header.text,
+      headerTitleStyle: [header.text, header.title],
       headerTintColor: colors.headerForeground,
       headerBackTitleStyle: header.text
     })

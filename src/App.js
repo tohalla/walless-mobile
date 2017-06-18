@@ -1,17 +1,16 @@
 // @flow
 import React from 'react';
-import {ActivityIndicator, View, AsyncStorage} from 'react-native';
+import {AsyncStorage} from 'react-native';
 import {addNavigationHelpers} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 
 import MainNavigation from 'walless/navigation/MainNavigation';
-import colors from 'walless/styles/colors';
-import container from 'walless/styles/container';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
 import authenticationHandler from 'walless/util/auth';
+import LoadContent from 'walless/components/LoadContent.component';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'main'])(state)
@@ -36,23 +35,23 @@ class App extends React.Component {
   }
   render() {
     const {
-      getActiveAccount: {account, data: {loading}} = {data: {}}
+      getActiveAccount: {account} = {data: {}}
     } = this.props;
-    if (loading || this.state.loading) {
-      return (
-        <View style={[container.screenContainer, container.centerContent]}>
-          <ActivityIndicator color={colors.white} />
-        </View>
-      );
-    }
-    return account ? (
-      <MainNavigation
-          navigation={addNavigationHelpers({
-            dispatch: this.props.dispatch,
-            state: this.props.navigationState
-          })}
-      />
-    ) : <Authentication />;
+    return (
+      <LoadContent loadProps={this.props} loading={this.state.loading}>
+        {
+          account ? (
+            <MainNavigation
+                navigation={addNavigationHelpers({
+                  dispatch: this.props.dispatch,
+                  state: this.props.navigationState
+                })}
+            />
+          )
+          : <Authentication />
+      }
+      </LoadContent>
+    );
   }
 }
 
