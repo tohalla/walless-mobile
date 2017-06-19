@@ -9,11 +9,11 @@ export default EStyleSheet.create({
     justifyContent: 'center'
   },
   padded: {
-    padding: '0.5rem'
+    padding: '0.7rem'
   },
   buttonText: {
     color: colors.link,
-    fontSize: 16
+    fontSize: 18
   },
   buttonTextLight: {
     color: colors.carrara

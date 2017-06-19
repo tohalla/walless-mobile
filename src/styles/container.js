@@ -12,6 +12,9 @@ export default EStyleSheet.create({
   light: {
     backgroundColor: colors.white
   },
+  default: {
+    backgroundColor: colors.carrara
+  },
   centerContent: {
     justifyContent: 'center',
     alignItems: 'center'
@@ -22,7 +25,8 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginBottom: 1
   },
   spread: {
     justifyContent: 'space-between'

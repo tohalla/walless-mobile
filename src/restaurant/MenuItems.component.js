@@ -84,7 +84,7 @@ class MenuItems extends React.Component {
   render() {
     const {dataSource} = this.state;
     return (
-      <View style={[container.container, container.light]}>
+      <View style={[container.container, container.default]}>
         <ListView
             dataSource={dataSource}
             enableEmptySections
