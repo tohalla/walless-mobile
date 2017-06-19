@@ -5,8 +5,10 @@ export default EStyleSheet.create({
   button: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'center'
+  },
+  stretch: {
+    alignSelf: 'stretch'
   },
   padded: {
     padding: '0.7rem'

@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 
 import container from 'walless/styles/container';
+import colors from 'walless/styles/colors';
 import Button from 'walless/components/Button.component';
 import {addCartItems} from 'walless/restaurant/cart.reducer';
 
@@ -40,19 +41,23 @@ class MenuItem extends React.Component {
           name, description
         } = {}
       },
-      files
+      files = []
     } = menuItem;
     return (
       <ScrollView
           alwaysBounceVertical={false}
           style={[container.container, container.light]}
       >
-        <Swiper height={250}>
+        <Swiper
+            activeDotColor={colors.carrara}
+            dotColor="rgba(0,0,0,0.8)"
+            height={250}
+        >
           {files.map((file, index) => (
             <Image
                 key={index}
                 source={{uri: file.uri}}
-                style={{width: 'auto', height: '100%'}}
+                style={container.slide}
             />
           ))}
         </Swiper>

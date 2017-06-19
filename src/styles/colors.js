@@ -15,10 +15,11 @@ const colors = {
 };
 
 export default Object.assign({
-	background: colors.alizarin,
+  background: colors.alizarin,
+	backgroundDark: colors.darkGray,
 	foreground: colors.white,
   foregroundDark: colors.darkGray,
   headerBackground: colors.alizarin,
   headerForeground: colors.carrara,
-  link: colors.river
+  link: colors.madison
 }, colors);

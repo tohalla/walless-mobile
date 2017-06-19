@@ -23,9 +23,7 @@ export default class QRScreen extends React.Component {
     <Camera
         aspect={Camera.constants.Aspect.fill}
         barCodeTypes={['qr']}
-        ref={(cam) => {
-          this.camera = cam;
-        }}
+        onBarCodeRead={this.handleBarCodeRead}
         style={{
           flex: 1,
           justifyContent: 'flex-end',

@@ -5,6 +5,10 @@ export default EStyleSheet.create({
   container: {
     flex: 1
   },
+  slide: {
+    backgroundColor: colors.backgroundDark,
+    flex: 1
+  },
   screenContainer: {
     flex: 1,
     backgroundColor: colors.alizarin

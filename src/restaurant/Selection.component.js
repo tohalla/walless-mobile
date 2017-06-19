@@ -29,7 +29,12 @@ class Restaurant extends React.Component {
       <LoadContent loadProps={this.props}>
         <View style={[container.screenContainer, container.centerContent]}>
           {account ?
-            <Button light onPress={() => navigation.navigate('scan')}>
+            <Button
+                light
+                onPress={() => {
+                  navigation.navigate('scan');
+                }}
+            >
               {'Scan QR code'}
             </Button> :
             <Button

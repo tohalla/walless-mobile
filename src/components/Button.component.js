@@ -11,6 +11,7 @@ export default class Button extends React.Component {
       PropTypes.node
     ]).isRequired,
     light: PropTypes.bool,
+    stretch: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
     padded: PropTypes.bool
   };
@@ -18,11 +19,14 @@ export default class Button extends React.Component {
     padded: true
   };
   render() {
-    const {onPress, children, padded, light, ...rest} = this.props;
+    const {onPress, stretch, children, padded, light, ...rest} = this.props;
     return (
       <TouchableOpacity
           onPress={onPress}
-          style={[button.button].concat(padded ? button.padded : [])}
+          style={[button.button].concat(
+            padded ? button.padded : [],
+            stretch ? button.stretch : []
+          )}
           {...rest}
       >
         {typeof children === 'string' ?

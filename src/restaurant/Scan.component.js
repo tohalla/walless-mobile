@@ -4,6 +4,7 @@ import {NavigationActions} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
+import {View} from 'react-native';
 import LoadContent from 'walless/components/LoadContent.component';
 
 import QRScreen from 'walless/QRScreen.component';
@@ -44,13 +45,14 @@ class Scan extends React.Component {
       NavigationActions.navigate({routeName: 'home'})
     ]
   }));
-  render = () => (
-    <LoadContent loadProps={this.props}>
-      <QRScreen
-          onSuccess={() => {}}
-      />
-    </LoadContent>
-  );
+  render = () => <View />
+  // render = () => (
+  //   <LoadContent loadProps={this.props}>
+  //     <QRScreen
+  //         onSuccess={() => {}}
+  //     />
+  //   </LoadContent>
+  //  );
 };
 
 export default compose(

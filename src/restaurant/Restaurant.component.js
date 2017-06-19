@@ -1,9 +1,10 @@
 // @flow
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView, Image} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get, map} from 'lodash/fp';
+import Swiper from 'react-native-swiper';
 import I18n from 'react-native-i18n';
 import {
   setActiveServingLocation
@@ -11,6 +12,7 @@ import {
 
 import {resetNavigation} from 'walless/navigation/navigation';
 import container from 'walless/styles/container';
+import colors from 'walless/styles/colors';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Button from 'walless/components/Button.component';
 import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
@@ -43,7 +45,8 @@ class Restaurant extends React.Component {
             [this.props.language]: {
               name, description
             } = {}
-          }
+          },
+          files = []
         }
       } = {restaurant: {information: {}}},
       navigation,
@@ -51,28 +54,45 @@ class Restaurant extends React.Component {
     } = this.props;
     return (
       <LoadContent loadProps={this.props}>
-        <View style={[container.container, container.light]}>
-          <View>
+        <ScrollView
+            alwaysBounceVertical={false}
+            style={container.container}
+        >
+          <Swiper
+              activeDotColor={colors.carrara}
+              dotColor="rgba(0,0,0,0.8)"
+              height={250}
+          >
+            {files.map((file, index) => (
+              <Image
+                  key={index}
+                  source={{uri: file.uri}}
+                  style={container.slide}
+              />
+            ))}
+          </Swiper>
+          <View style={[container.container, container.padded, container.light]}>
+              {
+                map(route => (
+                  restaurantRoutes[route].navigation &&
+                  <Button
+                      key={route}
+                      onPress={() => navigation.navigate(route)}
+                      stretch
+                  >
+                    {I18n.t(restaurantRoutes[route].translationKey)}
+                  </Button>
+                ))(Object.keys(restaurantRoutes))
+              }
+              <Button onPress={() => setActiveServingLocation(null)}>
+                {'ulos pöydästä'}
+              </Button>
+          </View>
+          <View style={[container.container, container.padded]}>
             <Text>{name}</Text>
             <Text>{description}</Text>
           </View>
-          <View style={container.centerContent}>
-            {
-              map(route => (
-                restaurantRoutes[route].navigation &&
-                <Button
-                    key={route}
-                    onPress={() => navigation.navigate(route)}
-                >
-                  {I18n.t(restaurantRoutes[route].translationKey)}
-                </Button>
-              ))(Object.keys(restaurantRoutes))
-            }
-            <Button onPress={() => setActiveServingLocation(null)}>
-              {'ulos pöydästä'}
-            </Button>
-          </View>
-        </View>
+        </ScrollView>
       </LoadContent>
     );
   }
