@@ -8,8 +8,13 @@ import {View, Text} from 'react-native';
 
 import MenuItems from 'walless/restaurant/MenuItems.component';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
+import {
+  createOrder,
+  createOrderMenuItem
+} from 'walless-graphql/restaurant/order.mutations';
 import container from 'walless/styles/container';
 import {setCartItems} from 'walless/restaurant/cart.reducer';
+import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import text from 'walless/styles/text';
 import colors from 'walless/styles/colors';
 import swipe from 'walless/styles/swipe';
@@ -17,6 +22,7 @@ import Button from 'walless/components/Button.component';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state),
+  servingLocation: get(['active', 'servingLocation'])(state),
   items: get(['cart', 'items'])(state) || []
 });
 
@@ -27,6 +33,30 @@ class Cart extends React.Component {
   handleDeleteItem = index => {
     const {setCartItems, items} = this.props;
     setCartItems(pullAt(index)(items));
+  };
+  handleCreateOrder = async() => {
+    const {
+      setCartItems,
+      items,
+      servingLocation,
+      restaurant,
+      createOrder,
+      createOrderMenuItem,
+      getActiveAccount: {account}
+    } = this.props;
+    try {
+      const {data: {createOrder: {order}}} = await createOrder({
+        createdBy: account.id,
+        restaurant,
+        servingLocation
+      });
+      await Promise.all(
+        items.map(item => createOrderMenuItem({menuItem: item.id, order: order.id}))
+      );
+      setCartItems([]);
+    } catch (error) {
+      throw new Error(error);
+    }
   };
   render() {
     const {
@@ -65,7 +95,7 @@ class Cart extends React.Component {
             ]}
         >
           <View>
-            <Button onPress={() => {}}>
+            <Button onPress={this.handleCreateOrder}>
               {I18n.t('restaurant.cart.checkout')}
             </Button>
           </View>
@@ -91,5 +121,8 @@ class Cart extends React.Component {
 
 export default compose(
   connect(mapStateToProps, {setCartItems}),
-  getRestaurant
+  getRestaurant,
+  createOrder,
+  createOrderMenuItem,
+  getActiveAccount
 )(Cart);

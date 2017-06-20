@@ -95,7 +95,11 @@ class MenuItems extends React.Component {
         onLeftActionRelease: () => this.handleAddToCart(menuItem)
       };
     return (
-      <Swipeable {...swipeable}>
+      <Swipeable
+          onSwipeRelease={() => this.setState({isSwiping: false})}
+          onSwipeStart={() => this.setState({isSwiping: true})}
+          {...swipeable}
+      >
         <TouchableOpacity
             onPress={this.handleItemPress(menuItem)}
             style={[container.row, container.padded]}
@@ -112,13 +116,14 @@ class MenuItems extends React.Component {
     );
   };
   render() {
-    const {dataSource} = this.state;
+    const {dataSource, isSwiping} = this.state;
     return (
       <View style={[container.container, container.default]}>
         <ListView
             dataSource={dataSource}
             enableEmptySections
             renderRow={this.handleRenderItem}
+            scrollEnabled={!isSwiping}
         />
       </View>
     );
