@@ -6,6 +6,9 @@ export default EStyleSheet.create({
     color: colors.darkGray,
     fontSize: 16
   },
+  light: {
+    color: colors.carrara
+  },
   bold: {
     fontWeight: 'bold'
   },
@@ -20,5 +23,9 @@ export default EStyleSheet.create({
   },
   large: {
     fontSize: 22
+  },
+  button: {
+    color: colors.link,
+    fontSize: 18
   }
 });

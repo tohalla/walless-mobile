@@ -7,6 +7,7 @@ import {NavigationActions} from 'react-navigation';
 
 import Button from 'walless/components/Button.component';
 import header from 'walless/styles/header';
+import button from 'walless/styles/button';
 import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
@@ -18,9 +19,8 @@ class CartButton extends React.Component {
     const {items} = this.props;
     return (
       <Button
-          onPress={() =>
-            this.props.navigate({routeName: 'cart'})
-          }
+          onPress={() => this.props.navigate({routeName: 'cart'})}
+          style={button.padded}
       >
         <Icon
             color={colors.headerForeground}

@@ -10,8 +10,7 @@ export default EStyleSheet.create({
     backgroundColor: colors.backgroundDark,
     flex: 1
   },
-  screenContainer: {
-    flex: 1,
+  colored: {
     backgroundColor: colors.alizarin
   },
   light: {

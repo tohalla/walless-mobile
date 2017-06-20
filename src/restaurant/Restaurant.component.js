@@ -14,6 +14,7 @@ import text from 'walless/styles/text';
 import {resetNavigation} from 'walless/navigation/navigation';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
+import button from 'walless/styles/button';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Button from 'walless/components/Button.component';
 import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
@@ -79,14 +80,17 @@ class Restaurant extends React.Component {
                   <Button
                       key={route}
                       onPress={() => navigation.navigate(route)}
-                      stretch
+                      style={[button.padded, button.stretch]}
                   >
                     {I18n.t(restaurantRoutes[route].translationKey)}
                   </Button>
                 ))(Object.keys(restaurantRoutes))
               }
-              <Button onPress={() => setActiveServingLocation(null)}>
-                {'ulos pöydästä'}
+              <Button
+                  onPress={() => setActiveServingLocation(null)}
+                  style={[button.padded, button.stretch]}
+              >
+                {I18n.t('restaurant.servingLocations.checkout')}
               </Button>
           </View>
           <View style={[container.container, container.padded]}>

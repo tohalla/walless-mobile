@@ -20,7 +20,7 @@ export default class LoadContent extends React.Component {
         prop && prop.data && prop.data.loading
       )(this.props.loadProps));
     return loading ? (
-      <View style={[container.screenContainer, container.centerContent]}>
+      <View style={[container.container, container.colored, container.centerContent]}>
         <ActivityIndicator color={colors.white} />
       </View>
     ) : this.props.children;

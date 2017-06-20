@@ -3,6 +3,7 @@ import {TouchableOpacity, Text} from 'react-native';
 import PropTypes from 'prop-types';
 
 import button from 'walless/styles/button';
+import text from 'walless/styles/text';
 
 export default class Button extends React.Component {
   static PropTypes = {
@@ -10,27 +11,32 @@ export default class Button extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
     ]).isRequired,
-    light: PropTypes.bool,
-    stretch: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
-    padded: PropTypes.bool
-  };
-  static defaultProps = {
-    padded: true
+    style: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.object),
+      PropTypes.object
+    ]),
+    textStyle: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.object),
+      PropTypes.object
+    ])
   };
   render() {
-    const {onPress, stretch, children, padded, light, ...rest} = this.props;
+    const {
+      onPress,
+      children,
+      style,
+      textStyle,
+      ...rest
+    } = this.props;
     return (
       <TouchableOpacity
           onPress={onPress}
-          style={[button.button].concat(
-            padded ? button.padded : [],
-            stretch ? button.stretch : []
-          )}
+          style={[button.button].concat(style)}
           {...rest}
       >
         {typeof children === 'string' ?
-          <Text style={[button.buttonText, light ? button.buttonTextLight : button.buttonText]}>
+          <Text style={[text.button].concat(textStyle)}>
             {children}
           </Text> : children
         }

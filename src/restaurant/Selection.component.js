@@ -10,6 +10,8 @@ import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {getActiveAccount} from 'walless-graphql/account/account.queries';
 import Button from 'walless/components/Button.component';
 import container from 'walless/styles/container';
+import button from 'walless/styles/button';
+import text from 'walless/styles/text';
 import LoadContent from 'walless/components/LoadContent.component';
 
 const mapStateToProps = state => ({
@@ -27,26 +29,29 @@ class Restaurant extends React.Component {
     } = this.props;
     return (
       <LoadContent loadProps={this.props}>
-        <View style={[container.screenContainer, container.centerContent]}>
+        <View style={[container.container, container.colored, container.centerContent]}>
           {account ?
             <Button
-                light
                 onPress={() => {
                   navigation.navigate('scan');
                 }}
+                style={button.padded}
+                textStyle={text.light}
             >
               {'Scan QR code'}
             </Button> :
             <Button
-                light
                 onPress={() => navigation.navigate('authentication')}
+                style={button.padded}
+                textStyle={text.light}
             >
                 {I18n.t('account.authenticate')}
             </Button>
           }
           <Button
-              light
               onPress={() => navigation.navigate('browse')}
+              style={button.padded}
+              textStyle={text.light}
           >
               {'Browse restaurants'}
           </Button>
