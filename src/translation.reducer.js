@@ -1,10 +1,11 @@
 // @flow
 import config from 'walless-native/config';
 
-const SET_LANGUAGES = 'SET_LANGUAGES';
+import {SET_LANGUAGES} from 'walless/actionTypes';
 
 const initialState = {
- language: 'en'
+ language: 'en',
+ languages: []
 };
 
 export default (state: Object = initialState, action: Object) =>
@@ -12,7 +13,7 @@ export default (state: Object = initialState, action: Object) =>
     Object.assign({}, state, action.payload)
   : state;
 
-export const fetchLanguages = async(dispatch: Function) => {
+export const fetchLanguages = () => async(dispatch: Function) => {
   const languages = await (await fetch(config.i18n.url)).json();
   dispatch({
     type: SET_LANGUAGES,

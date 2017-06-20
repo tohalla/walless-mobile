@@ -1,5 +1,6 @@
 import apolloClient from 'walless/apolloClient';
 
+import {RESET_NAVIGATION} from 'walless/actionTypes';
 import active from 'walless/active.reducer';
 import cart from 'walless/restaurant/cart.reducer';
 import {navigationReducer as main} from 'walless/navigation/MainNavigation';
@@ -7,10 +8,11 @@ import {navigationReducer as restaurant} from 'walless/navigation/RestaurantNavi
 import {combineReducers} from 'redux';
 import translation from 'walless/translation.reducer';
 
-const navigation = combineReducers({
-  main,
-  restaurant
-});
+const navigation = (state, action) =>
+  combineReducers({
+    main,
+    restaurant
+  })(action.type === RESET_NAVIGATION ? {} : state, action);
 
 export default combineReducers({
   apollo: apolloClient.reducer(),

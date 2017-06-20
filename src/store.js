@@ -13,6 +13,6 @@ const store = createStore(
   )
 );
 
-store.dispatch(fetchLanguages);
+store.dispatch(fetchLanguages());
 
 export default store;
