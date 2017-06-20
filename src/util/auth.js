@@ -72,8 +72,8 @@ const authenticate = async (email: string, password: string) => {
   );
 };
 
-const logout = async ({}) => {
-  await fetch(
+const logout = async() => Promise.all([
+  fetch(
     `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/client`,
     {
       method: 'DELETE',
@@ -81,9 +81,9 @@ const logout = async ({}) => {
         'client-id': await AsyncStorage.getItem('client-id')
       }
     }
-  );
-  await AsyncStorage.multiRemove(['authorization', 'client-id', 'refresh-token']);
-};
+  ),
+  AsyncStorage.multiRemove(['authorization', 'client-id', 'refresh-token'])
+]);
 
 export default {
   fetchClientId,

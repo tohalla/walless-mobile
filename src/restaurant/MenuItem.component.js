@@ -4,6 +4,7 @@ import {get} from 'lodash/fp';
 import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 
+import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
 import Button from 'walless/components/Button.component';
@@ -62,7 +63,7 @@ class MenuItem extends React.Component {
           ))}
         </Swiper>
         <View style={[container.row, container.padded, container.spread]}>
-          <Text>{name}</Text>
+          <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
           <Button
               onPress={this.handleAddToCart}
               padded={false}
@@ -71,7 +72,7 @@ class MenuItem extends React.Component {
           </Button>
         </View>
         <View style={container.padded}>
-          <Text>{description}</Text>
+          <Text style={[text.text]}>{description}</Text>
         </View>
       </ScrollView>
     );

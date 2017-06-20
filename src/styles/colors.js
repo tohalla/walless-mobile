@@ -5,7 +5,7 @@ const colors = {
 	bluewood: '#34495E',
 	white: '#FFFFFF',
 	carrara: '#F2F1EF',
-	gallery: '#EEEEEE',
+	gallery: '#E1E1E1',
 	iron: '#DADFE1',
   river: '#3498db',
 	lightGray: '#9E9E9E',

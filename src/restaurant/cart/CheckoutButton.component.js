@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 class CheckoutButton extends React.Component {
   render() {
     const {items} = this.props;
-    return items.lenght ? (
+    return items.length ? (
       <Button onPress={() => {}}>
         <Text style={header.text}>
           {I18n.t('restaurant.cart.checkout')}

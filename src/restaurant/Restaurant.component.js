@@ -10,6 +10,7 @@ import {
   setActiveServingLocation
 } from 'walless/active.reducer';
 
+import text from 'walless/styles/text';
 import {resetNavigation} from 'walless/navigation/navigation';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
@@ -56,7 +57,7 @@ class Restaurant extends React.Component {
       <LoadContent loadProps={this.props}>
         <ScrollView
             alwaysBounceVertical={false}
-            style={container.container}
+            style={[container.container]}
         >
           <Swiper
               activeDotColor={colors.carrara}
@@ -89,8 +90,8 @@ class Restaurant extends React.Component {
               </Button>
           </View>
           <View style={[container.container, container.padded]}>
-            <Text>{name}</Text>
-            <Text>{description}</Text>
+            <Text style={[text.text, text.bold, text.medium]}>{name}</Text>
+            <Text style={[text.text]}>{description}</Text>
           </View>
         </ScrollView>
       </LoadContent>

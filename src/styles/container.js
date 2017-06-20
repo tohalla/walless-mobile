@@ -3,7 +3,8 @@ import colors from 'walless/styles/colors';
 
 export default EStyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: colors.gallery
   },
   slide: {
     backgroundColor: colors.backgroundDark,
@@ -36,6 +37,6 @@ export default EStyleSheet.create({
     justifyContent: 'space-between'
   },
   padded: {
-    padding: '0.5rem 1rem'
+    padding: '1rem'
   }
 });

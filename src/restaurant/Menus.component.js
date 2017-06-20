@@ -5,6 +5,7 @@ import {View, Text, ListView, TouchableOpacity} from 'react-native';
 import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 
+import text from 'walless/styles/text';
 import {getMenusByRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import container from 'walless/styles/container';
 
@@ -49,8 +50,8 @@ class Menus extends React.Component {
           }
           style={[container.row, container.padded]}
       >
-        <Text>{name}</Text>
-        <Text>{description}</Text>
+        <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
+        <Text style={text.text}>{description}</Text>
       </TouchableOpacity>
     );
   }
