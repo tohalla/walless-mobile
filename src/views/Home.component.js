@@ -15,9 +15,6 @@ const mapStateToProps = state => ({
 });
 
 class Home extends React.Component {
-  static navigationOptions = {
-    drawerLabel: 'Home'
-  };
   render() {
     const {
       getRestaurant: {
@@ -36,7 +33,6 @@ class Home extends React.Component {
         navigation={addNavigationHelpers({
           dispatch: this.props.dispatch,
           state: this.props.navigationState,
-          language: this.props.language,
           titles: Object.assign(
             Object.keys(restaurantRoutes).reduce((prev, key) =>
               Object.assign(

@@ -42,7 +42,7 @@ class Scan extends React.Component {
   reset = () => this.props.navigation.dispatch(NavigationActions.reset({
     index: 0,
     actions: [
-      NavigationActions.navigate({routeName: 'home'})
+      NavigationActions.navigate({routeName: 'restaurantHome'})
     ]
   }));
   render = () => <View />

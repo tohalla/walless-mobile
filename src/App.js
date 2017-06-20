@@ -5,8 +5,9 @@ import {addNavigationHelpers} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
+import I18n from 'react-native-i18n';
 
-import MainNavigation from 'walless/navigation/MainNavigation';
+import MainNavigation, {routes} from 'walless/navigation/MainNavigation';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
 import authenticationHandler from 'walless/util/auth';
@@ -44,7 +45,16 @@ class App extends React.Component {
             <MainNavigation
                 navigation={addNavigationHelpers({
                   dispatch: this.props.dispatch,
-                  state: this.props.navigationState
+                  state: this.props.navigationState,
+                  titles: Object.keys(routes).reduce((prev, key) =>
+                      Object.assign(
+                        {},
+                        prev,
+                        {[key]: routes[key].translationKey ?
+                          I18n.t(routes[key].translationKey) : null
+                        }
+                      ), {}
+                    )
                 })}
             />
           )

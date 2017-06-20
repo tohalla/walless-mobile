@@ -17,9 +17,6 @@ import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import authenticationHandler from 'walless/util/auth';
 
 class Authentication extends React.Component {
-  static navigationOptions = {
-    drawerLabel: 'Authentication'
-  };
   state = {
     email: '',
     password: '',

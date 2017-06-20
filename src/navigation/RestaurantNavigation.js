@@ -15,9 +15,11 @@ import CartButton from 'walless/restaurant/cart/CartButton.Component';
 import colors from 'walless/styles/colors';
 import header from 'walless/styles/header';
 
+export const initialRouteName = 'restaurantHome';
+
 export const restaurantRoutes = {
   scan: {screen: Scan},
-  home: {
+  [initialRouteName]: {
     screen: Restaurant,
     translationKey: 'restaurant.restaurant'
   },
@@ -40,8 +42,6 @@ export const restaurantRoutes = {
   campaings: {screen: View}
 };
 
-export const initialRouteName = 'home';
-
 const RestaurantNavigation = new StackNavigator(
   restaurantRoutes,
   {
@@ -62,7 +62,7 @@ export default RestaurantNavigation;
 const {router: {getStateForAction, getActionForPathAndParams}} = RestaurantNavigation;
 
 export const navigationReducer = (
-  state = getStateForAction(getActionForPathAndParams('home')),
+  state = getStateForAction(getActionForPathAndParams('restaurantHome')),
   action
 ) =>
   action.type === NavigationActions.NAVIGATE &&

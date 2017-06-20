@@ -26,7 +26,7 @@ module.exports = {
     'no-nested-ternary': 0,
     'operator-linebreak': 0,
     'require-jsdoc': 0,
-    'max-len': 1,
+    'max-len': 0,
     'react/jsx-uses-vars': 1,
     'react/jsx-boolean-value': 2,
     'react/jsx-closing-bracket-location': 2,
