@@ -11,13 +11,17 @@ import button from 'walless/styles/button';
 import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
-  items: get(['cart', 'items'])(state) || []
+  items: get(['cart', 'items'])(state) || [],
+  routes: get(['navigation', 'restaurant', 'routes'])(state)
 });
 
 class CartButton extends React.Component {
   render() {
-    const {items} = this.props;
+    const {items, routes} = this.props;
     return (
+      routes[Math.max(routes.length - 1, 0)].routeName === 'cart' ||
+      routes[Math.max(routes.length - 2, 0)].routeName === 'cart'
+    ) ? <View /> : (
       <Button
           onPress={() => this.props.navigate({routeName: 'cart'})}
           style={button.padded}

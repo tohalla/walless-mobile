@@ -1,15 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
-import {get} from 'lodash/fp';
+import {get, pullAt} from 'lodash/fp';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
 import {View, Text} from 'react-native';
 
 import MenuItems from 'walless/restaurant/MenuItems.component';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import container from 'walless/styles/container';
+import {setCartItems} from 'walless/restaurant/cart.reducer';
 import text from 'walless/styles/text';
 import colors from 'walless/styles/colors';
+import swipe from 'walless/styles/swipe';
 import Button from 'walless/components/Button.component';
 
 const mapStateToProps = state => ({
@@ -21,6 +24,10 @@ class Cart extends React.Component {
   static navigationOptions = {
     headerRight: <View />
   };
+  handleDeleteItem = index => {
+    const {setCartItems, items} = this.props;
+    setCartItems(pullAt(index)(items));
+  };
   render() {
     const {
       items,
@@ -29,7 +36,21 @@ class Cart extends React.Component {
     if (items.length) {}
     return items.length ? (
       <View style={container.container}>
-        <MenuItems items={items} />
+        <MenuItems
+            items={items}
+            swipeable={({rowId}) => ({
+              rightContent: (
+                <View style={[swipe.content, swipe.alert, {alignItems: 'flex-start'}]}>
+                  <Icon
+                      color={colors.carrara}
+                      name="remove-shopping-cart"
+                      size={20}
+                  />
+                </View>
+              ),
+              onRightActionRelease: () => this.handleDeleteItem(rowId)
+            })}
+        />
         <View
             style={[
               container.padded,
@@ -69,6 +90,6 @@ class Cart extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, {setCartItems}),
   getRestaurant
 )(Cart);

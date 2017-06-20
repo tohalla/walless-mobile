@@ -5,24 +5,29 @@ import {View, Text, ListView, TouchableOpacity} from 'react-native';
 import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 import {NavigationActions} from 'react-navigation';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Swipeable from 'react-native-swipeable';
 
+import {addCartItems} from 'walless/restaurant/cart.reducer';
 import {
   getMenuItemsByRestaurant
 } from 'walless-graphql/restaurant/restaurant.queries';
 import container from 'walless/styles/container';
 import text from 'walless/styles/text';
+import swipe from 'walless/styles/swipe';
+import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
   restaurant: get(['active', 'restaurant'])(state),
-  language: state.translation.language,
-  navigat: state.navigation
+  language: state.translation.language
 });
 
 class MenuItems extends React.Component {
-  static PropTypes = {
-    restaurant: PropTypes.object.isRequired,
+  static propTypes = {
+    restaurant: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
     items: PropTypes.arrayOf(PropTypes.object),
-    menu: PropTypes.object
+    menu: PropTypes.object,
+    swipeable: PropTypes.func
   };
   constructor(props) {
     super(props);
@@ -59,10 +64,13 @@ class MenuItems extends React.Component {
       });
     }
   };
-  handleMenuItemPress = menuItem => () => {
+  handleAddToCart = menuItem => {
+    this.props.addCartItems(menuItem);
+  };
+  handleItemPress = menuItem => () => {
     this.props.navigate({routeName: 'menuItem', params: {menuItem}});
   };
-  handleRenderMenuItem = menuItem => {
+  handleRenderItem = (menuItem, sectionId, rowId) => {
     const {
       information: {
         [this.props.language]: {
@@ -72,19 +80,35 @@ class MenuItems extends React.Component {
       price,
       currency: {symbol}
     } = menuItem;
+    const swipeable = typeof this.props.swipeable === 'function' ?
+      this.props.swipeable({menuItem, rowId}) :
+      {
+        leftContent: (
+          <View style={[swipe.content, swipe.action, {alignItems: 'flex-end'}]}>
+            <Icon
+                color={colors.carrara}
+                name="add-shopping-cart"
+                size={20}
+            />
+          </View>
+        ),
+        onLeftActionRelease: () => this.handleAddToCart(menuItem)
+      };
     return (
-      <TouchableOpacity
-          onPress={this.handleMenuItemPress(menuItem)}
-          style={[container.row, container.padded]}
-      >
-        <View>
-          <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
-          <Text style={text.text}>{description}</Text>
-        </View>
-        <View style={{justifyContent: 'center', marginLeft: 'auto'}}>
-          <Text style={text.text}>{`${price} ${symbol}`}</Text>
-        </View>
-      </TouchableOpacity>
+      <Swipeable {...swipeable}>
+        <TouchableOpacity
+            onPress={this.handleItemPress(menuItem)}
+            style={[container.row, container.padded]}
+        >
+          <View>
+            <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
+            <Text style={text.text}>{description}</Text>
+          </View>
+          <View style={{justifyContent: 'center', marginLeft: 'auto'}}>
+            <Text style={text.text}>{`${price} ${symbol}`}</Text>
+          </View>
+        </TouchableOpacity>
+      </Swipeable>
     );
   };
   render() {
@@ -94,7 +118,7 @@ class MenuItems extends React.Component {
         <ListView
             dataSource={dataSource}
             enableEmptySections
-            renderRow={this.handleRenderMenuItem}
+            renderRow={this.handleRenderItem}
         />
       </View>
     );
@@ -102,6 +126,6 @@ class MenuItems extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, {navigate: NavigationActions.navigate}),
+  connect(mapStateToProps, {addCartItems, navigate: NavigationActions.navigate}),
   getMenuItemsByRestaurant
 )(MenuItems);

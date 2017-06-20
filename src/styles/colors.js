@@ -22,5 +22,6 @@ export default Object.assign({
   foregroundDark: colors.darkGray,
   headerBackground: colors.alizarin,
   headerForeground: colors.carrara,
+  action: colors.river,
   link: colors.madison
 }, colors);
