@@ -3,7 +3,6 @@ import {NavigationActions} from 'react-navigation';
 import {Linking} from 'react-native';
 
 import QRScreen from 'walless/QRScreen.component';
-import {isValid} from 'walless/util/link';
 
 export default class Scan extends React.Component {
   static navigationOptions = {

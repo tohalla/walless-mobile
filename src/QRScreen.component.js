@@ -1,11 +1,14 @@
 import React from 'react';
-import {VibrationIOS} from 'react-native';
+import {VibrationIOS, View, Dimensions} from 'react-native';
 import Camera from 'react-native-camera';
 import PropTypes from 'prop-types';
-import I18n from 'react-native-i18n';
+// import I18n from 'react-native-i18n';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Button from 'walless/components/Button.component';
-import button from 'walless/styles/button';
+// import Button from 'walless/components/Button.component';
+// import button from 'walless/styles/button';
+
+const scanArea = 250;
 
 export default class QRScreen extends React.Component {
   static propTypes = {
@@ -17,8 +20,17 @@ export default class QRScreen extends React.Component {
       codeRead: false
     };
   };
-  handleBarCodeRead = ({data}) => {
-    if (!this.state.codeRead) {
+  handleBarCodeRead = ({data, type, bounds: {origin, size}}) => {
+    const {height, width} = Dimensions.get('window');
+    if (
+      !this.state.codeRead &&
+      type === 'org.iso.QRCode' &&
+      Math.max(size.width, size.height) <= scanArea &&
+      origin.x >= (width - scanArea) / 2 &&
+      origin.x <= (width + scanArea) / 2 &&
+      origin.y >= (height - scanArea) / 2 &&
+      origin.y <= (height + scanArea) / 2
+    ) {
       this.setState({codeRead: true});
       VibrationIOS.vibrate();
       this.props.onSuccess(data);
@@ -28,20 +40,38 @@ export default class QRScreen extends React.Component {
     <Camera
         aspect={Camera.constants.Aspect.fill}
         onBarCodeRead={this.handleBarCodeRead}
-        style={{
-          flex: 1,
-          justifyContent: 'flex-end',
-          alignItems: 'center'
-        }}
+        playSoundOnCapture={false}
+        style={styles.container}
     >
-      {typeof this.props.onCancel === 'function' &&
-        <Button
-            onPress={(this.props.onCancel)}
-            style={button.button}
-        >
-          {I18n.t('cancel')}
-        </Button>
-      }
+      <View style={styles.shade} />
+      <View style={styles.middle}>
+        <View style={styles.shade} />
+        <View style={styles.area} />
+        <View style={styles.shade} />
+      </View>
+      <View style={styles.shade} />
     </Camera>
   );
 }
+
+const styles = EStyleSheet.create({
+  container: {
+    flex: 1
+  },
+  middle: {
+    flexDirection: 'row',
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: scanArea
+  },
+  shade: {
+    backgroundColor: 'black',
+    flex: 1,
+    opacity: 0.4
+  },
+  area: {
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: scanArea
+  }
+});

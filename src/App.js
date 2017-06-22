@@ -20,7 +20,8 @@ import LoadContent from 'walless/components/LoadContent.component';
 import {connectToServingLocation} from 'walless/servingLocation.reducer';
 
 const mapStateToProps = state => ({
-  navigationState: get(['navigation', 'main'])(state)
+  navigationState: get(['navigation', 'main'])(state),
+  servingLocation: state.servingLocation
 });
 
 class App extends React.Component {
@@ -50,14 +51,13 @@ class App extends React.Component {
     const {path, value} = parse(event.url);
     if (path === 'serving-location') {
       this.props.connectToServingLocation(value);
-      this.props.resetNavigation();
-      this.props.navigate({routeName: 'restaurantHome'});
     }
   };
   render() {
     const {
       account
     } = this.props;
+    console.log(this.props);
     return (
       <View style={container.container}>
         <StatusBar barStyle="light-content" />
