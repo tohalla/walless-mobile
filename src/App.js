@@ -6,7 +6,7 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
-import {StatusBar, View} from 'react-native';
+import {StatusBar, View, Linking} from 'react-native';
 import container from 'walless/styles/container';
 
 import MainNavigation, {routes} from 'walless/navigation/MainNavigation';
@@ -14,6 +14,7 @@ import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
 import authenticationHandler from 'walless/util/auth';
 import LoadContent from 'walless/components/LoadContent.component';
+import {connectToServingLocation} from 'walless/servingLocation.reducer';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'main'])(state)
@@ -24,7 +25,10 @@ class App extends React.Component {
     statusBarStyle: 'light-content',
   };
   state = {loading: false};
-  componentWillReceiveProps = async (newProps) => {
+  componentDidMount() {
+    Linking.addEventListener('url', this.handleOpenURL);
+  }
+  componentWillReceiveProps = async(newProps) => {
     if (
       !get(['getActiveAccount', 'account'])(newProps) &&
       !get(['getActiveAccount', 'data', 'loading'])(newProps)
@@ -39,6 +43,15 @@ class App extends React.Component {
       }
     }
   }
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
+  handleOpenURL = event => {
+    const [path, value] = event.url.replace('walless://', '').split('/');
+    if (path === 'serving-location') {
+      this.props.connectToServingLocation(value);
+    }
+  };
   render() {
     const {
       getActiveAccount: {account} = {data: {}}
@@ -74,6 +87,6 @@ class App extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, {connectToServingLocation}),
   getActiveAccount
 )(App);

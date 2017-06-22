@@ -18,7 +18,7 @@ import swipe from 'walless/styles/swipe';
 import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state),
+  restaurant: get(['servingLocation', 'restaurant'])(state),
   language: state.translation.language
 });
 

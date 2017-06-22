@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 
+import {NavigationActions} from 'react-navigation';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {getActiveAccount} from 'walless-graphql/account/account.queries';
 import Button from 'walless/components/Button.component';
@@ -15,13 +16,23 @@ import text from 'walless/styles/text';
 import LoadContent from 'walless/components/LoadContent.component';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state)
+  restaurant: get(['servingLocation', 'restaurant'])(state)
 });
 
-class Restaurant extends React.Component {
+class Selection extends React.Component {
   static navigationOptions = {
     header: null
   };
+  componentWillReceiveProps(newProps) {
+    if (newProps.restaurant) {
+      newProps.navigation.dispatch(NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({routeName: 'restaurantHome'})
+        ]
+      }));
+    }
+  }
   render() {
     const {
       getActiveAccount: {account} = {},
@@ -65,4 +76,4 @@ export default compose(
   connect(mapStateToProps),
   getRestaurant,
   getActiveAccount
-)(Restaurant);
+)(Selection);

@@ -6,10 +6,8 @@ import {connect} from 'react-redux';
 import {get, map} from 'lodash/fp';
 import Swiper from 'react-native-swiper';
 import I18n from 'react-native-i18n';
-import {
-  setActiveServingLocation
-} from 'walless/active.reducer';
 
+import {disconnectFromServingLocation} from 'walless/servingLocation.reducer';
 import text from 'walless/styles/text';
 import {resetNavigation} from 'walless/navigation/navigation';
 import container from 'walless/styles/container';
@@ -21,8 +19,7 @@ import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
 import LoadContent from 'walless/components/LoadContent.component';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state),
-  servingLocation: get(['active', 'servingLocation'])(state),
+  restaurant: get(['servingLocation', 'restaurant'])(state),
   language: state.translation.language
 });
 
@@ -52,7 +49,7 @@ class Restaurant extends React.Component {
         }
       } = {restaurant: {information: {}}},
       navigation,
-      setActiveServingLocation
+      disconnectFromServingLocation
     } = this.props;
     return (
       <LoadContent loadProps={this.props}>
@@ -87,7 +84,7 @@ class Restaurant extends React.Component {
                 ))(Object.keys(restaurantRoutes))
               }
               <Button
-                  onPress={() => setActiveServingLocation(null)}
+                  onPress={disconnectFromServingLocation}
                   style={[button.padded, button.stretch]}
               >
                 {I18n.t('restaurant.servingLocations.checkout')}
@@ -104,6 +101,6 @@ class Restaurant extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, {setActiveServingLocation}),
+  connect(mapStateToProps, {disconnectFromServingLocation}),
   getRestaurant
 )(Restaurant);

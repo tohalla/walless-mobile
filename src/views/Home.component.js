@@ -10,7 +10,7 @@ import RestaurantNavigator, {restaurantRoutes} from 'walless/navigation/Restaura
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'restaurant'])(state),
-  restaurant: get(['active', 'restaurant'])(state),
+  restaurant: get(['servingLocation', 'restaurant'])(state),
   language: state.translation.language
 });
 

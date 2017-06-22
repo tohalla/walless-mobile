@@ -10,7 +10,7 @@ import {getMenusByRestaurant} from 'walless-graphql/restaurant/restaurant.querie
 import container from 'walless/styles/container';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state),
+  restaurant: get(['servingLocation', 'restaurant'])(state),
   language: state.translation.language
 });
 

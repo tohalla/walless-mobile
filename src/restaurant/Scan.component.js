@@ -1,31 +1,24 @@
 import React from 'react';
-
 import {NavigationActions} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import {View} from 'react-native';
-import LoadContent from 'walless/components/LoadContent.component';
 
-import QRScreen from 'walless/QRScreen.component';
-import {
-  setActiveServingLocation,
-  setActiveRestaurant
-} from 'walless/active.reducer';
+import {connectToServingLocation} from 'walless/servingLocation.reducer';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {getServingLocation} from 'walless-graphql/restaurant/servingLocation.queries';
 
 const mapStateToProps = state => ({
-  servingLocation: get(['active', 'servingLocation'])(state),
-  restaurant: get(['active', 'restaurant'])(state)
+  restaurant: get(['servingLocation', 'restaurant'])(state)
 });
 
 class Scan extends React.Component {
   static navigationOptions = {
     header: null
   };
-  componentDidMount() { // use until camera working and qr codes have been setup
-    this.props.setActiveServingLocation(5);
+  componentDidMount = async() => { // use until camera working and qr codes have been setup
+    this.props.connectToServingLocation('eyJrZXkiOiIxZWUyOGMwMS0xMGIyLTRlMTgtOTgzMC1kNTc1NDAzN2Y4YWQiLCJzZXJ2aW5nTG9jYXRpb25JZCI6IDV9');
   }
   componentWillReceiveProps(newProps) {
     const restaurant = get(['getServingLocation', 'servingLocation', 'restaurant'])(newProps);
@@ -56,7 +49,7 @@ class Scan extends React.Component {
 };
 
 export default compose(
-  connect(mapStateToProps, {setActiveServingLocation, setActiveRestaurant}),
+  connect(mapStateToProps, {connectToServingLocation}),
   getServingLocation,
   getRestaurant
 )(Scan);

@@ -21,8 +21,8 @@ import swipe from 'walless/styles/swipe';
 import Button from 'walless/components/Button.component';
 
 const mapStateToProps = state => ({
-  restaurant: get(['active', 'restaurant'])(state),
-  servingLocation: get(['active', 'servingLocation'])(state),
+  restaurant: get(['servingLocation', 'restaurant'])(state),
+  servingLocation: get(['servingLocation', 'servingLocation'])(state),
   items: get(['cart', 'items'])(state) || []
 });
 

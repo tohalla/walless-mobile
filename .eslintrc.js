@@ -14,8 +14,12 @@ module.exports = {
     node: true,
     browser: true
   },
-  ecmaFeatures: {
-    jsx: true
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true
+    }
   },
   rules: {
     'no-invalid-this': 0,
