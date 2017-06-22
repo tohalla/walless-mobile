@@ -10,7 +10,7 @@ import MenuItems from 'walless/restaurant/MenuItems.component';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {
   createOrder,
-  createOrderMenuItem
+  createOrderItem
 } from 'walless-graphql/restaurant/order.mutations';
 import container from 'walless/styles/container';
 import {setCartItems} from 'walless/restaurant/cart.reducer';
@@ -41,8 +41,8 @@ class Cart extends React.Component {
       servingLocation,
       restaurant,
       createOrder,
-      createOrderMenuItem,
-      getActiveAccount: {account}
+      createOrderItem,
+      account
     } = this.props;
     try {
       const {data: {createOrder: {order}}} = await createOrder({
@@ -51,7 +51,7 @@ class Cart extends React.Component {
         servingLocation
       });
       await Promise.all(
-        items.map(item => createOrderMenuItem({menuItem: item.id, order: order.id}))
+        items.map(item => createOrderItem({menuItem: item.id, order: order.id}))
       );
       setCartItems([]);
     } catch (error) {
@@ -61,7 +61,7 @@ class Cart extends React.Component {
   render() {
     const {
       items,
-      getRestaurant: {restaurant: {currency: {symbol}}} = {restaurant: {currency: {}}}
+      restaurant: {currency: {symbol}} = {currency: {}}
     } = this.props;
     if (items.length) {}
     return items.length ? (
@@ -123,6 +123,6 @@ export default compose(
   connect(mapStateToProps, {setCartItems}),
   getRestaurant,
   createOrder,
-  createOrderMenuItem,
+  createOrderItem,
   getActiveAccount
 )(Cart);

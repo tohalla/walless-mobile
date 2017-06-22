@@ -17,7 +17,7 @@ export default class LoadContent extends React.Component {
   }
   render() {
     const loading = this.props.loading || Boolean(find(prop =>
-        prop && prop.data && prop.data.loading
+        prop && prop.loading
       )(this.props.loadProps));
     return loading ? (
       <View style={[container.container, container.colored, container.centerContent]}>

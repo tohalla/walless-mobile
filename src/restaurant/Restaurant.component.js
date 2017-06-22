@@ -24,10 +24,7 @@ const mapStateToProps = state => ({
 });
 
 const checkRestaurant = props => {
-  const {
-    getRestaurant: {restaurant, data: {loading}} = {data: {}},
-    navigation
-  } = props;
+  const {getRestaurant: {loading} = {}, restaurant, navigation} = props;
   if (!restaurant && !loading) {
     resetNavigation(navigation, 'selection');
   }
@@ -38,16 +35,14 @@ class Restaurant extends React.Component {
   componentWillReceiveProps = newProps => checkRestaurant(newProps);
   render() {
     const {
-      getRestaurant: {
-        restaurant: {
-          information: {
-            [this.props.language]: {
-              name, description
-            } = {}
-          },
-          files = []
-        }
-      } = {restaurant: {information: {}}},
+      restaurant: {
+        information: {
+          [this.props.language]: {
+            name, description
+          } = {}
+        },
+        files = []
+      } = {information: {}},
       navigation,
       disconnectFromServingLocation
     } = this.props;

@@ -12,14 +12,21 @@ export default class QRScreen extends React.Component {
     onSuccess: PropTypes.func.isRequired,
     onCancel: PropTypes.func
   };
-  handleBarCodeRead = data => {
-    VibrationIOS.vibrate();
-    this.props.onSuccess(data);
+  componentWillMount() {
+    this.state = {
+      codeRead: false
+    };
+  };
+  handleBarCodeRead = ({data}) => {
+    if (!this.state.codeRead) {
+      this.setState({codeRead: true});
+      VibrationIOS.vibrate();
+      this.props.onSuccess(data);
+    }
   };
   render = () => (
     <Camera
         aspect={Camera.constants.Aspect.fill}
-        barCodeTypes={['qr']}
         onBarCodeRead={this.handleBarCodeRead}
         style={{
           flex: 1,

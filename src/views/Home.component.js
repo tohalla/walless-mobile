@@ -17,16 +17,14 @@ const mapStateToProps = state => ({
 class Home extends React.Component {
   render() {
     const {
-      getRestaurant: {
-        restaurant: {
-          information: {
-            [this.props.language]: {
-              name
-            } = {}
-          }
-        },
-        data: {loading}
-      } = {data: {}, restaurant: {information: {}}}
+      restaurant: {
+        information: {
+          [this.props.language]: {
+            name
+          } = {}
+        }
+      } = {information: {}},
+      getRestaurant: {loading} = {}
     } = this.props;
     return loading ? null : (
     <RestaurantNavigator

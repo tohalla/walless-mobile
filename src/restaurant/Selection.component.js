@@ -35,7 +35,7 @@ class Selection extends React.Component {
   }
   render() {
     const {
-      getActiveAccount: {account} = {},
+      account,
       navigation
     } = this.props;
     return (

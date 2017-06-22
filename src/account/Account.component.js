@@ -9,7 +9,7 @@ import authenticationHandler from 'walless/util/auth';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 
 class Account extends React.Component {
-  handleLogout = async () => {
+  handleLogout = async() => {
     await authenticationHandler.logout();
     this.props.client.resetStore();
     this.props.resetNavigation();

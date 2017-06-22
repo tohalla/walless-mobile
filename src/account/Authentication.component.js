@@ -25,7 +25,7 @@ class Authentication extends React.Component {
   componentWillMount() {
     this.setState({loading: false});
   }
-  authenticate = async () => {
+  authenticate = async() => {
     const {email, password} = this.state;
     this.setState({loading: true});
     await authenticationHandler.authenticate(email, password);

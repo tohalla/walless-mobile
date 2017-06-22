@@ -7,8 +7,11 @@ import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
-import container from 'walless/styles/container';
+import {NavigationActions} from 'react-navigation';
 
+import container from 'walless/styles/container';
+import {RESET_NAVIGATION} from 'walless/actionTypes';
+import {parse} from 'walless/util/link';
 import MainNavigation, {routes} from 'walless/navigation/MainNavigation';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
@@ -21,24 +24,21 @@ const mapStateToProps = state => ({
 });
 
 class App extends React.Component {
-  static navigationOptions: {
-    statusBarStyle: 'light-content',
-  };
   state = {loading: false};
   componentDidMount() {
     Linking.addEventListener('url', this.handleOpenURL);
   }
   componentWillReceiveProps = async(newProps) => {
     if (
-      !get(['getActiveAccount', 'account'])(newProps) &&
-      !get(['getActiveAccount', 'data', 'loading'])(newProps)
+      !newProps.account &&
+      !get(['getActiveAccount', 'loading'])(newProps)
     ) {
       const [[, refreshToken], [, clientId]] =
         await AsyncStorage.multiGet(['refresh-token', 'client-id']);
       if (refreshToken && clientId) {
         this.setState({loading: true});
         await authenticationHandler.authenticate();
-        await newProps.getActiveAccount.data.refetch();
+        await newProps.getActiveAccount.refetch();
         this.setState({loading: false});
       }
     }
@@ -47,14 +47,16 @@ class App extends React.Component {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
   handleOpenURL = event => {
-    const [path, value] = event.url.replace('walless://', '').split('/');
+    const {path, value} = parse(event.url);
     if (path === 'serving-location') {
       this.props.connectToServingLocation(value);
+      this.props.resetNavigation();
+      this.props.navigate({routeName: 'restaurantHome'});
     }
   };
   render() {
     const {
-      getActiveAccount: {account} = {data: {}}
+      account
     } = this.props;
     return (
       <View style={container.container}>
@@ -87,6 +89,10 @@ class App extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, {connectToServingLocation}),
+  connect(mapStateToProps, {
+    connectToServingLocation,
+    resetNavigation: () => ({type: RESET_NAVIGATION}),
+    navigate: NavigationActions.navigate
+  }),
   getActiveAccount
 )(App);

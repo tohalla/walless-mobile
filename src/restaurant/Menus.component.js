@@ -29,8 +29,8 @@ class Menus extends React.Component {
   componentWillReceiveProps(newProps) {
     if (!isEqual(this.props.getMenusByRestaurant)(newProps.getMenusByRestaurant)) {
       this.setState({
-        dataSource: Array.isArray(newProps.getMenusByRestaurant.menus) ?
-          this.state.dataSource.cloneWithRows(newProps.getMenusByRestaurant.menus) :
+        dataSource: Array.isArray(newProps.menus) ?
+          this.state.dataSource.cloneWithRows(newProps.menus) :
           this.state.dataSource.cloneWithRows([])
       });
     }

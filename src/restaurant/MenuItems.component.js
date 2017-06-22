@@ -41,8 +41,8 @@ class MenuItems extends React.Component {
           props.items
         : menu && typeof menu === 'object' ?
           menu.menuItems
-        : Array.isArray(get(['getMenuItemsByRestaurant', 'menuItems'])(props)) ?
-          props.getMenuItemsByRestaurant.menuItems
+        : Array.isArray(props.menuItems) ?
+          props.menuItems
         : []
       )
     };
@@ -57,8 +57,8 @@ class MenuItems extends React.Component {
               newProps.items
             : menu && typeof menu === 'object' ?
               menu.menuItems
-            : Array.isArray(get(['getMenuItemsByRestaurant', 'menuItems'])(newProps)) ?
-              newProps.getMenuItemsByRestaurant.menuItems
+            : Array.isArray(newProps.menuItems) ?
+              newProps.menuItems
             : []
           )
       });
