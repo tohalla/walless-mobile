@@ -19,7 +19,6 @@ export const routes = {
 
 const MainNavigation = new DrawerNavigator(routes, {initialRouteName});
 
-export default MainNavigation;
 
 const {router: {getStateForAction, getActionForPathAndParams}} = MainNavigation;
 
@@ -27,3 +26,5 @@ export const navigationReducer = (
   state = getStateForAction(getActionForPathAndParams(initialRouteName)),
   action
 ) => getStateForAction(action, state) || state;
+
+export default MainNavigation;

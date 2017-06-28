@@ -58,7 +58,7 @@ class Menus extends React.Component {
   render() {
     const {dataSource} = this.state;
     return (
-      <View style={[container.container, container.default]}>
+      <View style={[container.container, container.rowDistinct, container.default]}>
         <ListView
             dataSource={dataSource}
             enableEmptySections

@@ -102,7 +102,7 @@ class MenuItems extends React.Component {
       >
         <TouchableOpacity
             onPress={this.handleItemPress(menuItem)}
-            style={[container.row, container.padded]}
+            style={[container.row, container.rowDistinct, container.padded]}
         >
           <View>
             <Text style={[text.text, text.medium, text.bold]}>{name}</Text>

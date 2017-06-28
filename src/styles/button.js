@@ -6,6 +6,9 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  disabled: {
+    opacity: 0.5
+  },
   stretch: {
     alignSelf: 'stretch'
   },

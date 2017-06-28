@@ -4,7 +4,7 @@ import {getDeviceName} from 'react-native-device-info';
 
 import config from 'walless-native/config';
 
-const requestToken = async (payload: Object) => {
+const requestToken = async(payload: Object) => {
   const [[, refreshToken], [, clientId]] =
     await AsyncStorage.multiGet(['refresh-token', 'client-id']);
   const response = await (refreshToken ?
@@ -37,7 +37,7 @@ const requestToken = async (payload: Object) => {
   throw new Error(await response.json());
 };
 
-const fetchClientId = async () => {
+const fetchClientId = async() => {
   const storedClientId = await AsyncStorage.getItem('client-id');
   if (storedClientId) {
     return storedClientId;
@@ -60,7 +60,7 @@ const fetchClientId = async () => {
   return clientId;
 };
 
-const authenticate = async (email: string, password: string) => {
+const authenticate = async(email: string, password: string) => {
   const response = await requestToken({email, password});
   const {token, refreshToken, expiresAt} = response;
   return await AsyncStorage.multiSet([
@@ -85,7 +85,19 @@ const logout = async() => Promise.all([
   AsyncStorage.multiRemove(['authorization', 'client-id', 'refresh-token'])
 ]);
 
-export default {
+const createAccount = account => fetch(
+  `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/account`,
+  {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json; charset=utf-8'
+    },
+    body: JSON.stringify(account)
+  }
+);
+
+export {
+  createAccount,
   fetchClientId,
 	authenticate,
   logout

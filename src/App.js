@@ -7,15 +7,13 @@ import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
-import {NavigationActions} from 'react-navigation';
 
 import container from 'walless/styles/container';
-import {RESET_NAVIGATION} from 'walless/actionTypes';
 import {parse} from 'walless/util/link';
 import MainNavigation, {routes} from 'walless/navigation/MainNavigation';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
-import authenticationHandler from 'walless/util/auth';
+import {authenticate} from 'walless/util/auth';
 import LoadContent from 'walless/components/LoadContent.component';
 import {connectToServingLocation} from 'walless/servingLocation.reducer';
 
@@ -38,7 +36,7 @@ class App extends React.Component {
         await AsyncStorage.multiGet(['refresh-token', 'client-id']);
       if (refreshToken && clientId) {
         this.setState({loading: true});
-        await authenticationHandler.authenticate();
+        await authenticate();
         await newProps.getActiveAccount.refetch();
         this.setState({loading: false});
       }
@@ -55,9 +53,10 @@ class App extends React.Component {
   };
   render() {
     const {
-      account
+      account,
+      dispatch,
+      navigationState
     } = this.props;
-    console.log(this.props);
     return (
       <View style={container.container}>
         <StatusBar barStyle="light-content" />
@@ -66,8 +65,8 @@ class App extends React.Component {
             account ? (
               <MainNavigation
                   navigation={addNavigationHelpers({
-                    dispatch: this.props.dispatch,
-                    state: this.props.navigationState,
+                    dispatch: dispatch,
+                    state: navigationState,
                     titles: Object.keys(routes).reduce((prev, key) =>
                         Object.assign(
                           {},
@@ -89,10 +88,9 @@ class App extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, {
-    connectToServingLocation,
-    resetNavigation: () => ({type: RESET_NAVIGATION}),
-    navigate: NavigationActions.navigate
-  }),
+  connect(mapStateToProps, dispatch => ({
+    connectToServingLocation: value => dispatch(connectToServingLocation(value)),
+    dispatch
+  })),
   getActiveAccount
 )(App);

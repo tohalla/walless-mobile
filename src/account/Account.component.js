@@ -5,18 +5,19 @@ import {withApollo, compose} from 'react-apollo';
 
 import {RESET_NAVIGATION} from 'walless/actionTypes';
 import Button from 'walless/components/Button.component';
-import authenticationHandler from 'walless/util/auth';
+import {logout} from 'walless/util/auth';
+import container from 'walless/styles/container';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 
 class Account extends React.Component {
   handleLogout = async() => {
-    await authenticationHandler.logout();
+    await logout();
     this.props.client.resetStore();
     this.props.resetNavigation();
   };
   render() {
     return (
-      <View>
+      <View style={[container.container, container.centerContent]}>
         <Button onPress={this.handleLogout}>
           {'sign out'}
         </Button>

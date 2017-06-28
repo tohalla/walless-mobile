@@ -1,7 +1,7 @@
 import {AsyncStorage} from 'react-native';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
 
-import authenticationHandler from 'walless/util/auth';
+import {fetchClientId, authenticate} from 'walless/util/auth';
 import config from 'walless-native/config';
 
 const networkInterface = createNetworkInterface({
@@ -32,14 +32,14 @@ networkInterface.
       if (Number(expiration) < Date.now() / 1000 || !expiration) {
         await AsyncStorage.multiRemove(['expiration', 'authorization']);
         if (refreshToken && clientId) {
-          await authenticationHandler.authenticate();
+          await authenticate();
           auth = await AsyncStorage.getItem('authorization');
         }
       }
       if (!req.options.headers) {
         req.options.headers = {};
       }
-      req.options.headers['Client-Id'] = clientId || await authenticationHandler.fetchClientId();
+      req.options.headers['Client-Id'] = clientId || await fetchClientId();
       if (auth) {
         req.options.headers.Authorization = `Bearer ${auth}`;
       }
@@ -52,7 +52,7 @@ networkInterface.
         const [[, refreshToken], [, clientId]] =
           await AsyncStorage.multiGet(['refresh-token', 'client-id']);
         if (refreshToken && clientId) {
-          await authenticationHandler.authenticate();
+          await authenticate();
           apolloClient.resetStore();
         }
       }
