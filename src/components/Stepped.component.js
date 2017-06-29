@@ -59,7 +59,7 @@ export default class Stepped extends React.Component {
   };
   handleContinuePress = () => {
     const {step, onContinuePress, steps} = this.props;
-    if (steps[step].allowContinue) {
+    if (typeof steps[step].allowContinue === 'undefined' || steps[step].allowContinue) {
       if (typeof onContinuePress === 'function') {
         onContinuePress();
       }
@@ -112,7 +112,10 @@ export default class Stepped extends React.Component {
     );
     const RightButton = () => (
       <Button
-          disabled={!steps[step].allowContinue}
+          disabled={
+            typeof steps[step].allowContinue !== 'undefined' &&
+            !steps[step].allowContinue
+          }
           onPress={step === steps.length - 1 ? this.handleSubmitPress : this.handleContinuePress}
           style={button.padded}
           textStyle={{color}}

@@ -72,7 +72,7 @@ class Cart extends React.Component {
               rightContent: (
                 <View style={[swipe.content, swipe.alert, {alignItems: 'flex-start'}]}>
                   <Icon
-                      color={colors.carrara}
+                      color={colors.foregroundLight}
                       name="remove-shopping-cart"
                       size={20}
                   />

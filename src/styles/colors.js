@@ -17,8 +17,9 @@ const colors = {
 export default Object.assign({
   background: colors.alizarin,
   border: colors.lightGray,
+  backgroundLight: colors.carrara,
 	backgroundDark: colors.darkGray,
-	foreground: colors.white,
+	foregroundLight: colors.carrara,
   foregroundDark: colors.darkGray,
   headerBackground: colors.alizarin,
   headerForeground: colors.carrara,

@@ -11,10 +11,7 @@ import colors from 'walless/styles/colors';
 
 export default class Input extends React.Component {
   static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node
-    ]),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     labelStyle: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object]))
@@ -38,6 +35,9 @@ export default class Input extends React.Component {
   };
   state = {
     active: false
+  };
+  focus = () => {
+    this.input.focus();
   };
   handleFocus = () => {
     this.setState({active: true});
@@ -70,13 +70,17 @@ export default class Input extends React.Component {
               {...rest}
               onBlur={this.handleBlur}
               onFocus={this.handleFocus}
-              selectionColor={light ? colors.carrara : colors.darkGray}
-              style={[].concat(style, light ? input.inputLight : [])}
+              ref={c => this.input = c}
+              selectionColor={light ? colors.foregroundLight : colors.darkGray}
+              style={[].concat(
+                style,
+                light && Input === TextInput ? input.inputLight : []
+              )}
           />
         <View
             style={
               [{height: 2, backgroundColor: colors.darkGray}].concat(
-                light ? {backgroundColor: colors.carrara} : [],
+                light ? {backgroundColor: colors.backgroundLight} : [],
                 this.state.active ? [] : {opacity: .6}
               )
             }

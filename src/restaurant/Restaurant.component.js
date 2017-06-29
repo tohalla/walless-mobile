@@ -55,7 +55,7 @@ class Restaurant extends React.Component {
             style={[container.container]}
         >
           <Swiper
-              activeDotColor={colors.carrara}
+              activeDotColor={colors.foregroundLight}
               dotColor="rgba(0,0,0,0.8)"
               height={250}
           >

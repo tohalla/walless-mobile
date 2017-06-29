@@ -2981,7 +2981,7 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moment@2.x.x:
+moment@2.x.x, moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -3465,6 +3465,12 @@ react-native-camera@^0.9:
   resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-0.9.4.tgz#054b58a6f002a7cfae3f11f3c220f4ae393e67c0"
   dependencies:
     opencollective "^1.0.3"
+
+react-native-datepicker@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.6.0.tgz#3a40dc9b112023c49d60ba2a0789d440b7e3d97c"
+  dependencies:
+    moment "2.x.x"
 
 react-native-device-info@^0.10.2:
   version "0.10.2"

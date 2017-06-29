@@ -51,7 +51,7 @@ class MenuItem extends React.Component {
           style={[container.container, container.light]}
       >
         <Swiper
-            activeDotColor={colors.carrara}
+            activeDotColor={colors.foregroundLight}
             dotColor="rgba(0,0,0,0.8)"
             height={250}
         >

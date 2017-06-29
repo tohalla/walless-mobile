@@ -15,13 +15,13 @@ export default EStyleSheet.create({
     height: '2rem'
   },
   inputLight: {
-    color: colors.carrara
+    color: colors.foregroundLight
   },
   label: {
     color: colors.darkGray,
     fontSize: 18
   },
   labelLight: {
-    color: colors.carrara
+    color: colors.foregroundLight
   }
 });

@@ -86,7 +86,7 @@ class MenuItems extends React.Component {
         leftContent: (
           <View style={[swipe.content, swipe.action, {alignItems: 'flex-end'}]}>
             <Icon
-                color={colors.carrara}
+                color={colors.foreground}
                 name="add-shopping-cart"
                 size={20}
             />

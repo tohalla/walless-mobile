@@ -14,14 +14,11 @@ export default EStyleSheet.create({
     backgroundColor: colors.alizarin
   },
   light: {
-    backgroundColor: colors.white
+    backgroundColor: colors.backgroundLight
   },
   rowDistinct: {
     backgroundColor: colors.white,
     marginBottom: 1
-  },
-  default: {
-    backgroundColor: colors.carrara
   },
   centerContent: {
     justifyContent: 'center',

@@ -1,13 +1,13 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
+import {StyleSheet} from 'react-native';
 import colors from 'walless/styles/colors';
 
-export default EStyleSheet.create({
+export default StyleSheet.create({
   text: {
     color: colors.darkGray,
-    fontSize: 16
+    fontSize: 18
   },
   light: {
-    color: colors.carrara
+    color: colors.foregroundLight
   },
   bold: {
     fontWeight: 'bold'
@@ -16,10 +16,10 @@ export default EStyleSheet.create({
     color: colors.lightGray
   },
   small: {
-    fontSize: 14
+    fontSize: 16
   },
   medium: {
-    fontSize: 18
+    fontSize: 20
   },
   large: {
     fontSize: 22
