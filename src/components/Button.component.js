@@ -7,10 +7,7 @@ import text from 'walless/styles/text';
 
 export default class Button extends React.Component {
   static PropTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ]).isRequired,
+    children: PropTypes.node.isRequired,
     disabled: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
     style: PropTypes.oneOfType([

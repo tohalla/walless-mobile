@@ -1,16 +1,13 @@
 // @flow
 import React from 'react';
-import {
-  View,
-  TextInput,
-  ScrollView
-} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
-import LoadContent from 'walless/components/LoadContent.component';
+import {set} from 'lodash/fp';
 
+import LoadContent from 'walless/components/LoadContent.component';
 import Button from 'walless/components/Button.component';
-import input from 'walless/styles/input';
+import Input from 'walless/components/Input.component';
 import button from 'walless/styles/button';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
@@ -19,15 +16,20 @@ import {authenticate} from 'walless/util/auth';
 
 class SignIn extends React.Component {
   state = {
-    email: '',
-    password: '',
+    account: {
+      email: '',
+      password: ''
+    },
     loading: false
   };
   componentWillMount() {
     this.setState({loading: false});
   }
+  handleInputChange = path => value => {
+    this.setState(set(path)(value)(this.state));
+  };
   authenticate = async() => {
-    const {email, password} = this.state;
+    const {account: {email, password}} = this.state;
     const {client, onSuccess = () => {}} = this.props;
     this.setState({loading: true});
     await authenticate(email, password);
@@ -36,7 +38,7 @@ class SignIn extends React.Component {
   };
   render() {
     const {onCancel} = this.props;
-    const {email, password, loading} = this.state;
+    const {account: {email, password}, loading} = this.state;
     return (
       <LoadContent loadProps={this.props} loading={loading}>
         <ScrollView
@@ -45,25 +47,25 @@ class SignIn extends React.Component {
             keyboardShouldPersistTaps="never"
             style={[container.container]}
         >
-          <TextInput
+          <Input
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="email-address"
+              label={I18n.t('account.email')}
+              light
               maxLength={254}
               name="email"
-              onChangeText={email => this.setState({email})}
-              placeholder={I18n.t('account.email')}
-              style={input.input}
+              onChangeText={this.handleInputChange(['account', 'email'])}
               value={email}
           />
-          <TextInput
+          <Input
               autoCapitalize="none"
               autoCorrect={false}
+              label={I18n.t('account.password')}
+              light
               name="password"
-              onChangeText={password => this.setState({password})}
-              placeholder={I18n.t('account.password')}
+              onChangeText={this.handleInputChange(['account', 'password'])}
               secureTextEntry
-              style={input.input}
               value={password}
           />
           <View style={[container.row, container.spread]}>

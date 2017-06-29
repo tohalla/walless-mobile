@@ -10,10 +10,7 @@ export default class LoadContent extends React.Component {
   static PropTypes = {
     loading: PropTypes.bool,
     loadProps: PropTypes.object.isRequired,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ])
+    children: PropTypes.node.isRequired
   }
   render() {
     const loading = this.props.loading || Boolean(find(prop =>
