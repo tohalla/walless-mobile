@@ -5,6 +5,7 @@ import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
 import {set} from 'lodash/fp';
 
+import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
 import LoadContent from 'walless/components/LoadContent.component';
 import Button from 'walless/components/Button.component';
 import Input from 'walless/components/Input.component';
@@ -41,52 +42,57 @@ class SignIn extends React.Component {
     const {account: {email, password}, loading} = this.state;
     return (
       <LoadContent loadProps={this.props} loading={loading}>
-        <ScrollView
-            alwaysBounceVertical={false}
-            contentContainerStyle={[container.container, container.colored, container.centerContent]}
-            keyboardShouldPersistTaps="never"
-            style={[container.container]}
-        >
-          <Input
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-              label={I18n.t('account.email')}
-              light
-              maxLength={254}
-              name="email"
-              onChangeText={this.handleInputChange(['account', 'email'])}
-              value={email}
-          />
-          <Input
-              autoCapitalize="none"
-              autoCorrect={false}
-              label={I18n.t('account.password')}
-              light
-              name="password"
-              onChangeText={this.handleInputChange(['account', 'password'])}
-              secureTextEntry
-              value={password}
-          />
-          <View style={[container.row, container.spread]}>
-            {typeof onCancel === 'function' ? (
+        <AvoidKeyboard style={container.colored}>
+          <ScrollView
+              alwaysBounceVertical={false}
+              contentContainerStyle={[container.container, container.colored, container.centerContent]}
+              keyboardShouldPersistTaps="never"
+              style={[container.container]}
+          >
+            <Input
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoFocus
+                keyboardType="email-address"
+                label={I18n.t('account.email')}
+                light
+                maxLength={254}
+                name="email"
+                onChangeText={this.handleInputChange(['account', 'email'])}
+                onSubmitEditing={() => this.passwordInput.focus()}
+                value={email}
+            />
+            <Input
+                autoCapitalize="none"
+                autoCorrect={false}
+                label={I18n.t('account.password')}
+                light
+                name="password"
+                onChangeText={this.handleInputChange(['account', 'password'])}
+                ref={c => this.passwordInput = c}
+                secureTextEntry
+                value={password}
+            />
+            <View style={[container.row, container.spread]}>
+              {typeof onCancel === 'function' ? (
+                <Button
+                    onPress={onCancel}
+                    style={button.padded}
+                    textStyle={text.light}
+                >
+                  {I18n.t('cancel')}
+                </Button>
+              ) : null}
               <Button
-                  onPress={onCancel}
+                  onPress={this.authenticate}
                   style={button.padded}
                   textStyle={text.light}
               >
-                {I18n.t('cancel')}
+                {I18n.t('account.authenticate')}
               </Button>
-            ) : null}
-            <Button
-                onPress={this.authenticate}
-                style={button.padded}
-                textStyle={text.light}
-            >
-              {I18n.t('account.authenticate')}
-            </Button>
-          </View>
-        </ScrollView>
+            </View>
+          </ScrollView>
+        </AvoidKeyboard>
       </LoadContent>
     );
   }

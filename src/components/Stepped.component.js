@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Keyboard,
-  Animated,
   View,
   ScrollView,
   Dimensions
@@ -10,6 +8,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
 
+import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
 import button from 'walless/styles/button';
 import Button from 'walless/components/Button.component';
 
@@ -35,27 +34,6 @@ export default class Stepped extends React.Component {
     color: 'white',
     displayProgressBar: true,
     step: 0
-  };
-  componentWillMount() {
-    this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-    this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
-  }
-  componentWillUnmount() {
-    this.keyboardWillShowSub.remove();
-    this.keyboardWillHideSub.remove();
-  }
-  keyboardHeight = new Animated.Value(0);
-  keyboardWillShow = (event) => {
-    Animated.timing(this.keyboardHeight, {
-      duration: event.duration,
-      toValue: event.endCoordinates.height
-    }).start();
-  };
-  keyboardWillHide = (event) => {
-    Animated.timing(this.keyboardHeight, {
-      duration: event.duration,
-      toValue: 0
-    }).start();
   };
   handleContinuePress = () => {
     const {step, onContinuePress, steps} = this.props;
@@ -137,22 +115,24 @@ export default class Stepped extends React.Component {
       </View>
     ) : null;
     return (
-      <Animated.View style={{flex: 1, flexDirection: 'column', paddingBottom: this.keyboardHeight}}>
-        <ScrollView style={{flex: 1}} {...containerProps}>
-          {steps[step].component}
-        </ScrollView>
-        <View
-            style={{
-              alignSelf: 'stretch',
-              flexDirection: 'row',
-              justifyContent: 'space-between'
-            }}
-        >
-          <LeftButton />
-          <RightButton />
+      <AvoidKeyboard>
+        <View style={{flex: 1, flexDirection: 'column'}}>
+          <ScrollView style={{flex: 1}} {...containerProps}>
+            {steps[step].component}
+          </ScrollView>
+          <View
+              style={{
+                alignSelf: 'stretch',
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+              }}
+          >
+            <LeftButton />
+            <RightButton />
+          </View>
+          <ProgressBar />
         </View>
-        <ProgressBar />
-      </Animated.View>
+      </AvoidKeyboard>
     );
   }
 };
