@@ -4,7 +4,7 @@ import {View, Text, ScrollView, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {get, map} from 'lodash/fp';
+import {get} from 'lodash/fp';
 import Swiper from 'react-native-swiper';
 import I18n from 'react-native-i18n';
 
@@ -74,7 +74,7 @@ class Restaurant extends React.Component {
           </Swiper>
           <View style={[container.container, container.padded, container.light]}>
               {
-                map(route => (
+                Object.keys(restaurantRoutes).map(route => (
                   restaurantRoutes[route].navigation &&
                   <Button
                       key={route}
@@ -83,7 +83,7 @@ class Restaurant extends React.Component {
                   >
                     {I18n.t(restaurantRoutes[route].translationKey)}
                   </Button>
-                ))(Object.keys(restaurantRoutes))
+                ))
               }
               <Button
                   onPress={disconnectFromServingLocation}

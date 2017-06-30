@@ -48,7 +48,7 @@ class Menus extends React.Component {
           onPress={() =>
             this.props.navigation.navigate('restaurantMenuItems', {menu})
           }
-          style={[container.row, container.padded]}
+          style={[container.row, container.rowDistinct, container.padded]}
       >
         <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
         <Text style={text.text}>{description}</Text>

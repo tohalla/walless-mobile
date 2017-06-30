@@ -43,9 +43,7 @@ class Selection extends React.Component {
         <View style={[container.container, container.colored, container.centerContent]}>
           {account ?
             <Button
-                onPress={() => {
-                  navigation.navigate('scan');
-                }}
+                onPress={() => navigation.navigate('restaurantScan')}
                 style={button.padded}
                 textStyle={text.light}
             >
