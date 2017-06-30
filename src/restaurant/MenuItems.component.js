@@ -68,7 +68,7 @@ class MenuItems extends React.Component {
     this.props.addCartItems(menuItem);
   };
   handleItemPress = menuItem => () => {
-    this.props.navigate({routeName: 'menuItem', params: {menuItem}});
+    this.props.navigate({routeName: 'restaurantMenuItem', params: {menuItem}});
   };
   handleRenderItem = (menuItem, sectionId, rowId) => {
     const {

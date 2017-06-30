@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import {View, Text, ScrollView, Image} from 'react-native';
+import {NavigationActions} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get, map} from 'lodash/fp';
@@ -9,7 +10,6 @@ import I18n from 'react-native-i18n';
 
 import {disconnectFromServingLocation} from 'walless/servingLocation.reducer';
 import text from 'walless/styles/text';
-import {resetNavigation} from 'walless/navigation/navigation';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
 import button from 'walless/styles/button';
@@ -24,9 +24,14 @@ const mapStateToProps = state => ({
 });
 
 const checkRestaurant = props => {
-  const {getRestaurant: {loading} = {loading: false}, restaurant, navigation} = props;
+  const {getRestaurant: {loading} = {}, restaurant, navigation} = props;
   if (!restaurant && !loading) {
-    resetNavigation(navigation, 'selection');
+    navigation.dispatch(NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({routeName: 'restaurantSelection'})
+      ]
+    }));
     return false;
   }
   return true;
@@ -98,6 +103,9 @@ class Restaurant extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, {disconnectFromServingLocation}),
+  connect(mapStateToProps, dispatch => ({
+    disconnectFromServingLocation: value => dispatch(disconnectFromServingLocation(value)),
+    dispatch
+  })),
   getRestaurant
 )(Restaurant);

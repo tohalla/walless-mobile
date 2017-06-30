@@ -46,7 +46,7 @@ class Menus extends React.Component {
     return (
       <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate('menuItems', {menu})
+            this.props.navigation.navigate('restaurantMenuItems', {menu})
           }
           style={[container.row, container.padded]}
       >

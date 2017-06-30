@@ -1,30 +1,54 @@
 // @flow
-import {View} from 'react-native';
-import {DrawerNavigator} from 'react-navigation';
+import React from 'react';
+import {View, ScrollView} from 'react-native';
+import {connect} from 'react-redux';
+import {DrawerNavigator, DrawerItems, NavigationActions} from 'react-navigation';
 
-import Home from 'walless/views/Home.component';
-import Account from 'walless/account/Account.component';
+import {initialRouteName as restaurantRoute} from 'walless/navigation/RestaurantNavigation';
+import {initialRouteName as settingsRoute} from 'walless/navigation/SettingsNavigation';
+import RestaurantNavigation from 'walless/navigation/RestaurantNavigation.component';
+import SettingsNavigation from 'walless/navigation/SettingsNavigation.component';
 
-const initialRouteName = 'home';
+export const initialRouteName = 'home';
 
 export const routes = {
-	[initialRouteName]: {
-    screen: Home,
+  [initialRouteName]: {
+    screen: View,
     translationKey: 'navigation.home'
   },
+	[restaurantRoute]: {
+    screen: RestaurantNavigation,
+    translationKey: 'navigation.restaurant'
+  },
 	browse: {screen: View},
-	favorites: {screen: View},
-	account: {screen: Account}
+	[settingsRoute]: {
+    screen: SettingsNavigation,
+    translationKey: 'navigation.settings.settings'
+  }
 };
 
-const MainNavigation = new DrawerNavigator(routes, {initialRouteName});
+const ContentComponent = connect()(props => (
+  <ScrollView>
+    <DrawerItems
+        {...props}
+        getLabel={({route}) => props.screenProps.titles[route.routeName]}
+        onItemPress={({route, focused}) => {
+          props.dispatch(NavigationActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate(route)
+            ]
+          }));
+          props.onItemPress({route, focused});
+        }}
+    />
+  </ScrollView>
+));
 
-
-const {router: {getStateForAction, getActionForPathAndParams}} = MainNavigation;
-
-export const navigationReducer = (
-  state = getStateForAction(getActionForPathAndParams(initialRouteName)),
-  action
-) => getStateForAction(action, state) || state;
+const MainNavigation = new DrawerNavigator(routes, {
+  initialRouteName,
+  contentComponent: props => <ContentComponent {...props}/>
+});
 
 export default MainNavigation;
+

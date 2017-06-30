@@ -7,7 +7,7 @@ import I18n from 'react-native-i18n';
 
 import LoadContent from 'walless/components/LoadContent.component';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
-import RestaurantNavigator, {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
+import Navigation, {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'restaurant'])(state),
@@ -15,11 +15,11 @@ const mapStateToProps = state => ({
   language: state.translation.language
 });
 
-class Home extends React.Component {
+class RestaurantNavigation extends React.Component {
   render() {
     return (
       <LoadContent loadProps={this.props}>
-        <RestaurantNavigator
+        <Navigation
             navigation={addNavigationHelpers({
               dispatch: this.props.dispatch,
               state: this.props.navigationState,
@@ -45,4 +45,4 @@ class Home extends React.Component {
 export default compose(
   connect(mapStateToProps),
   getRestaurant
-)(Home);
+)(RestaurantNavigation);

@@ -30,7 +30,6 @@ export default class Register extends React.Component {
   handleRegister = async() => {
     const {onSuccess = () => {}} = this.props;
     const {ok} = await createAccount(this.state.account);
-    console.log(ok);
     if (ok) {
       this.setState({status: I18n.t('account.validationEmailSent')});
       onSuccess(this.state.account);

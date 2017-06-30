@@ -23,7 +23,7 @@ class CartButton extends React.Component {
       routes[Math.max(routes.length - 2, 0)].routeName === 'cart'
     ) ? <View /> : (
       <Button
-          onPress={() => this.props.navigate({routeName: 'cart'})}
+          onPress={() => this.props.navigate({routeName: 'restaurantCart'})}
           style={button.padded}
       >
         <Icon

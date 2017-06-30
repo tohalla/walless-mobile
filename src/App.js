@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import {AsyncStorage} from 'react-native';
-import {addNavigationHelpers} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
@@ -18,7 +17,6 @@ import LoadContent from 'walless/components/LoadContent.component';
 import {connectToServingLocation} from 'walless/servingLocation.reducer';
 
 const mapStateToProps = state => ({
-  navigationState: get(['navigation', 'main'])(state),
   servingLocation: state.servingLocation
 });
 
@@ -53,33 +51,27 @@ class App extends React.Component {
   };
   render() {
     const {
-      account,
-      dispatch,
-      navigationState
+      account
     } = this.props;
     return (
       <View style={container.container}>
         <StatusBar barStyle="light-content" />
         <LoadContent loadProps={this.props} loading={this.state.loading}>
           {
-            account ? (
+            account ?
               <MainNavigation
-                  navigation={addNavigationHelpers({
-                    dispatch: dispatch,
-                    state: navigationState,
+                  screenProps={{
                     titles: Object.keys(routes).reduce((prev, key) =>
-                        Object.assign(
-                          {},
-                          prev,
-                          {[key]: routes[key].translationKey ?
-                            I18n.t(routes[key].translationKey) : null
-                          }
-                        ), {}
-                      )
-                  })}
-              />
-            )
-            : <Authentication />
+                      Object.assign(
+                        {},
+                        prev,
+                        {[key]: routes[key].translationKey ?
+                          I18n.t(routes[key].translationKey) : null
+                        }
+                      ), {}
+                    )
+                  }}
+              /> : <Authentication />
         }
         </LoadContent>
       </View>
