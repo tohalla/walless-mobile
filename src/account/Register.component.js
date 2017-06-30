@@ -22,19 +22,18 @@ export default class Register extends React.Component {
       lastName: '',
       email: '',
       password: '',
-      dateOfBirth: null
+      dateOfBirth: new Date()
     },
     status: '',
     step: 0
   };
   handleRegister = async() => {
     const {onSuccess = () => {}} = this.props;
-    if (this.isValid()) {
-      const {ok} = await createAccount(this.state.account);
-      if (ok) {
-        this.setState({status: I18n.t('account.validationEmailSent')});
-        onSuccess();
-      }
+    const {ok} = await createAccount(this.state.account);
+    console.log(ok);
+    if (ok) {
+      this.setState({status: I18n.t('account.validationEmailSent')});
+      onSuccess(this.state.account);
     }
   };
   handleInputChange = path => value => {
