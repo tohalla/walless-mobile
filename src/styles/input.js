@@ -23,5 +23,10 @@ export default EStyleSheet.create({
   },
   labelLight: {
     color: colors.foregroundLight
+  },
+  dropdown: {
+    height: 'auto',
+    maxHeight: 200,
+    minWidth: 120
   }
 });

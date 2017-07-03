@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Button from 'walless/components/Button.component';
 import colors from 'walless/styles/colors';
+import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 
 export default class NavigationButton extends React.Component {
@@ -29,7 +30,7 @@ export default class NavigationButton extends React.Component {
             flexDirection: 'row'
           }}
       >
-        <Text>{this.props.children}</Text>
+        <Text style={text.text}>{this.props.children}</Text>
         <Icon
             color={colors.lightGray}
             name="chevron-right"

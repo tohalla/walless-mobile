@@ -16,10 +16,13 @@ import header from 'walless/styles/header';
 export const initialRouteName = 'restaurant';
 
 export const restaurantRoutes = {
-  restaurantScan: {screen: Scan},
   [initialRouteName]: {
     screen: Restaurant,
     translationKey: 'restaurant.restaurant'
+  },
+  restaurantScan: {
+    screen: Scan,
+    translationKey: 'restaurant.scanQR'
   },
   restaurantCart: {
     screen: Cart,

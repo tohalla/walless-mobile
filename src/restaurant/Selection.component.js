@@ -28,7 +28,7 @@ class Selection extends React.Component {
       newProps.navigation.dispatch(NavigationActions.reset({
         index: 0,
         actions: [
-          NavigationActions.navigate({routeName: 'restaurantHome'})
+          NavigationActions.navigate({routeName: 'restaurant'})
         ]
       }));
     }

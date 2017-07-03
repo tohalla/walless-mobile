@@ -3507,6 +3507,10 @@ react-native-i18n@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-i18n/-/react-native-i18n-1.0.0.tgz#0c407d9ebb846aae1aa5e05de6503008553f02fd"
 
+react-native-modal-dropdown@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/react-native-modal-dropdown/-/react-native-modal-dropdown-0.4.4.tgz#1164f3844b3847391fc3a0d0133189e6629d02c2"
+
 react-native-side-menu@^0.20.1:
   version "0.20.3"
   resolved "https://registry.yarnpkg.com/react-native-side-menu/-/react-native-side-menu-0.20.3.tgz#5dffe3e237018360ed081433d505ea454cba9ca4"

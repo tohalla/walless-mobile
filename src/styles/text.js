@@ -4,7 +4,7 @@ import colors from 'walless/styles/colors';
 export default StyleSheet.create({
   text: {
     color: colors.darkGray,
-    fontSize: 18
+    fontSize: 16
   },
   light: {
     color: colors.foregroundLight

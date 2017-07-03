@@ -11,7 +11,7 @@ export default EStyleSheet.create({
     flex: 1
   },
   colored: {
-    backgroundColor: colors.alizarin
+    backgroundColor: colors.background
   },
   light: {
     backgroundColor: colors.backgroundLight
