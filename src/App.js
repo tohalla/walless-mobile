@@ -14,10 +14,12 @@ import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
 import {authenticate} from 'walless/util/auth';
 import LoadContent from 'walless/components/LoadContent.component';
-import {connectToServingLocation} from 'walless/servingLocation.reducer';
+import {connectToServingLocation} from 'walless/restaurant/servingLocation.reducer';
+import Notifications from 'walless/notification/Notifications.component';
 
 const mapStateToProps = state => ({
-  servingLocation: state.servingLocation
+  servingLocation: state.servingLocation,
+  notification: state.notification
 });
 
 class App extends React.Component {
@@ -74,6 +76,7 @@ class App extends React.Component {
               /> : <Authentication />
         }
         </LoadContent>
+        <Notifications />
       </View>
     );
   }

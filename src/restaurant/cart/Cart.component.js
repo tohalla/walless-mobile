@@ -4,7 +4,7 @@ import {compose} from 'react-apollo';
 import {get, pullAt} from 'lodash/fp';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 import MenuItems from 'walless/restaurant/MenuItems.component';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
@@ -89,7 +89,7 @@ class Cart extends React.Component {
               {
                 flex: 0,
                 flexDirection: 'row',
-                borderTopWidth: 1,
+                borderTopWidth: StyleSheet.hairlineWidth,
                 borderColor: colors.border
               }
             ]}

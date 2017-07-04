@@ -16,7 +16,7 @@ export default StyleSheet.create({
     color: colors.lightGray
   },
   small: {
-    fontSize: 16
+    fontSize: 14
   },
   medium: {
     fontSize: 20

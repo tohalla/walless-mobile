@@ -10,3 +10,7 @@ export const RESET_NAVIGATION = 'RESET_NAVIGATION';
 
 // translation reducer
 export const SET_LANGUAGES = 'SET_LANGUAGES';
+
+// notification
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';

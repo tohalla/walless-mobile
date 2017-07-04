@@ -8,7 +8,7 @@ import {get} from 'lodash/fp';
 import Swiper from 'react-native-swiper';
 import I18n from 'react-native-i18n';
 
-import {disconnectFromServingLocation} from 'walless/servingLocation.reducer';
+import {disconnectFromServingLocation} from 'walless/restaurant/servingLocation.reducer';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';

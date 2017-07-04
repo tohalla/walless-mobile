@@ -2,6 +2,7 @@ import apolloClient from 'walless/apolloClient';
 import {NavigationActions} from 'react-navigation';
 
 import servingLocation from 'walless/restaurant/servingLocation.reducer';
+import notification from 'walless/notification/notification.reducer';
 import cart from 'walless/restaurant/cart.reducer';
 import SettingsNavigation from 'walless/navigation/SettingsNavigation';
 import RestaurantNavigation from 'walless/navigation/RestaurantNavigation';
@@ -24,6 +25,7 @@ export default combineReducers({
   apollo: apolloClient.reducer(),
   servingLocation,
   translation,
+  notification,
   navigation: navigationReducer,
   cart
 });

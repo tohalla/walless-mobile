@@ -3,6 +3,7 @@ import React from 'react';
 import {View} from 'react-native';
 import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
+import {connect} from 'react-redux';
 import {set} from 'lodash/fp';
 
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
@@ -14,6 +15,7 @@ import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import {authenticate} from 'walless/util/auth';
+import {addNotification} from 'walless/notification/notification.reducer';
 
 class SignIn extends React.Component {
   state = {
@@ -31,11 +33,18 @@ class SignIn extends React.Component {
   };
   authenticate = async() => {
     const {account: {email, password}} = this.state;
-    const {client, onSuccess = () => {}} = this.props;
+    const {client, onSuccess = () => {}, addNotification} = this.props;
     this.setState({loading: true});
-    await authenticate(email, password);
-    await client.resetStore();
-    onSuccess();
+    if ((await authenticate(email, password)).ok) {
+      await client.resetStore();
+      onSuccess();
+    } else {
+      addNotification({
+        type: 'alert',
+        message: I18n.t('error.invalidAuthenticationInformation')
+      });
+      this.setState({loading: false});
+    }
   };
   render() {
     const {onCancel} = this.props;
@@ -49,7 +58,6 @@ class SignIn extends React.Component {
           <Input
               autoCapitalize="none"
               autoCorrect={false}
-              autoFocus
               keyboardType="email-address"
               label={I18n.t('account.email')}
               light
@@ -96,5 +104,6 @@ class SignIn extends React.Component {
 }
 
 export default withApollo(compose(
+  connect(null, {addNotification}),
   getActiveAccount
 )(SignIn));

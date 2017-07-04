@@ -1,13 +1,14 @@
 // @flow
 import {AsyncStorage} from 'react-native';
 import {getDeviceName} from 'react-native-device-info';
+import {pick} from 'lodash/fp';
 
 import config from 'walless-native/config';
 
 const requestToken = async(payload: Object) => {
   const [[, refreshToken], [, clientId]] =
     await AsyncStorage.multiGet(['refresh-token', 'client-id']);
-  const response = await (refreshToken ?
+  return await (refreshToken ?
     fetch(
       `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/client`,
       {
@@ -31,10 +32,6 @@ const requestToken = async(payload: Object) => {
       }
     )
   );
-  if (response.status === 200) {
-    return await response.json();
-  }
-  throw new Error(await response.json());
 };
 
 const fetchClientId = async() => {
@@ -62,14 +59,17 @@ const fetchClientId = async() => {
 
 const authenticate = async(email: string, password: string) => {
   const response = await requestToken({email, password});
-  const {token, refreshToken, expiresAt} = response;
-  return await AsyncStorage.multiSet([
-    ['expiration', expiresAt.toString()]
-  ].concat(
-      typeof token === 'string' ? [['authorization', token]]: [],
-      typeof refreshToken === 'string' ? [['refresh-token', refreshToken]] : []
-    )
-  );
+  if (response.ok) {
+    const {token, refreshToken, expiresAt} = await response.json();
+    await AsyncStorage.multiSet([
+      ['expiration', expiresAt.toString()]
+    ].concat(
+        typeof token === 'string' ? [['authorization', token]]: [],
+        typeof refreshToken === 'string' ? [['refresh-token', refreshToken]] : []
+      )
+    );
+  }
+  return pick(['status', 'ok'])(response);
 };
 
 const logout = async() => Promise.all([

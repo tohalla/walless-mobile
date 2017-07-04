@@ -1,4 +1,6 @@
+import StyleSheet from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
 import colors from 'walless/styles/colors';
 
 export default EStyleSheet.create({
@@ -18,7 +20,7 @@ export default EStyleSheet.create({
   },
   rowDistinct: {
     backgroundColor: colors.white,
-    marginBottom: 1
+    marginBottom: StyleSheet.hairlineWidth
   },
   centerContent: {
     justifyContent: 'center',
