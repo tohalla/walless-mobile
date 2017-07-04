@@ -48,7 +48,7 @@ class Restaurant extends React.Component {
             name, description
           } = {}
         },
-        files = []
+        images = []
       } = {information: {}},
       navigation,
       disconnectFromServingLocation
@@ -64,15 +64,15 @@ class Restaurant extends React.Component {
               dotColor="rgba(0,0,0,0.8)"
               height={250}
           >
-            {files.map((file, index) => (
+            {images.map((image, index) => (
               <Image
                   key={index}
-                  source={{uri: file.uri}}
+                  source={{uri: image.uri}}
                   style={container.slide}
               />
             ))}
           </Swiper>
-          <View style={[container.container, container.padded, container.light]}>
+          <View style={[container.container, container.light]}>
               {
                 Object.keys(restaurantRoutes).map(route => (
                   restaurantRoutes[route].navigation &&

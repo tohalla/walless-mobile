@@ -71,7 +71,7 @@ export default class Input extends React.Component {
               onBlur={this.handleBlur}
               onFocus={this.handleFocus}
               ref={c => this.input = c}
-              selectionColor={light ? colors.foregroundLight : colors.darkGray}
+              selectionColor={light ? colors.foregroundLight : colors.border}
               style={[].concat(
                 style,
                 light && Input === TextInput ? input.inputLight : []
@@ -79,7 +79,7 @@ export default class Input extends React.Component {
           />
         <View
             style={
-              [{height: 2, backgroundColor: colors.darkGray}].concat(
+              [{height: 2, backgroundColor: colors.border}].concat(
                 light ? {backgroundColor: colors.backgroundLight} : [],
                 this.state.active ? [] : {opacity: .6}
               )

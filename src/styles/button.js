@@ -13,6 +13,6 @@ export default EStyleSheet.create({
     alignSelf: 'stretch'
   },
   padded: {
-    padding: '0.7rem'
+    padding: '1rem'
   }
 });

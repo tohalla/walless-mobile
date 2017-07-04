@@ -12,7 +12,9 @@ import {logout} from 'walless/util/auth';
 import container from 'walless/styles/container';
 import input from 'walless/styles/input';
 import text from 'walless/styles/text';
+import {updateAccount} from 'walless-graphql/account/account.mutations';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
+import {settingsRoutes} from 'walless/navigation/SettingsNavigation';
 
 const mapStateToProps = state => ({
   languages: state.translation.languages
@@ -24,8 +26,13 @@ class Account extends React.Component {
     this.props.client.resetStore();
     this.props.resetNavigation();
   };
+  handleLangugageChange = async(language) => {
+    const {account, getActiveAccount, updateAccount} = this.props;
+    await updateAccount(Object.assign({}, account, {language: language.locale}));
+    getActiveAccount.refetch();
+  };
   render() {
-    const {languages, account} = this.props;
+    const {languages, account, navigation} = this.props;
     const language = typeof account.language === 'string' ?
       languages.find(lang => account.language === lang.locale) : account.language;
     return (
@@ -36,12 +43,18 @@ class Account extends React.Component {
               defaultIndex={languages.indexOf(language)}
               defaultValue={`${language.name} (${language.locale})`}
               dropdownStyle={input.dropdown}
-              onValueChange={() => {}}
+              onSelect={index => this.handleLangugageChange(languages[index])}
               options={languages.map(lang => `${lang.name} (${lang.locale})`)}
               selectedValue = {account.language}
               textStyle={text.text}
           />
         </NavigationItem>
+        <NavigationButton
+            key={settingsRoutes.settingsAccountPassword}
+            onPress={() => navigation.navigate('settingsAccountPassword')}
+        >
+          {I18n.t(settingsRoutes.settingsAccountPassword.translationKey)}
+        </NavigationButton>
         <NavigationButton onPress={this.handleLogout}>
           {I18n.t('account.signOut')}
         </NavigationButton>
@@ -52,5 +65,6 @@ class Account extends React.Component {
 
 export default withApollo(compose(
   connect(mapStateToProps, {resetNavigation: () => ({type: RESET_NAVIGATION})}),
-  getActiveAccount
+  getActiveAccount,
+  updateAccount
 )(Account));

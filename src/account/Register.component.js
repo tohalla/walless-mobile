@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {isEmail} from 'walless/util/validation';
 import Input from 'walless/components/Input.component';
+import Password from 'walless/account/Password.component';
 import colors from 'walless/styles/colors';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
@@ -49,129 +50,125 @@ export default class Register extends React.Component {
     } = this.state;
     return (
       <LoadContent loadProps={this.props} loading={loading}>
-        <View style={[container.container, container.colored]}>
-          <Stepped
-              color={colors.foregroundLight}
-              containerProps={{
-                alwaysBounceVertical: false,
-                contentContainerStyle: [container.container, container.colored, container.centerContent],
-                keyboardShouldPersistTaps: 'never'
-              }}
-              onBackPress={this.handleBackPress}
-              onCancelPress={onCancel}
-              onContinuePress={this.handleContinuePress}
-              onSubmitPress={this.handleRegister}
-              step={step}
-              steps={[
-                {
-                  component: (
-                    <View style={{width: '100%'}}>
-                      <Input
-                          autoCapitalize="words"
-                          autoCorrect={false}
-                          autoFocus
-                          label={I18n.t('account.firstName')}
-                          light
-                          maxLength={64}
-                          name="firstName"
-                          onChangeText={this.handleInputChange(['account', 'firstName'])}
-                          onSubmitEditing={() => this.lastNameInput.focus()}
-                          value={firstName}
-                      />
-                      <Input
-                          autoCapitalize="words"
-                          autoCorrect={false}
-                          label={I18n.t('account.lastName')}
-                          light
-                          maxLength={64}
-                          name="lastName"
-                          onChangeText={this.handleInputChange(['account', 'lastName'])}
-                          ref={c => this.lastNameInput = c}
-                          value={lastName}
-                      />
-                    </View>
-                  ),
-                  allowContinue: firstName && lastName
-                }, {
-                  component: (
+        <Stepped
+            color={colors.foregroundLight}
+            contentContainerStyle={[
+              container.container,
+              container.colored,
+              {alignItems: 'stretch', justifyContent: 'center'}
+            ]}
+            onBackPress={this.handleBackPress}
+            onCancelPress={onCancel}
+            onContinuePress={this.handleContinuePress}
+            onSubmitPress={this.handleRegister}
+            step={step}
+            steps={[
+              {
+                component: (
+                  <View style={{width: '100%'}}>
                     <Input
-                        autoCapitalize="none"
+                        autoCapitalize="words"
                         autoCorrect={false}
                         autoFocus
-                        keyboardType="email-address"
-                        label={I18n.t('account.email')}
+                        label={I18n.t('account.firstName')}
                         light
-                        maxLength={254}
-                        name="email"
-                        onChangeText={this.handleInputChange(['account', 'email'])}
-                        value={email}
+                        maxLength={64}
+                        name="firstName"
+                        onChangeText={this.handleInputChange(['account', 'firstName'])}
+                        onSubmitEditing={() => this.lastNameInput.focus()}
+                        value={firstName}
                     />
-                  ),
-                  allowContinue: isEmail(email)
-                }, {
-                  component: (
                     <Input
-                        autoCapitalize="none"
+                        autoCapitalize="words"
                         autoCorrect={false}
-                        autoFocus
-                        label={I18n.t('account.password')}
+                        label={I18n.t('account.lastName')}
                         light
-                        name="password"
-                        onChangeText={this.handleInputChange(['account', 'password'])}
-                        secureTextEntry
-                        value={password}
+                        maxLength={64}
+                        name="lastName"
+                        onChangeText={this.handleInputChange(['account', 'lastName'])}
+                        ref={c => this.lastNameInput = c}
+                        value={lastName}
                     />
-                  )
-                }, {
-                  component: (
-                    <Input
-                        Input={DatePicker}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        cancelBtnText={I18n.t('cancel')}
-                        confirmBtnText={I18n.t('confirm')}
-                        customStyles={{
-                          dateTouch: {
-                            width: '100%'
-                          },
-                          dateTouchBody: {
-                            flexDirection: 'row-reverse',
-                            height: 40,
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          },
-                          dateInput: {
-                            flex: 1,
-                            borderWidth: 0,
-                            alignItems: 'flex-start'
-                          },
-                          dateText: [{marginLeft: 15}, text.medium, text.light],
-                          dateIcon: {
-                            margin: 0
-                          }
-                        }}
-                        date={dateOfBirth}
-                        iconComponent={(
-                          <Icon
-                              color={colors.foregroundLight}
-                              name="event"
-                              size={20}
-                          />
-                        )}
-                        label={I18n.t('account.dateOfBirth')}
-                        light
-                        maxDate={new Date()}
-                        mode="date"
-                        name="dateOfBirth"
-                        onDateChange={this.handleInputChange(['account', 'dateOfBirth'])}
-                        style={{width: '100%'}}
-                    />
-                  )
-                }
-              ]}
-              submitLabel={I18n.t('account.register')}
-          />
-        </View>
+                  </View>
+                ),
+                allowContinue: /^[a-zA-Z]+$/.test(firstName) && /^[a-zA-Z]+$/.test(lastName)
+              }, {
+                component: (
+                  <Input
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      autoFocus
+                      keyboardType="email-address"
+                      label={I18n.t('account.email')}
+                      light
+                      maxLength={254}
+                      name="email"
+                      onChangeText={this.handleInputChange(['account', 'email'])}
+                      value={email}
+                  />
+                ),
+                allowContinue: isEmail(email)
+              },
+              {
+                component: (
+                  <Password
+                      autoFocus
+                      light
+                      password={{
+                        onChangeText: this.handleInputChange(['account', 'password']),
+                        value: password
+                      }}
+                  />
+                )
+              }, {
+                component: (
+                  <Input
+                      Input={DatePicker}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      cancelBtnText={I18n.t('cancel')}
+                      confirmBtnText={I18n.t('confirm')}
+                      customStyles={{
+                        dateTouch: {
+                          width: '100%'
+                        },
+                        dateTouchBody: {
+                          flexDirection: 'row-reverse',
+                          height: 40,
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        },
+                        dateInput: {
+                          flex: 1,
+                          borderWidth: 0,
+                          alignItems: 'flex-start'
+                        },
+                        dateText: [{marginLeft: 15}, text.medium, text.light],
+                        dateIcon: {
+                          margin: 0
+                        }
+                      }}
+                      date={dateOfBirth}
+                      iconComponent={(
+                        <Icon
+                            color={colors.foregroundLight}
+                            name="event"
+                            size={20}
+                        />
+                      )}
+                      label={I18n.t('account.dateOfBirth')}
+                      light
+                      maxDate={new Date()}
+                      mode="date"
+                      name="dateOfBirth"
+                      onDateChange={this.handleInputChange(['account', 'dateOfBirth'])}
+                      style={{width: '100%'}}
+                  />
+                )
+              }
+            ]}
+            submitLabel={I18n.t('account.register')}
+        />
       </LoadContent>
     );
   }

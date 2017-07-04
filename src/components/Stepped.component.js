@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  ScrollView,
+  Text,
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -15,7 +15,7 @@ import Button from 'walless/components/Button.component';
 export default class Stepped extends React.Component {
   static propTypes = {
     color: PropTypes.string,
-    containerProps: PropTypes.object,
+    contentContainerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
     displayProgressBar: PropTypes.bool,
     steps: PropTypes.arrayOf(PropTypes.shape({
       component: PropTypes.node.isRequired
@@ -64,8 +64,8 @@ export default class Stepped extends React.Component {
   render() {
     const {
       displayProgressBar,
+      contentContainerStyle,
       steps,
-      containerProps,
       continueLabel = I18n.t('continue'),
       cancelLabel = I18n.t('cancel'),
       submitLabel = I18n.t('submit'),
@@ -115,23 +115,24 @@ export default class Stepped extends React.Component {
       </View>
     ) : null;
     return (
-      <AvoidKeyboard>
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          <ScrollView style={{flex: 1}} {...containerProps}>
-            {steps[step].component}
-          </ScrollView>
-          <View
-              style={{
-                alignSelf: 'stretch',
-                flexDirection: 'row',
-                justifyContent: 'space-between'
-              }}
-          >
-            <LeftButton />
-            <RightButton />
-          </View>
-          <ProgressBar />
+      <AvoidKeyboard contentContainerStyle={contentContainerStyle}>
+        <View style={contentContainerStyle}>
+          {typeof steps[step].invalid === 'string' ?
+            <Text>{steps[step].invalid}</Text> : null
+          }
+          {steps[step].component}
         </View>
+        <View
+            style={{
+              alignSelf: 'stretch',
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}
+        >
+          <LeftButton />
+          <RightButton />
+        </View>
+        <ProgressBar />
       </AvoidKeyboard>
     );
   }

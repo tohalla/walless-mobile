@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import {
   Keyboard,
   Animated,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 
 export default class AvoidKeyboard extends React.Component {
   static PropTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    contentContainerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array])
   };
   componentWillMount() {
     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
@@ -30,16 +32,20 @@ export default class AvoidKeyboard extends React.Component {
       duration: event.duration,
       toValue: 0
     }).start();
+    this.scrollView.scrollTo();
   };
   render = () => (
-    <View
-        style={[].concat(
-          this.props.style,
-          {flex: 1}
-        )}
-    >
+    <View style={[{flex: 1}].concat(this.props.style)}>
       <Animated.View style={{flex: 1, paddingBottom: this.keyboardHeight}}>
-        {this.props.children}
+        <ScrollView
+            bounce={false}
+            contentContainerStyle={this.props.contentContainerStyle}
+            keyboardShouldPersistTaps="never"
+            ref={c => this.scrollView = c}
+            style={{flex: 1}}
+        >
+          {this.props.children}
+        </ScrollView>
       </Animated.View>
     </View>
   );

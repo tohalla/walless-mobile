@@ -96,9 +96,22 @@ const createAccount = account => fetch(
   }
 );
 
+const changePassword = async(payload) => fetch(
+  `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/password`,
+  {
+    method: 'PUT',
+    headers: {
+      'authorization': await AsyncStorage.getItem('authorization'),
+      'content-type': 'application/json; charset=utf-8'
+    },
+    body: JSON.stringify(payload)
+  }
+);
+
 export {
   createAccount,
   fetchClientId,
 	authenticate,
+  changePassword,
   logout
 };

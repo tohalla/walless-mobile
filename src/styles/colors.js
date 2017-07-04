@@ -11,10 +11,17 @@ const colors = {
 	lightGray: '#9E9E9E',
 	gray: '#424242',
 	darkGray: '#212121',
-	black: '#000'
+	black: '#000',
+  orange: '#f39c12',
+  green: '#2ecc71'
+
 };
 
 export default Object.assign({
+  danger: colors.alizarin,
+  neutral: colors.lightGray,
+  alert: colors.orange,
+  success: colors.green,
   background: colors.alizarin,
   border: colors.lightGray,
   backgroundLight: colors.carrara,

@@ -4,7 +4,6 @@ import colors from 'walless/styles/colors';
 
 export default EStyleSheet.create({
   container: {
-    marginVertical: '0.2rem',
     padding: '1rem',
     alignSelf: 'stretch',
     flexDirection: 'column'

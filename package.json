@@ -20,7 +20,7 @@
 		"react-native-camera": "^0.9",
 		"react-native-datepicker": "^1.6.0",
 		"react-native-device-info": "^0.10.2",
-		"react-native-extended-stylesheet": "^0.5.0",
+		"react-native-extended-stylesheet": "^0.6.0",
 		"react-native-i18n": "^1.0.0",
 		"react-native-modal-dropdown": "^0.4.4",
 		"react-native-side-menu": "^0.20.1",
@@ -30,7 +30,8 @@
 		"react-navigation": "^1.0.0-beta.11",
 		"react-redux": "^5.0.4",
 		"redux": "^3.6.0",
-		"redux-thunk": "^2.2.0"
+		"redux-thunk": "^2.2.0",
+		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.2.1",

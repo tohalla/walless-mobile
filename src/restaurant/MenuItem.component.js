@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, View, Text, Image} from 'react-native';
 import {get} from 'lodash/fp';
 import {connect} from 'react-redux';
+import I18n from 'react-native-i18n';
 import Swiper from 'react-native-swiper';
 
 import text from 'walless/styles/text';
@@ -43,7 +44,7 @@ class MenuItem extends React.Component {
           name, description
         } = {}
       },
-      files = []
+      images = []
     } = menuItem;
     return (
       <ScrollView
@@ -55,21 +56,21 @@ class MenuItem extends React.Component {
             dotColor="rgba(0,0,0,0.8)"
             height={250}
         >
-          {files.map((file, index) => (
+          {images.map((image, index) => (
             <Image
                 key={index}
-                source={{uri: file.uri}}
+                source={{uri: image.uri}}
                 style={container.slide}
             />
           ))}
         </Swiper>
-        <View style={[container.row, container.padded, container.spread]}>
-          <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
+        <View style={[container.row, container.spread]}>
+          <Text style={[text.text, container.padded, text.medium, text.bold]}>{name}</Text>
           <Button
               onPress={this.handleAddToCart}
-              style={button.stretch}
+              style={[button.stretch, button.padded]}
           >
-            {'order'}
+            {I18n.t('restaurant.orders.orderItem')}
           </Button>
         </View>
         <View style={container.padded}>
