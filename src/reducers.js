@@ -1,7 +1,7 @@
 import apolloClient from 'walless/apolloClient';
 import {NavigationActions} from 'react-navigation';
 
-import servingLocation from 'walless/servingLocation.reducer';
+import servingLocation from 'walless/restaurant/servingLocation.reducer';
 import cart from 'walless/restaurant/cart.reducer';
 import SettingsNavigation from 'walless/navigation/SettingsNavigation';
 import RestaurantNavigation from 'walless/navigation/RestaurantNavigation';
