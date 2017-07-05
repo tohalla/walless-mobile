@@ -35,6 +35,7 @@ class Cart extends React.Component {
   };
   handleCreateOrder = async() => {
     const {
+      addNotification,
       setCartItems,
       items,
       servingLocation,
@@ -51,6 +52,10 @@ class Cart extends React.Component {
         },
         items.map(item => item.id)
       );
+      addNotification({
+        type: 'success',
+        message: I18n.t('notifications.orderPlaced')
+      });
       setCartItems([]);
     } catch (error) {
       throw new Error(error);
