@@ -8,17 +8,16 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import MenuItems from 'walless/restaurant/MenuItems.component';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
-import {
-  createOrder,
-  createOrderItem
-} from 'walless-graphql/restaurant/order.mutations';
+import {createOrder} from 'walless-graphql/restaurant/order.mutations';
 import container from 'walless/styles/container';
 import {setCartItems} from 'walless/restaurant/cart.reducer';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import text from 'walless/styles/text';
+import button from 'walless/styles/button';
 import colors from 'walless/styles/colors';
 import swipe from 'walless/styles/swipe';
 import Button from 'walless/components/Button.component';
+import {addNotification} from 'walless/notification/notification.reducer';
 
 const mapStateToProps = state => ({
   restaurant: get(['servingLocation', 'restaurant'])(state),
@@ -41,17 +40,16 @@ class Cart extends React.Component {
       servingLocation,
       restaurant,
       createOrder,
-      createOrderItem,
       account
     } = this.props;
     try {
-      const {data: {createOrder: {order}}} = await createOrder({
-        createdBy: account.id,
-        restaurant,
-        servingLocation
-      });
-      await Promise.all(
-        items.map(item => createOrderItem({menuItem: item.id, order: order.id}))
+      await createOrder(
+        {
+          createdBy: account.id,
+          restaurant: restaurant.id,
+          servingLocation: servingLocation
+        },
+        items.map(item => item.id)
       );
       setCartItems([]);
     } catch (error) {
@@ -83,7 +81,6 @@ class Cart extends React.Component {
         />
         <View
             style={[
-              container.padded,
               container.light,
               container.spread,
               {
@@ -95,11 +92,11 @@ class Cart extends React.Component {
             ]}
         >
           <View>
-            <Button onPress={this.handleCreateOrder}>
+            <Button onPress={this.handleCreateOrder} style={button.padded}>
               {I18n.t('restaurant.cart.checkout')}
             </Button>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={[container.padded, {flexDirection: 'row'}]}>
             <Text style={[text.text, text.bold]}>
               {`${I18n.t('restaurant.cart.totalPrice')}: `}
             </Text>
@@ -120,9 +117,8 @@ class Cart extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, {setCartItems}),
+  connect(mapStateToProps, {setCartItems, addNotification}),
   getRestaurant,
   createOrder,
-  createOrderItem,
   getActiveAccount
 )(Cart);
