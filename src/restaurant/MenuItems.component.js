@@ -11,7 +11,7 @@ import Swipeable from 'react-native-swipeable';
 import {addCartItems} from 'walless/restaurant/cart.reducer';
 import {
   getMenuItemsByRestaurant
-} from 'walless-graphql/restaurant/restaurant.queries';
+} from 'walless-graphql/restaurant/menuItem.queries';
 import container from 'walless/styles/container';
 import text from 'walless/styles/text';
 import swipe from 'walless/styles/swipe';

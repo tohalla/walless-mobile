@@ -6,7 +6,7 @@ import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 
 import text from 'walless/styles/text';
-import {getMenusByRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
+import {getMenusByRestaurant} from 'walless-graphql/restaurant/menu.queries';
 import container from 'walless/styles/container';
 
 const mapStateToProps = state => ({
