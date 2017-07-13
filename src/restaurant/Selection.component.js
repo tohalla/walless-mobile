@@ -57,13 +57,6 @@ class Selection extends React.Component {
                 {I18n.t('account.authenticate')}
             </Button>
           }
-          <Button
-              onPress={() => navigation.navigate('browse')}
-              style={button.padded}
-              textStyle={text.light}
-          >
-              {'Browse restaurants'}
-          </Button>
         </View>
       </LoadContent>
     );

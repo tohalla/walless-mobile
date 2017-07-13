@@ -40,7 +40,7 @@ export default class AvoidKeyboard extends React.Component {
         <ScrollView
             bounce={false}
             contentContainerStyle={this.props.contentContainerStyle}
-            keyboardShouldPersistTaps="never"
+            keyboardShouldPersistTaps="handled"
             ref={c => this.scrollView = c}
             style={{flex: 1}}
         >

@@ -18,7 +18,7 @@ export default class Password extends React.Component {
       value: PropTypes.string.isRequired,
       onChangeText: PropTypes.func.isRequired
     }),
-    autofocus: PropTypes.bool,
+    autoFocus: PropTypes.bool,
     displayScore: PropTypes.bool,
     light: PropTypes.bool,
     requireRetype: PropTypes.bool,
@@ -51,7 +51,7 @@ export default class Password extends React.Component {
         value: password = this.state.password,
         onChangeText: onChangePassword = this.handleInputChange('password')
       } = {},
-      autofocus,
+      autoFocus,
       retype: {
         value: retype = this.state.retype,
         onChangeText: onChangeRetype = this.handleInputChange('retype')
@@ -85,7 +85,7 @@ export default class Password extends React.Component {
         <Input
             autoCapitalize="none"
             autoCorrect={false}
-            autofocus={autofocus}
+            autoFocus={autoFocus}
             label={I18n.t('account.password')}
             light={light}
             name="password"

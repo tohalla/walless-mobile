@@ -59,19 +59,21 @@ class Restaurant extends React.Component {
             alwaysBounceVertical={false}
             style={[container.container]}
         >
-          <Swiper
-              activeDotColor={colors.foregroundLight}
-              dotColor="rgba(0,0,0,0.8)"
-              height={250}
-          >
-            {images.map((image, index) => (
-              <Image
-                  key={index}
-                  source={{uri: image.uri}}
-                  style={container.slide}
-              />
-            ))}
-          </Swiper>
+          {images.length ?
+            <Swiper
+                activeDotColor={colors.foregroundLight}
+                dotColor="rgba(0,0,0,0.8)"
+                height={250}
+            >
+              {images.map((image, index) => (
+                <Image
+                    key={index}
+                    source={{uri: image.uri}}
+                    style={container.slide}
+                />
+              ))}
+            </Swiper>
+          : null}
           <View style={[container.container, container.light]}>
               {
                 Object.keys(restaurantRoutes).map(route => (
