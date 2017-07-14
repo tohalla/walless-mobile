@@ -3,6 +3,7 @@ import React from 'react';
 import {AsyncStorage} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
+import {addNavigationHelpers} from 'react-navigation';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
@@ -18,6 +19,7 @@ import {connectToServingLocation} from 'walless/restaurant/servingLocation.reduc
 import Notifications from 'walless/notification/Notifications.component';
 
 const mapStateToProps = state => ({
+  navigationState: state.navigation,
   servingLocation: state.servingLocation,
   notification: state.notification
 });
@@ -62,6 +64,10 @@ class App extends React.Component {
           {
             account ?
               <MainNavigation
+                  navigation={addNavigationHelpers({
+                    state: this.props.navigationState,
+                    dispatch: this.props.dispatch
+                  })}
                   screenProps={{
                     titles: Object.keys(routes).reduce((prev, key) =>
                       Object.assign(

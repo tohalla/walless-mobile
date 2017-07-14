@@ -1,8 +1,5 @@
 // @flow
-import React from 'react';
-import {ScrollView} from 'react-native';
-import {connect} from 'react-redux';
-import {DrawerNavigator, DrawerItems, NavigationActions} from 'react-navigation';
+import {DrawerNavigator} from 'react-navigation';
 
 import {initialRouteName as restaurantRoute} from 'walless/navigation/RestaurantNavigation';
 import {initialRouteName as settingsRoute} from 'walless/navigation/SettingsNavigation';
@@ -32,27 +29,11 @@ export const routes = {
   }
 };
 
-const ContentComponent = connect()(props => (
-  <ScrollView>
-    <DrawerItems
-        {...props}
-        getLabel={({route}) => props.screenProps.titles[route.routeName]}
-        onItemPress={({route, focused}) => {
-          props.dispatch(NavigationActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate(route)
-            ]
-          }));
-          props.onItemPress({route, focused});
-        }}
-    />
-  </ScrollView>
-));
-
 const MainNavigation = new DrawerNavigator(routes, {
   initialRouteName,
-  contentComponent: props => <ContentComponent {...props}/>
+  navigationOptions: ({navigation: {state}, screenProps: {titles}}) => ({
+    title: titles[state.routeName]
+  })
 });
 
 export default MainNavigation;

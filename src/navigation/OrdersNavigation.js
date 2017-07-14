@@ -36,7 +36,7 @@ const OrdersNavigation = new TabNavigator(
       activeBackgroundColor: colors.white,
       labelStyle: text.small
     },
-    navigationOptions: ({navigation: {titles, state}}) => ({
+    navigationOptions: ({navigation: {state}, screenProps: {titles}}) => ({
       title: titles[state.routeName],
       tabBarIcon: ({tintColor}) => (
         <Icon

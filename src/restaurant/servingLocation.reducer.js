@@ -4,13 +4,13 @@ import config from 'walless-native/config';
 import {SET_SERVING_LOCATION} from 'walless/actionTypes';
 
 export default (state = {}, action) =>
-	action.type === SET_SERVING_LOCATION ?
-		Object.assign({}, state, action.payload)
-	: state;
+  action.type === SET_SERVING_LOCATION ?
+    Object.assign({}, state, action.payload)
+  : state;
 
 const setServingLocation = payload => ({
-	type: SET_SERVING_LOCATION,
-	payload
+  type: SET_SERVING_LOCATION,
+  payload
 });
 
 export const connectToServingLocation = code => async(dispatch) =>

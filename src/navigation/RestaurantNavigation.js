@@ -46,9 +46,9 @@ const RestaurantNavigation = new StackNavigator(
   restaurantRoutes,
   {
     initialRouteName,
-    navigationOptions: ({navigation: {titles, state, navigate}}) => ({
-      title: titles[state.routeName],
-      headerRight: <CartButton />,
+    navigationOptions: ({navigation, screenProps: {titles}}) => ({
+      title: titles[navigation.state.routeName],
+      headerRight: <CartButton navigation={navigation} />,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
       headerTintColor: colors.headerForeground,

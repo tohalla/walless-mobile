@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
-import {addNavigationHelpers} from 'react-navigation';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 
@@ -10,7 +9,7 @@ import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Navigation, {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
-  navigationState: get(['navigation', 'restaurant'])(state),
+  navigationState: state.navigation,
   restaurant: get(['servingLocation', 'restaurant'])(state),
   language: state.translation.language
 });
@@ -20,9 +19,7 @@ class RestaurantNavigation extends React.Component {
     return (
       <LoadContent loadProps={this.props}>
         <Navigation
-            navigation={addNavigationHelpers({
-              dispatch: this.props.dispatch,
-              state: this.props.navigationState,
+            screenProps={{
               titles: Object.assign(
                 Object.keys(restaurantRoutes).reduce((prev, key) =>
                   Object.assign(
@@ -35,7 +32,7 @@ class RestaurantNavigation extends React.Component {
                 ),
                 {home: get(['restaurant', 'information', this.props.language, 'name'])(this.props)}
               )
-            })}
+            }}
         />
       </LoadContent>
   );

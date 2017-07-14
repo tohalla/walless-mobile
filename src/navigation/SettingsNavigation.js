@@ -59,7 +59,7 @@ const SettingsNavigation = new StackNavigator(
   settingsRoutes,
   {
     initialRouteName,
-    navigationOptions: ({navigation: {titles, state}}) => ({
+    navigationOptions: ({navigation: {state}, screenProps: {titles}}) => ({
       title: titles[state.routeName],
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],

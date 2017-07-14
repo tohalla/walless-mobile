@@ -3,7 +3,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
-import {NavigationActions} from 'react-navigation';
 
 import Button from 'walless/components/Button.component';
 import header from 'walless/styles/header';
@@ -11,18 +10,18 @@ import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
   items: get(['cart', 'items'])(state) || [],
-  routes: get(['navigation', 'restaurant', 'routes'])(state)
+  routes: get(['navigation', 'routes'])(state)
 });
 
 class CartButton extends React.Component {
   render() {
-    const {items, routes} = this.props;
+    const {items, routes, navigation} = this.props;
     return (
       routes[Math.max(routes.length - 1, 0)].routeName === 'cart' ||
       routes[Math.max(routes.length - 2, 0)].routeName === 'cart'
     ) ? <View /> : (
       <Button
-          onPress={() => this.props.navigate({routeName: 'restaurantCart'})}
+          onPress={() => navigation.navigate('restaurantCart')}
           padded
       >
         <Icon
@@ -44,5 +43,4 @@ class CartButton extends React.Component {
 
 export default connect(
   mapStateToProps,
-  {navigate: NavigationActions.navigate}
 )(CartButton);
