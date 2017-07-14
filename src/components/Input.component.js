@@ -5,8 +5,9 @@ import {
   Text,
   TextInput
 } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import input from 'walless/styles/input';
+import {minor} from 'walless/styles/spacing';
 import colors from 'walless/styles/colors';
 
 export default class Input extends React.Component {
@@ -54,29 +55,29 @@ export default class Input extends React.Component {
   render() {
     const {
       label,
-      containerStyle = input.container,
-      labelStyle = input.label,
-      style = input.input,
+      containerStyle = styles.container,
+      labelStyle = styles.label,
+      style = styles.input,
       light,
       Input,
       ...rest
     } = this.props;
     return (
       <View style={containerStyle}>
-        <Text style={[].concat(labelStyle, light ? input.labelLight : [])}>
+        <Text style={[].concat(labelStyle, light ? styles.labelLight : [])}>
           {label}
         </Text>
-          <Input
-              {...rest}
-              onBlur={this.handleBlur}
-              onFocus={this.handleFocus}
-              ref={c => this.input = c}
-              selectionColor={light ? colors.foregroundLight : colors.border}
-              style={[].concat(
-                style,
-                light && Input === TextInput ? input.inputLight : []
-              )}
-          />
+        <Input
+            {...rest}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            ref={c => this.input = c}
+            selectionColor={light ? colors.foregroundLight : colors.border}
+            style={[].concat(
+              style,
+              light && Input === TextInput ? styles.inputLight : []
+            )}
+        />
         <View
             style={
               [{height: 2, backgroundColor: colors.border}].concat(
@@ -89,3 +90,31 @@ export default class Input extends React.Component {
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  container: {
+    padding: '1rem',
+    alignSelf: 'stretch',
+    flexDirection: 'column'
+  },
+  input: {
+    color: colors.darkGray,
+    paddingVertical: minor
+  },
+  inputLight: {
+    color: colors.foregroundLight
+  },
+  label: {
+    color: colors.darkGray,
+    fontSize: 18
+  },
+  labelLight: {
+    color: colors.foregroundLight
+  },
+  dropdown: {
+    height: 'auto',
+    maxHeight: 200,
+    minWidth: 120
+  }
+});
+

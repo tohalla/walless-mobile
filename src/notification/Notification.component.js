@@ -6,6 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {pick} from 'lodash/fp';
 
+import {minor} from 'walless/styles/spacing';
 import {deleteNotification} from 'walless/notification/notification.reducer';
 import text from 'walless/styles/text';
 import colors from 'walless/styles/colors';
@@ -54,13 +55,13 @@ const styles = EStyleSheet.create({
   success: {backgroundColor: colors.success},
   neutral: {display: 'none'},
   message: {
-    padding: '0.5rem',
+    padding: minor,
     flex: 1,
     justifyContent: 'center'
   },
   delete: {
     flex: 0,
-    padding: '0.5rem'
+    padding: minor
   },
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,

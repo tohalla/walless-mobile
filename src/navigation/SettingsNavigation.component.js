@@ -19,6 +19,7 @@ class SettingsNavigation extends React.Component {
         <Navigation
             navigation={addNavigationHelpers({
               state: this.props.navigationState,
+              dispatch: this.props.dispatch,
               titles: Object.keys(settingsRoutes).reduce((prev, key) =>
                 Object.assign(
                   {},

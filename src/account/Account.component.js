@@ -10,7 +10,6 @@ import NavigationItem from 'walless/components/NavigationItem.component';
 import NavigationButton from 'walless/components/NavigationButton.component';
 import {logout} from 'walless/util/auth';
 import container from 'walless/styles/container';
-import input from 'walless/styles/input';
 import text from 'walless/styles/text';
 import {updateAccount} from 'walless-graphql/account/account.mutations';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
@@ -42,7 +41,7 @@ class Account extends React.Component {
           <ModalDropdown
               defaultIndex={languages.indexOf(language)}
               defaultValue={`${language.name} (${language.locale})`}
-              dropdownStyle={input.dropdown}
+              dropdownStyle={styles.dropdown}
               onSelect={index => this.handleLangugageChange(languages[index])}
               options={languages.map(lang => `${lang.name} (${lang.locale})`)}
               selectedValue = {account.language}
@@ -68,3 +67,11 @@ export default withApollo(compose(
   getActiveAccount,
   updateAccount
 )(Account));
+
+const styles = {
+  dropdown: {
+    height: 'auto',
+    maxHeight: 200,
+    minWidth: 120
+  }
+};

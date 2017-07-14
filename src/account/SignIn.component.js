@@ -57,6 +57,7 @@ class SignIn extends React.Component {
           <Input
               autoCapitalize="none"
               autoCorrect={false}
+              autoFocus
               keyboardType="email-address"
               label={I18n.t('account.email')}
               light

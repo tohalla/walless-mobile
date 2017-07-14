@@ -1,6 +1,7 @@
 import StyleSheet from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import {normal} from 'walless/styles/spacing';
 import colors from 'walless/styles/colors';
 
 export default EStyleSheet.create({
@@ -36,6 +37,6 @@ export default EStyleSheet.create({
     justifyContent: 'space-between'
   },
   padded: {
-    padding: '1rem'
+    padding: normal
   }
 });
