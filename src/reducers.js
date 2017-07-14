@@ -6,6 +6,7 @@ import notification from 'walless/notification/notification.reducer';
 import cart from 'walless/restaurant/cart.reducer';
 import SettingsNavigation from 'walless/navigation/SettingsNavigation';
 import RestaurantNavigation from 'walless/navigation/RestaurantNavigation';
+import OrdersNavigation from 'walless/navigation/OrdersNavigation';
 import {combineReducers} from 'redux';
 import translation from 'walless/translation.reducer';
 
@@ -18,7 +19,8 @@ const avoidDuplicateRoute = (router, action, state) =>
 export const navigationReducer =
   combineReducers({
     settings: (state, action) => avoidDuplicateRoute(SettingsNavigation.router, action, state),
-    restaurant: (state, action) => avoidDuplicateRoute(RestaurantNavigation.router, action, state)
+    restaurant: (state, action) => avoidDuplicateRoute(RestaurantNavigation.router, action, state),
+    orders: (state, action) => OrdersNavigation.router.getStateForAction(action, state)
   });
 
 export default combineReducers({

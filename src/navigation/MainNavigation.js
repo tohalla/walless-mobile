@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {View, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import {connect} from 'react-redux';
 import {DrawerNavigator, DrawerItems, NavigationActions} from 'react-navigation';
 
@@ -9,12 +9,13 @@ import {initialRouteName as settingsRoute} from 'walless/navigation/SettingsNavi
 import {initialRouteName as ordersRoute} from 'walless/navigation/OrdersNavigation';
 import RestaurantNavigation from 'walless/navigation/RestaurantNavigation.component';
 import SettingsNavigation from 'walless/navigation/SettingsNavigation.component';
+import OrdersNavigation from 'walless/navigation/OrdersNavigation.component';
 
 export const initialRouteName = 'home';
 
 export const routes = {
   [initialRouteName]: {
-    screen: View,
+    screen: () => null,
     translationKey: 'navigation.home'
   },
   [restaurantRoute]: {
@@ -22,8 +23,8 @@ export const routes = {
     translationKey: 'navigation.restaurant'
   },
   [ordersRoute]: {
-    screen: View,
-    translationKey: 'navigation.orders'
+    screen: OrdersNavigation,
+    translationKey: 'navigation.orders.orders'
   },
   [settingsRoute]: {
     screen: SettingsNavigation,

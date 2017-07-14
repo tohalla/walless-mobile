@@ -7,7 +7,6 @@ import Settings from 'walless/settings/Settings.component';
 import Account from 'walless/account/Account.component';
 import Password from 'walless/account/Password.component';
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
-import LoadContent from 'walless/components/LoadContent.component';
 import colors from 'walless/styles/colors';
 import header from 'walless/styles/header';
 
@@ -24,15 +23,13 @@ const ChangePassword = class ChangePassword extends React.Component {
     this.props.navigation.goBack();
   }
   render = () => (
-    <LoadContent loading={this.state.loading} props={this.props}>
-      <AvoidKeyboard>
-        <Password
-            onSubmit={this.handleChangePassword}
-            requireCurrent
-            requireRetype
-        />
-      </AvoidKeyboard>
-    </LoadContent>
+    <AvoidKeyboard>
+      <Password
+          onSubmit={this.handleChangePassword}
+          requireCurrent
+          requireRetype
+      />
+    </AvoidKeyboard>
   )
 };
 

@@ -4,28 +4,29 @@ import {addNavigationHelpers} from 'react-navigation';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 
-import Navigation, {settingsRoutes} from 'walless/navigation/SettingsNavigation';
+import Navigation, {ordersRoutes} from 'walless/navigation/OrdersNavigation';
 
 const mapStateToProps = state => ({
-  navigationState: get(['navigation', 'settings'])(state),
+  navigationState: get(['navigation', 'orders'])(state),
   language: state.translation.language
 });
 
-class SettingsNavigation extends React.Component {
+class OrdersNavigation extends React.Component {
   render() {
     return (
       <Navigation
           navigation={addNavigationHelpers({
-            state: this.props.navigationState,
             dispatch: this.props.dispatch,
-            titles: Object.keys(settingsRoutes).reduce((prev, key) =>
+            state: this.props.navigationState,
+            titles: Object.keys(ordersRoutes).reduce((prev, key) =>
               Object.assign(
                 {},
                 prev,
-                {[key]: settingsRoutes[key].translationKey ?
-                  I18n.t(settingsRoutes[key].translationKey) : null
+                {[key]: ordersRoutes[key].translationKey ?
+                  I18n.t(ordersRoutes[key].translationKey) : null
                 }
-              ), {}
+              ),
+              {}
             )
           })}
       />
@@ -33,4 +34,4 @@ class SettingsNavigation extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(SettingsNavigation);
+export default connect(mapStateToProps)(OrdersNavigation);
