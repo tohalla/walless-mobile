@@ -13,7 +13,6 @@ import container from 'walless/styles/container';
 import {setCartItems} from 'walless/restaurant/cart.reducer';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import text from 'walless/styles/text';
-import button from 'walless/styles/button';
 import colors from 'walless/styles/colors';
 import swipe from 'walless/styles/swipe';
 import Button from 'walless/components/Button.component';
@@ -97,7 +96,7 @@ class Cart extends React.Component {
             ]}
         >
           <View>
-            <Button onPress={this.handleCreateOrder} style={button.padded}>
+            <Button onPress={this.handleCreateOrder} padded>
               {I18n.t('restaurant.cart.checkout')}
             </Button>
           </View>

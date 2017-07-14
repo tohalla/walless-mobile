@@ -2,11 +2,7 @@ import React from 'react';
 import {VibrationIOS, View, Dimensions} from 'react-native';
 import Camera from 'react-native-camera';
 import PropTypes from 'prop-types';
-// import I18n from 'react-native-i18n';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
-// import Button from 'walless/components/Button.component';
-// import button from 'walless/styles/button';
 
 const scanArea = 250;
 

@@ -1,15 +1,17 @@
 import React from 'react';
-import {TouchableOpacity, Text, View} from 'react-native';
+import {TouchableOpacity, Text} from 'react-native';
 import PropTypes from 'prop-types';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import button from 'walless/styles/button';
-import text from 'walless/styles/text';
+import colors from 'walless/styles/colors';
+import {normal} from 'walless/styles/spacing';
 
 export default class Button extends React.Component {
   static PropTypes = {
     children: PropTypes.node.isRequired,
     disabled: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
+    padded: PropTypes.bool,
     style: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.object),
       PropTypes.object
@@ -27,25 +29,46 @@ export default class Button extends React.Component {
       onPress,
       children,
       style,
+      padded,
       textStyle,
       disabled,
       ...rest
     } = this.props;
     return (
-      <View style={disabled ? button.disabled : []}>
-        <TouchableOpacity
-            disabled={disabled}
-            onPress={onPress}
-            style={[button.button].concat(style)}
-            {...rest}
-        >
-          {typeof children === 'string' ?
-            <Text style={[text.button].concat(textStyle)}>
-              {children}
-            </Text> : children
-          }
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+          disabled={disabled}
+          onPress={onPress}
+          style={[styles.button].concat(
+            style,
+            disabled ? styles.disabled : [],
+            padded ? styles.padded : []
+          )}
+          {...rest}
+      >
+        {typeof children === 'string' ?
+          <Text style={[styles.text].concat(textStyle)}>
+            {children}
+          </Text> : children
+        }
+      </TouchableOpacity>
     );
   }
 };
+
+const styles = EStyleSheet.create({
+  button: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  disabled: {
+    opacity: 0.5
+  },
+  padded: {
+    padding: normal
+  },
+  text: {
+    fontSize: 18,
+    color: colors.link
+  }
+});

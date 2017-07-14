@@ -11,7 +11,6 @@ import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {getActiveAccount} from 'walless-graphql/account/account.queries';
 import Button from 'walless/components/Button.component';
 import container from 'walless/styles/container';
-import button from 'walless/styles/button';
 import text from 'walless/styles/text';
 import LoadContent from 'walless/components/LoadContent.component';
 
@@ -40,18 +39,24 @@ class Selection extends React.Component {
     } = this.props;
     return (
       <LoadContent loadProps={this.props}>
-        <View style={[container.container, container.colored, container.centerContent]}>
+        <View
+            style={[
+              container.container,
+              container.colored,
+              container.centerContent
+            ]}
+        >
           {account ?
             <Button
                 onPress={() => navigation.navigate('restaurantScan')}
-                style={button.padded}
+                padded
                 textStyle={text.light}
             >
               {'Scan QR code'}
             </Button> :
             <Button
                 onPress={() => navigation.navigate('authentication')}
-                style={button.padded}
+                padded
                 textStyle={text.light}
             >
                 {I18n.t('account.authenticate')}

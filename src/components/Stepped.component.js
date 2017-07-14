@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
 
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
-import button from 'walless/styles/button';
 import Button from 'walless/components/Button.component';
 
 export default class Stepped extends React.Component {
@@ -82,7 +81,7 @@ export default class Stepped extends React.Component {
     const LeftButton = () => (
       <Button
           onPress={step === 0 ? this.handleCancelPress : this.handleBackPress}
-          style={button.padded}
+          padded
           textStyle={{color}}
       >
         {step === 0 ? cancelLabel : backLabel}
@@ -95,7 +94,7 @@ export default class Stepped extends React.Component {
             !steps[step].allowContinue
           }
           onPress={step === steps.length - 1 ? this.handleSubmitPress : this.handleContinuePress}
-          style={button.padded}
+          padded
           textStyle={{color}}
       >
         {step === steps.length - 1 ? submitLabel : continueLabel}

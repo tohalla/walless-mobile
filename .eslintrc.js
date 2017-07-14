@@ -27,6 +27,7 @@ module.exports = {
     'arrow-parens': 0,
     'generator-star-spacing': 0,
     'no-undef': 2,
+    'space-before-function-paren': 0,
     'no-nested-ternary': 0,
     'operator-linebreak': 0,
     'require-jsdoc': 0,

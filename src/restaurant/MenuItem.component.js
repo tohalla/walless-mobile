@@ -8,7 +8,6 @@ import Swiper from 'react-native-swiper';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
-import button from 'walless/styles/button';
 import Button from 'walless/components/Button.component';
 import {addCartItems} from 'walless/restaurant/cart.reducer';
 
@@ -68,9 +67,10 @@ class MenuItem extends React.Component {
           <Text style={[text.text, container.padded, text.medium, text.bold]}>{name}</Text>
           <Button
               onPress={this.handleAddToCart}
-              style={[button.stretch, button.padded]}
+              padded
+              style={{alignSelf: 'stretch'}}
           >
-            {I18n.t('restaurant.orders.orderItem')}
+            {I18n.t('restaurant.order.orderItem')}
           </Button>
         </View>
         <View style={container.padded}>

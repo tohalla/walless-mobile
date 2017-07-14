@@ -6,6 +6,7 @@ import {DrawerNavigator, DrawerItems, NavigationActions} from 'react-navigation'
 
 import {initialRouteName as restaurantRoute} from 'walless/navigation/RestaurantNavigation';
 import {initialRouteName as settingsRoute} from 'walless/navigation/SettingsNavigation';
+import {initialRouteName as ordersRoute} from 'walless/navigation/OrdersNavigation';
 import RestaurantNavigation from 'walless/navigation/RestaurantNavigation.component';
 import SettingsNavigation from 'walless/navigation/SettingsNavigation.component';
 
@@ -16,12 +17,15 @@ export const routes = {
     screen: View,
     translationKey: 'navigation.home'
   },
-	[restaurantRoute]: {
+  [restaurantRoute]: {
     screen: RestaurantNavigation,
     translationKey: 'navigation.restaurant'
   },
-	browse: {screen: View},
-	[settingsRoute]: {
+  [ordersRoute]: {
+    screen: View,
+    translationKey: 'navigation.orders'
+  },
+  [settingsRoute]: {
     screen: SettingsNavigation,
     translationKey: 'navigation.settings.settings'
   }

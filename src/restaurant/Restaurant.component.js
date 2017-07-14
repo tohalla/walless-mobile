@@ -12,7 +12,6 @@ import {disconnectFromServingLocation} from 'walless/restaurant/servingLocation.
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
-import button from 'walless/styles/button';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Button from 'walless/components/Button.component';
 import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
@@ -74,24 +73,21 @@ class Restaurant extends React.Component {
               ))}
             </Swiper>
           : null}
-          <View style={[container.container, container.light]}>
+          <View style={[container.container, container.light, {alignItems: 'stretch'}]}>
               {
                 Object.keys(restaurantRoutes).map(route => (
                   restaurantRoutes[route].navigation &&
                   <Button
                       key={route}
                       onPress={() => navigation.navigate(route)}
-                      style={[button.padded, button.stretch]}
+                      padded
                   >
                     {I18n.t(restaurantRoutes[route].translationKey)}
                   </Button>
                 ))
               }
-              <Button
-                  onPress={disconnectFromServingLocation}
-                  style={[button.padded, button.stretch]}
-              >
-                {I18n.t('restaurant.servingLocations.checkout')}
+              <Button onPress={disconnectFromServingLocation} padded>
+                {I18n.t('restaurant.servingLocation.checkout')}
               </Button>
           </View>
           <View style={[container.container, container.padded]}>

@@ -32,12 +32,12 @@ export const restaurantRoutes = {
   restaurantMenus: {
     screen: Menus,
     navigation: true,
-    translationKey: 'restaurant.menus.menus'
+    translationKey: 'restaurant.menu.menus'
   },
   restaurantMenuItems: {
     screen: MenuItems,
     navigation: true,
-    translationKey: 'restaurant.menuItems.menuItems'
+    translationKey: 'restaurant.menuItem.menuItems'
   },
   restaurantMenuItem: {screen: MenuItem}
 };
@@ -46,7 +46,7 @@ const RestaurantNavigation = new StackNavigator(
   restaurantRoutes,
   {
     initialRouteName,
-    navigationOptions: ({navigation: {titles, state}}) => ({
+    navigationOptions: ({navigation: {titles, state, navigate}}) => ({
       title: titles[state.routeName],
       headerRight: <CartButton />,
       headerStyle: header.header,

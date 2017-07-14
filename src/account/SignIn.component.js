@@ -10,7 +10,6 @@ import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
 import LoadContent from 'walless/components/LoadContent.component';
 import Button from 'walless/components/Button.component';
 import Input from 'walless/components/Input.component';
-import button from 'walless/styles/button';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import {getActiveAccount} from 'walless/graphql/account/account.queries';
@@ -82,7 +81,7 @@ class SignIn extends React.Component {
             {typeof onCancel === 'function' ? (
               <Button
                   onPress={onCancel}
-                  style={button.padded}
+                  padded
                   textStyle={text.light}
               >
                 {I18n.t('cancel')}
@@ -91,7 +90,7 @@ class SignIn extends React.Component {
             <Button
                 disabled={!(email && password)}
                 onPress={this.authenticate}
-                style={button.padded}
+                padded
                 textStyle={text.light}
             >
               {I18n.t('account.authenticate')}

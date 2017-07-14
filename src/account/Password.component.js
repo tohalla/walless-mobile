@@ -10,7 +10,6 @@ import Input from 'walless/components/Input.component';
 import Button from 'walless/components/Button.component';
 import container from 'walless/styles/container';
 import text from 'walless/styles/text';
-import button from 'walless/styles/button';
 
 export default class Password extends React.Component {
   static propTypes = {
@@ -115,7 +114,7 @@ export default class Password extends React.Component {
                   score <= 2
                 }
                 onPress={() => onSubmit({password, currentPassword: current})}
-                style={button.padded}
+                padded
                 textStyle={[].concat(light ? text.light : [])}
             >
               {I18n.t('account.changePassword')}

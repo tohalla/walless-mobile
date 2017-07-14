@@ -23,9 +23,5 @@ export default StyleSheet.create({
   },
   large: {
     fontSize: 22
-  },
-  button: {
-    color: colors.link,
-    fontSize: 18
   }
 });
