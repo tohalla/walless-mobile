@@ -46,8 +46,8 @@ class Authentication extends React.Component {
           action === 'authenticate' ? <SignIn onCancel={this.setAction('')} />
           : action === 'register' ? (
             <Register
-                onCancel={this.setAction('')}
                 onSuccess={this.handleRegistrationCompleted}
+                setAction={this.setAction}
             />
           )
           : (

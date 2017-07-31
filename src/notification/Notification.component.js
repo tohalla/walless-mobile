@@ -14,6 +14,11 @@ import Button from 'walless/components/Button.component';
 
 class Notification extends React.Component {
   static propTypes = {
+    actions: PropTypes.arrayOf(PropTypes.shape({
+      onPress: PropTypes.func.isRequired,
+      label: PropTypes.node.isRequired,
+      deleteOnPress: PropTypes.bool
+    })),
     createdAt: PropTypes.instanceOf(Date),
     message: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['alert', 'danger', 'success', 'neutral'])
@@ -21,23 +26,40 @@ class Notification extends React.Component {
   static defaultProps = {
     type: 'neutral'
   };
-  handleDeleteNotification = () =>
-    this.props.deleteNotification(pick(['createdAt', 'message', 'type'])(this.props));
+  handleActionPress = action => () => {
+    action.onPress();
+    if (action.deleteOnPress) {
+      this.handleDeleteNotification();
+    }
+  };
+  handleDeleteNotification = () => this.props.deleteNotification(
+    pick(['createdAt', 'message', 'type', 'actions'])(this.props)
+  );
   render() {
-    const {message, type} = this.props;
+    const {message, type, actions = []} = this.props;
     return (
       <View style={styles.container}>
         <View style={[styles.indicator, styles[type]]} />
         <Text style={[text.small, text.neutral, styles.message]}>
           {message}
         </Text>
-          <Button onPress={this.handleDeleteNotification} style={styles.delete}>
-            <Icon
-                color={colors.neutral}
-                name="close"
-                size={20}
-            />
+        {actions.map((action, index) => (
+          <Button
+              key={index}
+              onPress={this.handleActionPress(action)}
+              style={styles.action}
+              textStyle={text.neutral}
+          >
+            {action.label}
           </Button>
+        ))}
+        <Button onPress={this.handleDeleteNotification} style={styles.action}>
+          <Icon
+              color={colors.neutral}
+              name="close"
+              size={20}
+          />
+        </Button>
       </View>
     );
   }
@@ -59,7 +81,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center'
   },
-  delete: {
+  action: {
     flex: 0,
     padding: minor
   },

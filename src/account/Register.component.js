@@ -2,11 +2,14 @@
 import React from 'react';
 import {View} from 'react-native';
 import I18n from 'react-native-i18n';
+import gql from 'graphql-tag';
 import LoadContent from 'walless/components/LoadContent.component';
-import {set} from 'lodash/fp';
+import {set, get} from 'lodash/fp';
+import {connect} from 'react-redux';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import client from 'walless/apolloClient';
 import {isEmail} from 'walless/util/validation';
 import Input from 'walless/components/Input.component';
 import Password from 'walless/account/Password.component';
@@ -15,8 +18,9 @@ import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import Stepped from 'walless/components/Stepped.component';
 import {createAccount} from 'walless/util/auth';
+import {addNotification} from 'walless/notification/notification.reducer';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
   state = {
     account: {
       firstName: '',
@@ -42,7 +46,7 @@ export default class Register extends React.Component {
   handleContinuePress = () => this.setState({step: this.state.step + 1});
   handleBackPress = () => this.setState({step: this.state.step - 1});
   render() {
-    const {onCancel} = this.props;
+    const {setAction, addNotification} = this.props;
     const {
       account: {email, firstName, lastName, password, dateOfBirth},
       loading,
@@ -58,11 +62,51 @@ export default class Register extends React.Component {
               {alignItems: 'stretch', justifyContent: 'center'}
             ]}
             onBackPress={this.handleBackPress}
-            onCancelPress={onCancel}
+            onCancelPress={setAction('')}
             onContinuePress={this.handleContinuePress}
             onSubmitPress={this.handleRegister}
             step={step}
             steps={[
+              {
+                component: (
+                  <Input
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      autoFocus
+                      keyboardType="email-address"
+                      label={I18n.t('account.email')}
+                      light
+                      maxLength={254}
+                      name="email"
+                      onChangeText={this.handleInputChange(['account', 'email'])}
+                      value={email}
+                  />
+                ),
+                allowContinue: isEmail(email),
+                validate: async() => {
+                  const exists = get(['data', 'accountByEmail', 'email'])(
+                    await client.query({
+                      query: gql`
+                        query accountByEmail($email: String!){
+                          accountByEmail(email: $email) {
+                            email
+                          }
+                        }`,
+                      variables: {email}
+                    })
+                  );
+                  return typeof exists === 'undefined';
+                },
+                onError: () => addNotification({
+                  type: 'alert',
+                  message: I18n.t('error.emailRegisteredToAccount', {email}),
+                  actions: [{
+                    label: I18n.t('account.authenticate'),
+                    onPress: setAction('authenticate'),
+                    deleteOnPress: true
+                  }]
+                })
+              },
               {
                 component: (
                   <View style={{width: '100%'}}>
@@ -92,22 +136,6 @@ export default class Register extends React.Component {
                   </View>
                 ),
                 allowContinue: /^[a-zA-Z]+$/.test(firstName) && /^[a-zA-Z]+$/.test(lastName)
-              }, {
-                component: (
-                  <Input
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      autoFocus
-                      keyboardType="email-address"
-                      label={I18n.t('account.email')}
-                      light
-                      maxLength={254}
-                      name="email"
-                      onChangeText={this.handleInputChange(['account', 'email'])}
-                      value={email}
-                  />
-                ),
-                allowContinue: isEmail(email)
               },
               {
                 component: (
@@ -173,3 +201,5 @@ export default class Register extends React.Component {
     );
   }
 }
+
+export default connect(null, {addNotification})(Register);

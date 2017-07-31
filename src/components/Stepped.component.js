@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import {
   View,
   Text,
+  ActivityIndicator,
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
 import Button from 'walless/components/Button.component';
@@ -17,6 +19,9 @@ export default class Stepped extends React.Component {
     contentContainerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
     displayProgressBar: PropTypes.bool,
     steps: PropTypes.arrayOf(PropTypes.shape({
+      allowContinue: PropTypes.bool,
+      validate: PropTypes.func,
+      onError: PropTypes.func,
       component: PropTypes.node.isRequired
     })).isRequired,
     onContinuePress: PropTypes.func,
@@ -34,13 +39,25 @@ export default class Stepped extends React.Component {
     displayProgressBar: true,
     step: 0
   };
-  handleContinuePress = () => {
+  state = {
+    loading: false
+  };
+  handleContinuePress = async() => {
     const {step, onContinuePress, steps} = this.props;
-    if (typeof steps[step].allowContinue === 'undefined' || steps[step].allowContinue) {
+    const {allowContinue, validate, onContinue, onError} = steps[step];
+    if (typeof allowContinue === 'undefined' || allowContinue) {
+      if (typeof validate === 'function') {
+        this.setState({loading: true});
+        const valid = await validate();
+        this.setState({loading: false});
+        if (valid !== true) {
+          return typeof onError === 'function' ? onError(valid) : null;
+        }
+      }
       if (typeof onContinuePress === 'function') {
         onContinuePress();
       }
-      if (typeof steps[step].onContinue === 'function') {
+      if (typeof onContinue === 'function') {
         steps[step].onContinue();
       }
     }
@@ -77,31 +94,37 @@ export default class Stepped extends React.Component {
         />
       )
     } = this.props;
+    const {loading} = this.state;
     const step = Math.min(this.props.step, steps.length - 1);
-    const LeftButton = () => (
+    const LeftButton = props => (
       <Button
+          disabled={loading}
           onPress={step === 0 ? this.handleCancelPress : this.handleBackPress}
           padded
           textStyle={{color}}
+          {...props}
       >
         {step === 0 ? cancelLabel : backLabel}
       </Button>
     );
-    const RightButton = () => (
+    const RightButton = props => (
       <Button
           disabled={
-            typeof steps[step].allowContinue !== 'undefined' &&
-            !steps[step].allowContinue
+            loading || (
+              typeof steps[step].allowContinue !== 'undefined' &&
+              !steps[step].allowContinue
+            )
           }
           onPress={step === steps.length - 1 ? this.handleSubmitPress : this.handleContinuePress}
           padded
           textStyle={{color}}
+          {...props}
       >
         {step === steps.length - 1 ? submitLabel : continueLabel}
       </Button>
     );
     const ProgressBar = () => displayProgressBar ? (
-      <View style={{flex: 0, height: 6, alignSelf: 'stretch', flexDirection: 'row'}}>
+      <View style={styles.progressBarContainer}>
         <View
             style={{
               flex: 0,
@@ -113,21 +136,19 @@ export default class Stepped extends React.Component {
         <View style={{flex: 1, backgroundColor: color, opacity: .4}} />
       </View>
     ) : null;
+    const {invalid, component} = steps[step];
     return (
       <AvoidKeyboard contentContainerStyle={contentContainerStyle}>
-        <View style={contentContainerStyle}>
-          {typeof steps[step].invalid === 'string' ?
-            <Text>{steps[step].invalid}</Text> : null
-          }
-          {steps[step].component}
-        </View>
-        <View
-            style={{
-              alignSelf: 'stretch',
-              flexDirection: 'row',
-              justifyContent: 'space-between'
-            }}
-        >
+        {loading ?
+          <View style={contentContainerStyle}>
+            <ActivityIndicator color={color} />
+          </View> :
+          <View style={contentContainerStyle}>
+            {typeof invalid === 'string' ? <Text>{invalid}</Text> : null}
+            {component}
+          </View>
+        }
+        <View style={styles.navigation}>
           <LeftButton />
           <RightButton />
         </View>
@@ -136,3 +157,17 @@ export default class Stepped extends React.Component {
     );
   }
 };
+
+const styles = EStyleSheet.create({
+  progressBarContainer: {
+    flex: 0,
+    height: 6,
+    alignSelf: 'stretch',
+    flexDirection: 'row'
+  },
+  navigation: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
