@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {View, Text, ListView, TouchableOpacity} from 'react-native';
 import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
-import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swipeable from 'react-native-swipeable';
 
@@ -68,7 +67,7 @@ class MenuItems extends React.Component {
     this.props.addCartItems(menuItem);
   };
   handleItemPress = menuItem => () => {
-    this.props.navigate({routeName: 'restaurantMenuItem', params: {menuItem}});
+    this.props.navigation.navigate('restaurantMenuItem', {menuItem});
   };
   handleRenderItem = (menuItem, sectionId, rowId) => {
     const {
@@ -118,19 +117,17 @@ class MenuItems extends React.Component {
   render() {
     const {dataSource, isSwiping} = this.state;
     return (
-      <View style={[container.container, container.default]}>
-        <ListView
-            dataSource={dataSource}
-            enableEmptySections
-            renderRow={this.handleRenderItem}
-            scrollEnabled={!isSwiping}
-        />
-      </View>
+      <ListView
+          dataSource={dataSource}
+          enableEmptySections
+          renderRow={this.handleRenderItem}
+          scrollEnabled={!isSwiping}
+      />
     );
   }
 }
 
 export default compose(
-  connect(mapStateToProps, {addCartItems, navigate: NavigationActions.navigate}),
+  connect(mapStateToProps, {addCartItems}),
   getMenuItemsByRestaurant
 )(MenuItems);

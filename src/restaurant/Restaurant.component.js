@@ -4,7 +4,7 @@ import {View, Text, ScrollView, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {get} from 'lodash/fp';
+import {get, isEqual} from 'lodash/fp';
 import Swiper from 'react-native-swiper';
 import I18n from 'react-native-i18n';
 
@@ -38,7 +38,10 @@ const checkRestaurant = props => {
 
 class Restaurant extends React.Component {
   componentWillMount = () => checkRestaurant(this.props);
-  shouldComponentUpdate = nextProps => checkRestaurant(nextProps);
+  shouldComponentUpdate = nextProps =>
+    this.props.language !== nextProps.language ||
+    !isEqual(this.props.restaurant)(nextProps.restaurant) ?
+      checkRestaurant(nextProps) : false;
   render() {
     const {
       restaurant: {

@@ -35,7 +35,7 @@ class Menus extends React.Component {
       });
     }
   };
-  handleRenderMenu = menu => {
+  handleRenderItem = menu => {
     const {
       information: {
         [this.props.language]: {
@@ -56,17 +56,15 @@ class Menus extends React.Component {
         </View>
       </TouchableOpacity>
     );
-  }
+  };
   render() {
     const {dataSource} = this.state;
     return (
-      <View style={[container.container, container.rowDistinct, container.light]}>
-        <ListView
-            dataSource={dataSource}
-            enableEmptySections
-            renderRow={this.handleRenderMenu}
-        />
-      </View>
+      <ListView
+          dataSource={dataSource}
+          enableEmptySections
+          renderRow={this.handleRenderItem}
+      />
     );
   }
 }

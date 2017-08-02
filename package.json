@@ -16,7 +16,7 @@
 		"prop-types": "^15.5.10",
 		"react": "16.0.0-alpha.12",
 		"react-apollo": "^1.0.1",
-		"react-native": "0.46.2",
+		"react-native": "0.47.0",
 		"react-native-camera": "^0.9",
 		"react-native-datepicker": "^1.6.0",
 		"react-native-device-info": "^0.10.2",

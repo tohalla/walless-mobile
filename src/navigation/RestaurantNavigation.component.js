@@ -9,7 +9,6 @@ import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Navigation, {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
 
 const mapStateToProps = state => ({
-  navigationState: state.navigation,
   restaurant: get(['servingLocation', 'restaurant'])(state),
   language: state.translation.language
 });

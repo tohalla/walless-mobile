@@ -6,10 +6,10 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import {initialRouteName as restaurantRoute} from 'walless/navigation/RestaurantNavigation';
 import {initialRouteName as settingsRoute} from 'walless/navigation/SettingsNavigation';
-import {initialRouteName as ordersRoute} from 'walless/navigation/OrdersNavigation';
+import {initialRouteName as orderRoute} from 'walless/navigation/OrderNavigation';
 import RestaurantNavigation from 'walless/navigation/RestaurantNavigation.component';
 import SettingsNavigation from 'walless/navigation/SettingsNavigation.component';
-import OrdersNavigation from 'walless/navigation/OrdersNavigation.component';
+import OrderNavigation from 'walless/navigation/OrderNavigation';
 import {major} from 'walless/styles/spacing';
 
 export const initialRouteName = 'home';
@@ -23,8 +23,8 @@ export const routes = {
     screen: RestaurantNavigation,
     translationKey: 'navigation.restaurant'
   },
-  [ordersRoute]: {
-    screen: OrdersNavigation,
+  [orderRoute]: {
+    screen: OrderNavigation,
     translationKey: 'navigation.orders.orders'
   },
   [settingsRoute]: {

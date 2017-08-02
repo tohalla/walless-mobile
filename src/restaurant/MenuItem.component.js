@@ -50,19 +50,21 @@ class MenuItem extends React.Component {
           alwaysBounceVertical={false}
           style={[container.container, container.light]}
       >
-        <Swiper
-            activeDotColor={colors.foregroundLight}
-            dotColor="rgba(0,0,0,0.8)"
-            height={250}
-        >
-          {images.map((image, index) => (
-            <Image
-                key={index}
-                source={{uri: image.uri}}
-                style={container.slide}
-            />
-          ))}
-        </Swiper>
+        {images.length ?
+          <Swiper
+              activeDotColor={colors.foregroundLight}
+              dotColor="rgba(0,0,0,0.8)"
+              height={250}
+          >
+            {images.map((image, index) => (
+              <Image
+                  key={index}
+                  source={{uri: image.uri}}
+                  style={container.slide}
+              />
+            ))}
+          </Swiper>
+        : null}
         <View style={[container.row, container.spread]}>
           <Text style={[text.text, container.padded, text.medium, text.bold]}>{name}</Text>
           <Button
