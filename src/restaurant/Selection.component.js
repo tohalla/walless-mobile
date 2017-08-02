@@ -3,10 +3,10 @@ import React from 'react';
 import {View} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {get} from 'lodash/fp';
+import {get, isEqual} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 
-import {NavigationActions} from 'react-navigation';
+import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import {getActiveAccount} from 'walless-graphql/account/account.queries';
 import Button from 'walless/components/Button.component';
@@ -22,16 +22,26 @@ class Selection extends React.Component {
   static navigationOptions = {
     header: null
   };
-  componentWillReceiveProps(newProps) {
-    if (newProps.restaurant) {
-      newProps.navigation.dispatch(NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({routeName: 'restaurant'})
-        ]
-      }));
+  constructor(props) {
+    super(props);
+    if (this.props.restaurant) {
+      this.toRestaurant();
     }
   }
+  componentWillReceiveProps(newProps) {
+    if (!isEqual(newProps.restaurant)(this.props.restaurant)) {
+      this.toRestaurant();
+    }
+  }
+  toRestaurant = () => {
+    this.props.setRestaurantNavigation({
+      index: 0,
+      routes: [{
+        key: 'restaurant',
+        routeName: 'restaurant'
+      }]
+    });
+  };
   render() {
     const {
       account,
@@ -69,7 +79,7 @@ class Selection extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, {setRestaurantNavigation}),
   getRestaurant,
   getActiveAccount
 )(Selection);

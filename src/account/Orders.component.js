@@ -1,7 +1,9 @@
 import React from 'react';
 import {ListView, Text, TouchableOpacity} from 'react-native';
 import {compose} from 'react-apollo';
+import {connect} from 'react-redux';
 import {isEqual} from 'lodash/fp';
+import {NavigationActions} from 'react-navigation';
 
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
@@ -27,7 +29,7 @@ class Orders extends React.Component {
     }
   };
   handleItemPress = order => () => {
-    this.props.screenProps.rootNavigation.navigate('order', {order});
+    this.props.navigate({routeName: 'order', params: {order}});
   };
   handleRenderItem = order => {
     const {createdAt} = order;
@@ -53,6 +55,7 @@ class Orders extends React.Component {
 }
 
 export default compose(
+  connect(null, {navigate: NavigationActions.navigate}),
   getActiveAccount,
   getOrdersByAccount
 )(Orders);

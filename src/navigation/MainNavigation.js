@@ -4,12 +4,9 @@ import {Image, ScrollView, Platform, View} from 'react-native';
 import {DrawerNavigator, DrawerItems} from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import {initialRouteName as restaurantRoute} from 'walless/navigation/RestaurantNavigation';
-import {initialRouteName as settingsRoute} from 'walless/navigation/SettingsNavigation';
-import {initialRouteName as orderRoute} from 'walless/navigation/OrderNavigation';
-import RestaurantNavigation from 'walless/navigation/RestaurantNavigation.component';
-import SettingsNavigation from 'walless/navigation/SettingsNavigation.component';
-import OrderNavigation from 'walless/navigation/OrderNavigation';
+import RestaurantNavigation, {initialRouteName as restaurantRoute} from 'walless/navigation/RestaurantNavigation';
+import SettingsNavigation, {initialRouteName as settingsRoute} from 'walless/navigation/SettingsNavigation';
+import OrderNavigation, {initialRouteName as orderRoute} from 'walless/navigation/OrderNavigation';
 import {major} from 'walless/styles/spacing';
 
 export const initialRouteName = 'home';
@@ -50,15 +47,13 @@ class ContentComponent extends React.Component {
   }
 }
 
-const MainNavigation = new DrawerNavigator(routes, {
+export default new DrawerNavigator(routes, {
   initialRouteName,
   contentComponent: props => <ContentComponent {...props}/>,
   navigationOptions: ({navigation: {state}, screenProps: {titles}}) => ({
     title: titles[state.routeName]
   })
 });
-
-export default MainNavigation;
 
 const styles = EStyleSheet.create({
   navigationContainer: {

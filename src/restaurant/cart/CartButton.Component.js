@@ -2,15 +2,17 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import {get} from 'lodash/fp';
 
+import {minor} from 'walless/styles/spacing';
 import Button from 'walless/components/Button.component';
 import header from 'walless/styles/header';
 import colors from 'walless/styles/colors';
 
 const mapStateToProps = state => ({
   items: get(['cart', 'items'])(state) || [],
-  routes: get(['navigation', 'routes'])(state)
+  routes: get(['navigation', 'restaurant', 'routes'])(state)
 });
 
 class CartButton extends React.Component {
@@ -22,7 +24,7 @@ class CartButton extends React.Component {
     ) ? <View /> : (
       <Button
           onPress={() => navigation.navigate('restaurantCart')}
-          padded
+          style={styles.button}
       >
         <Icon
             color={colors.headerForeground}
@@ -44,3 +46,7 @@ class CartButton extends React.Component {
 export default connect(
   mapStateToProps,
 )(CartButton);
+
+const styles = EStyleSheet.create({
+  button: {paddingRight: minor}
+});

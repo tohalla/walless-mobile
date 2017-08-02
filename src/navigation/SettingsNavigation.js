@@ -1,9 +1,15 @@
 // @flow
 import React from 'react';
-import {StackNavigator} from 'react-navigation';
+import {StackNavigator, addNavigationHelpers} from 'react-navigation';
+import {Text} from 'react-native';
+import {connect} from 'react-redux';
+import I18n from 'react-native-i18n';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {get} from 'lodash/fp';
 
 import {changePassword} from 'walless/util/auth';
 import Settings from 'walless/settings/Settings.component';
+import Button from 'walless/components/Button.component';
 import Account from 'walless/account/Account.component';
 import Password from 'walless/account/Password.component';
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
@@ -55,18 +61,62 @@ export const settingsRoutes = {
   }
 };
 
-const SettingsNavigation = new StackNavigator(
+const BackButton = connect(
+  state => ({navigationState: get(['navigation', 'settings'])(state)})
+)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ? null : (
+  <Button onPress={() => navigation.goBack()} >
+    <Icon
+        color={colors.headerForeground}
+        name="chevron-left"
+        size={20}
+    />
+    <Text style={header.text}>
+      {titles[routes[index - 1].routeName]}
+    </Text>
+  </Button>
+));
+
+export const SettingsNavigation = new StackNavigator(
   settingsRoutes,
   {
     initialRouteName,
-    navigationOptions: ({navigation: {state}, screenProps: {titles}}) => ({
-      title: titles[state.routeName],
+    navigationOptions: ({navigation, screenProps: {titles}}) => ({
+      title: titles[navigation.state.routeName],
+      headerLeft: <BackButton navigation={navigation} titles={titles}/>,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
-      headerTintColor: colors.headerForeground,
-      headerBackTitleStyle: header.text
+      headerTintColor: colors.headerForeground
     })
   }
 );
 
-export default SettingsNavigation;
+const mapStateToProps = state => ({
+  navigationState: get(['navigation', 'settings'])(state),
+  language: state.translation.language
+});
+
+class Navigation extends React.Component {
+  render() {
+    return (
+      <SettingsNavigation
+          navigation={addNavigationHelpers({
+            state: this.props.navigationState,
+            dispatch: this.props.dispatch
+          })}
+          screenProps={{
+            titles: Object.keys(settingsRoutes).reduce((prev, key) =>
+              Object.assign(
+                {},
+                prev,
+                {[key]: settingsRoutes[key].translationKey ?
+                  I18n.t(settingsRoutes[key].translationKey) : null
+                }
+              ), {}
+            )
+          }}
+      />
+    );
+  }
+}
+
+export default connect(mapStateToProps)(Navigation);

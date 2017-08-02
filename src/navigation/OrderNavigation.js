@@ -1,17 +1,26 @@
 // @flow
 import React from 'react';
-import {TabNavigator, TabBarBottom, StackNavigator} from 'react-navigation';
+import {Text} from 'react-native';
+import {
+  TabNavigator,
+  TabBarBottom,
+  StackNavigator,
+  addNavigationHelpers
+} from 'react-navigation';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
+import {get} from 'lodash/fp';
 
 import colors from 'walless/styles/colors';
 import header from 'walless/styles/header';
+import Button from 'walless/components/Button.component';
 import Orders from 'walless/account/Orders.component';
 import Order from 'walless/account/Order.component';
 import text from 'walless/styles/text';
 
 const mapStateToProps = state => ({
+  navigationState: get(['navigation', 'order'])(state),
   language: state.translation.language
 });
 
@@ -62,7 +71,6 @@ const OrdersNavigation = connect(mapStateToProps)(
       return (
         <OrdersNavigator
             screenProps={{
-              rootNavigation: this.props.navigation,
               titles: Object.keys(ordersRoutes).reduce((prev, key) =>
                 Object.assign(
                   {},
@@ -92,24 +100,43 @@ export const orderRoutes = {
   }
 };
 
-const OrderNavigator = new StackNavigator(
+const BackButton = connect(
+  state => ({navigationState: get(['navigation', 'order'])(state)})
+)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ? null : (
+  <Button onPress={() => navigation.goBack()} >
+    <Icon
+        color={colors.headerForeground}
+        name="chevron-left"
+        size={20}
+    />
+    <Text style={header.text}>
+      {titles[routes[index - 1].routeName]}
+    </Text>
+  </Button>
+));
+
+export const OrderNavigation = new StackNavigator(
   orderRoutes,
   {
     initialRouteName,
     navigationOptions: ({navigation, screenProps: {titles}}) => ({
       title: titles[navigation.state.routeName],
+      headerLeft: <BackButton navigation={navigation} titles={titles}/>,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
-      headerTintColor: colors.headerForeground,
-      headerBackTitleStyle: header.text
+      headerTintColor: colors.headerForeground
     })
   }
 );
 
-class OrderNavigation extends React.Component {
+class Navigation extends React.Component {
   render() {
     return (
-      <OrderNavigator
+      <OrderNavigation
+          navigation={addNavigationHelpers({
+            state: this.props.navigationState,
+            dispatch: this.props.dispatch
+          })}
           screenProps={{
             titles: Object.keys(orderRoutes).reduce((prev, key) =>
               Object.assign(
@@ -127,5 +154,5 @@ class OrderNavigation extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(OrderNavigation);
+export default connect(mapStateToProps)(Navigation);
 

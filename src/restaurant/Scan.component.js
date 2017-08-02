@@ -1,5 +1,4 @@
 import React from 'react';
-import {NavigationActions} from 'react-navigation';
 import {Linking} from 'react-native';
 
 import QRScreen from 'walless/QRScreen.component';
@@ -18,12 +17,6 @@ export default class Scan extends React.Component {
   handleBarCodeRead = async(data) => {
     await Linking.openURL(data);
   }
-  reset = () => this.props.navigation.dispatch(NavigationActions.reset({
-    index: 0,
-    actions: [
-      NavigationActions.navigate({routeName: 'restaurant'})
-    ]
-  }));
   render = () => (
     <QRScreen
         onSuccess={this.handleBarCodeRead}

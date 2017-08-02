@@ -7,6 +7,7 @@ export const ADD_CART_ITEMS = 'ADD_CART_ITEMS';
 
 // navigation reducer
 export const RESET_NAVIGATION = 'RESET_NAVIGATION';
+export const SET_RESTAURANT_NAVIGATION = 'SET_RESTAURANT_NAVIGATION';
 
 // translation reducer
 export const SET_LANGUAGES = 'SET_LANGUAGES';

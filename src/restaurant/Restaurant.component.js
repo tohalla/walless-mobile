@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
 import {View, Text, ScrollView, Image} from 'react-native';
-import {NavigationActions} from 'react-navigation';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get, isEqual} from 'lodash/fp';
 import Swiper from 'react-native-swiper';
 import I18n from 'react-native-i18n';
 
+import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
 import {disconnectFromServingLocation} from 'walless/restaurant/servingLocation.reducer';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
@@ -22,24 +22,27 @@ const mapStateToProps = state => ({
   language: state.translation.language
 });
 
-const checkRestaurant = props => {
-  const {getRestaurant: {loading} = {}, restaurant, navigation} = props;
+const checkRestaurant = async(props) => {
+  const {getRestaurant: {loading} = {}, restaurant, setRestaurantNavigation} = props;
   if (!restaurant && !loading) {
-    navigation.dispatch(NavigationActions.reset({
+    setRestaurantNavigation({
       index: 0,
-      actions: [
-        NavigationActions.navigate({routeName: 'restaurantSelection'})
-      ]
-    }));
+      routes: [{
+        key: 'restaurantSelection',
+        routeName: 'restaurantSelection'
+      }]
+    });
     return false;
   }
   return true;
 };
 
 class Restaurant extends React.Component {
-  componentWillMount = () => checkRestaurant(this.props);
+  constructor(props) {
+    super(props);
+    checkRestaurant(props);
+  }
   shouldComponentUpdate = nextProps =>
-    this.props.language !== nextProps.language ||
     !isEqual(this.props.restaurant)(nextProps.restaurant) ?
       checkRestaurant(nextProps) : false;
   render() {
@@ -104,9 +107,9 @@ class Restaurant extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, dispatch => ({
-    disconnectFromServingLocation: value => dispatch(disconnectFromServingLocation(value)),
-    dispatch
-  })),
+  connect(mapStateToProps, {
+    disconnectFromServingLocation,
+    setRestaurantNavigation
+  }),
   getRestaurant
 )(Restaurant);

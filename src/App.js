@@ -8,6 +8,7 @@ import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
 
+import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
 import container from 'walless/styles/container';
 import {parse} from 'walless/util/link';
 import MainNavigation, {routes} from 'walless/navigation/MainNavigation';
@@ -19,7 +20,7 @@ import {connectToServingLocation} from 'walless/restaurant/servingLocation.reduc
 import Notifications from 'walless/notification/Notifications.component';
 
 const mapStateToProps = state => ({
-  navigationState: state.navigation,
+  navigationState: get(['navigation', 'main'])(state),
   servingLocation: state.servingLocation,
   notification: state.notification
 });
@@ -47,11 +48,18 @@ class App extends React.Component {
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
-  handleOpenURL = event => {
+  handleOpenURL = async(event) => {
     const {path, value} = parse(event.url);
     if (path === 'serving-location') {
-      this.props.connectToServingLocation(value);
+      await this.props.connectToServingLocation(value);
     }
+    this.props.setRestaurantNavigation({
+      index: 0,
+      routes: [{
+        key: 'restaurant',
+        routeName: 'restaurant'
+      }]
+    });
   };
   render() {
     const {
@@ -68,6 +76,7 @@ class App extends React.Component {
                     state: this.props.navigationState,
                     dispatch: this.props.dispatch
                   })}
+                  ref={c => this.navigation = c}
                   screenProps={{
                     titles: Object.keys(routes).reduce((prev, key) =>
                       Object.assign(
@@ -91,6 +100,7 @@ class App extends React.Component {
 export default compose(
   connect(mapStateToProps, dispatch => ({
     connectToServingLocation: value => dispatch(connectToServingLocation(value)),
+    setRestaurantNavigation: args => dispatch(setRestaurantNavigation(args)),
     dispatch
   })),
   getActiveAccount

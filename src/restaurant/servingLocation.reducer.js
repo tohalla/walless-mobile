@@ -37,5 +37,5 @@ export const disconnectFromServingLocation = servingLocation => async(dispatch) 
       }
     }
   );
-  return dispatch(setServingLocation({servingLocation: null, restaurant: null}));
+  return dispatch(setServingLocation({servingLocation: undefined, restaurant: undefined}));
 };
