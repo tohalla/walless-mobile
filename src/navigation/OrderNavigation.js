@@ -17,6 +17,7 @@ import header from 'walless/styles/header';
 import Button from 'walless/components/Button.component';
 import Orders from 'walless/account/Orders.component';
 import Order from 'walless/account/Order.component';
+import OpenDrawerButton from 'walless/navigation/OpenDrawerButton.component';
 import text from 'walless/styles/text';
 
 const mapStateToProps = state => ({
@@ -100,9 +101,11 @@ export const orderRoutes = {
   }
 };
 
-const BackButton = connect(
+const LeftButton = connect(
   state => ({navigationState: get(['navigation', 'order'])(state)})
-)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ? null : (
+)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ?
+  <OpenDrawerButton />
+: (
   <Button onPress={() => navigation.goBack()} >
     <Icon
         color={colors.headerForeground}
@@ -121,7 +124,7 @@ export const OrderNavigation = new StackNavigator(
     initialRouteName,
     navigationOptions: ({navigation, screenProps: {titles}}) => ({
       title: titles[navigation.state.routeName],
-      headerLeft: <BackButton navigation={navigation} titles={titles}/>,
+      headerLeft: <LeftButton navigation={navigation} titles={titles}/>,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
       headerTintColor: colors.headerForeground

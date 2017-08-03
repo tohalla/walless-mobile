@@ -15,6 +15,7 @@ import Password from 'walless/account/Password.component';
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
 import colors from 'walless/styles/colors';
 import header from 'walless/styles/header';
+import OpenDrawerButton from 'walless/navigation/OpenDrawerButton.component';
 
 export const initialRouteName = 'settings';
 
@@ -61,9 +62,11 @@ export const settingsRoutes = {
   }
 };
 
-const BackButton = connect(
+const LeftButton = connect(
   state => ({navigationState: get(['navigation', 'settings'])(state)})
-)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ? null : (
+)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ?
+  <OpenDrawerButton />
+: (
   <Button onPress={() => navigation.goBack()} >
     <Icon
         color={colors.headerForeground}
@@ -82,7 +85,7 @@ export const SettingsNavigation = new StackNavigator(
     initialRouteName,
     navigationOptions: ({navigation, screenProps: {titles}}) => ({
       title: titles[navigation.state.routeName],
-      headerLeft: <BackButton navigation={navigation} titles={titles}/>,
+      headerLeft: <LeftButton navigation={navigation} titles={titles}/>,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
       headerTintColor: colors.headerForeground
