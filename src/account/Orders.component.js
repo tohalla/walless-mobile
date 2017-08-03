@@ -1,10 +1,12 @@
 import React from 'react';
-import {ListView, Text, TouchableOpacity} from 'react-native';
+import {ListView, Text, TouchableOpacity, RefreshControl} from 'react-native';
 import {compose} from 'react-apollo';
+import I18n from 'react-native-i18n';
 import {connect} from 'react-redux';
 import {isEqual} from 'lodash/fp';
 import {NavigationActions} from 'react-navigation';
 
+import colors from 'walless/styles/colors';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import {getActiveAccount} from 'walless-graphql/account/account.queries';
@@ -14,6 +16,7 @@ class Orders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      refreshing: false,
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => !isEqual(r1)(r2)
       })
@@ -28,17 +31,50 @@ class Orders extends React.Component {
       });
     }
   };
+  refresh = async() => {
+    this.setState({refreshing: true});
+    await this.props.getOrdersByAccount.refetch();
+    this.setState({refreshing: false});
+  };
   handleItemPress = order => () => {
     this.props.navigate({routeName: 'order', params: {order}});
   };
   handleRenderItem = order => {
-    const {createdAt} = order;
+    const {
+      createdAt,
+      accepted,
+      completed,
+      declined
+    } = order;
     return (
       <TouchableOpacity
           onPress={this.handleItemPress(order)}
-          style={[container.row, container.rowDistinct, container.padded]}
+          style={[
+            container.row,
+            container.rowDistinct,
+            container.padded,
+            container.spread
+          ]}
       >
         <Text style={text.text}>{createdAt}</Text>
+        {
+          completed ?
+            <Text style={[text.text, {color: colors.success}]}>
+              {I18n.t('restaurant.order.status.completed')}
+            </Text>
+          : accepted ?
+            <Text style={[text.text, {color: colors.foregroundDark}]}>
+              {I18n.t('restaurant.order.status.accepted')}
+            </Text>
+          : declined ?
+            <Text style={[text.text, {color: colors.danger}]}>
+              {I18n.t('restaurant.order.status.declined')}
+            </Text>
+          :
+            <Text style={[text.text, {color: colors.neutral}]}>
+              {I18n.t('restaurant.order.status.pending')}
+            </Text>
+        }
       </TouchableOpacity>
     );
   };
@@ -48,6 +84,12 @@ class Orders extends React.Component {
       <ListView
           dataSource={dataSource}
           enableEmptySections
+          refreshControl={
+            <RefreshControl
+                onRefresh={this.refresh}
+                refreshing={this.state.refreshing}
+            />
+          }
           renderRow={this.handleRenderItem}
       />
     );

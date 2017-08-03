@@ -11,7 +11,6 @@ const colors = {
   black: '#000',
   orange: '#f39c12',
   green: '#2ecc71'
-
 };
 
 export default Object.assign({

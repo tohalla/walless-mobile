@@ -22,7 +22,7 @@ export const routes = {
   },
   [orderRoute]: {
     screen: OrderNavigation,
-    translationKey: 'navigation.orders.orders'
+    translationKey: 'navigation.orders.myOrders'
   },
   [settingsRoute]: {
     screen: SettingsNavigation,

@@ -22,10 +22,11 @@ class Order extends React.Component {
   });
   render() {
     const {
-      order = get(['navigation', 'state', 'params', 'order'])(this.props)
+      order = get(['navigation', 'state', 'params', 'order'])(this.props),
+      language
     } = this.props;
     const {
-      createdAt
+      items
     } = order;
     return (
       <ScrollView
@@ -33,7 +34,13 @@ class Order extends React.Component {
           style={[container.container, container.light]}
       >
         <View style={container.padded}>
-          <Text style={[text.text]}>{createdAt}</Text>
+          {items.map((item, index) => (
+            <View key={index}>
+              <Text style={text.text}>
+                {get(['menuItem', 'information', language, 'name'])(item)}
+              </Text>
+            </View>
+          ))}
         </View>
       </ScrollView>
     );

@@ -94,7 +94,7 @@ export const initialRouteName = 'orders';
 export const orderRoutes = {
   [initialRouteName]: {
     screen: OrdersNavigation,
-    translationKey: 'navigation.orders.orders'
+    translationKey: 'navigation.orders.myOrders'
   },
   order: {
     screen: Order
