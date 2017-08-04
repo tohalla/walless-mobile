@@ -9,6 +9,7 @@ import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
 import Button from 'walless/components/Button.component';
+import Diets from 'walless/restaurant/Diets.component';
 import {addCartItems} from 'walless/restaurant/cart.reducer';
 
 const mapStateToProps = state => ({
@@ -43,6 +44,7 @@ class MenuItem extends React.Component {
           name, description
         } = {}
       },
+      diets = [],
       images = []
     } = menuItem;
     return (
@@ -78,9 +80,11 @@ class MenuItem extends React.Component {
         <View style={container.padded}>
           <Text style={[text.text]}>{description}</Text>
         </View>
+        <Diets diets={diets} />
       </ScrollView>
     );
   }
 }
 
 export default connect(mapStateToProps, {addCartItems})(MenuItem);
+
