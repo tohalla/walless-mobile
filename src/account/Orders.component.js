@@ -60,19 +60,19 @@ class Orders extends React.Component {
         {
           completed ?
             <Text style={[text.text, {color: colors.success}]}>
-              {I18n.t('restaurant.order.status.completed')}
+              {I18n.t('restaurant.order.state.completed')}
             </Text>
           : accepted ?
             <Text style={[text.text, {color: colors.foregroundDark}]}>
-              {I18n.t('restaurant.order.status.accepted')}
+              {I18n.t('restaurant.order.state.accepted')}
             </Text>
           : declined ?
             <Text style={[text.text, {color: colors.danger}]}>
-              {I18n.t('restaurant.order.status.declined')}
+              {I18n.t('restaurant.order.state.declined')}
             </Text>
           :
             <Text style={[text.text, {color: colors.neutral}]}>
-              {I18n.t('restaurant.order.status.pending')}
+              {I18n.t('restaurant.order.state.pending')}
             </Text>
         }
       </TouchableOpacity>
