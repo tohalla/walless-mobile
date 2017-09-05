@@ -3,13 +3,11 @@ import ApolloClient, {createNetworkInterface} from 'apollo-client';
 
 import {fetchClientId, authenticate} from 'walless/util/auth';
 import config from 'walless-native/config';
+import {dataIdFromObject} from 'walless-graphql/util';
 
 const networkInterface = createNetworkInterface({
   uri: `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.graphQL.endpoint}`
 });
-
-const dataIdFromObject = result =>
-  result.nodeId;
 
 const apolloClient = new ApolloClient({
   networkInterface,

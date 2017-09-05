@@ -6,7 +6,6 @@ const colors = {
   river: '#3498db',
   lightGray: '#9E9E9E',
   gray: '#424242',
-  asphalt: '#95a5a6',
   darkGray: '#212121',
   black: '#000',
   orange: '#f39c12',

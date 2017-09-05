@@ -60,11 +60,11 @@ const fetchClientId = async() => {
 const authenticate = async(email: string, password: string) => {
   const response = await requestToken({email, password});
   if (response.ok) {
-    const {token, refreshToken, expiresAt} = await response.json();
-    await AsyncStorage.multiSet([
-      ['expiration', expiresAt.toString()]
-    ].concat(
+    const {token, wsToken, refreshToken, expiresAt} = await response.json();
+    await AsyncStorage.multiSet([['expiration', expiresAt.toString()]]
+      .concat(
         typeof token === 'string' ? [['authorization', token]]: [],
+        typeof wsToken === 'string' ? [['ws-token', wsToken]]: [],
         typeof refreshToken === 'string' ? [['refresh-token', refreshToken]] : []
       )
     );
@@ -82,7 +82,12 @@ const logout = async() => Promise.all([
       }
     }
   ),
-  AsyncStorage.multiRemove(['authorization', 'client-id', 'refresh-token'])
+  AsyncStorage.multiRemove([
+    'authorization',
+    'client-id',
+    'ws-token',
+    'refresh-token'
+  ])
 ]);
 
 const createAccount = account => fetch(
@@ -111,7 +116,7 @@ const changePassword = async(payload) => fetch(
 export {
   createAccount,
   fetchClientId,
-	authenticate,
+  authenticate,
   changePassword,
   logout
 };

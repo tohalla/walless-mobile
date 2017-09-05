@@ -4,10 +4,11 @@ import {AsyncStorage} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {addNavigationHelpers} from 'react-navigation';
-import {get} from 'lodash/fp';
+import {get, isEqual} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
 
+import {initializeNotificationHadnler} from 'walless/util/wsNotificationHandler';
 import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
 import container from 'walless/styles/container';
 import {parse} from 'walless/util/link';
@@ -18,6 +19,7 @@ import {authenticate} from 'walless/util/auth';
 import LoadContent from 'walless/components/LoadContent.component';
 import {connectToServingLocation} from 'walless/restaurant/servingLocation.reducer';
 import Notifications from 'walless/notification/Notifications.component';
+import {addNotification} from 'walless/notification/notification.reducer';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'main'])(state),
@@ -43,6 +45,8 @@ class App extends React.Component {
         await newProps.getActiveAccount.refetch();
         this.setState({loading: false});
       }
+    } else if (!isEqual(newProps.account)(this.props.account)) {
+      initializeNotificationHadnler({notify: this.props.addNotification});
     }
   }
   componentWillUnmount() {
@@ -101,6 +105,7 @@ export default compose(
   connect(mapStateToProps, dispatch => ({
     connectToServingLocation: value => dispatch(connectToServingLocation(value)),
     setRestaurantNavigation: args => dispatch(setRestaurantNavigation(args)),
+    addNotification: notification => dispatch(addNotification(notification)),
     dispatch
   })),
   getActiveAccount
