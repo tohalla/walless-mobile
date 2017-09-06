@@ -110,7 +110,7 @@ class Navigation extends React.Component {
                     }
                   ), {}
                 ),
-                {home: get(['restaurant', 'information', this.props.language, 'name'])(this.props)}
+                {home: get(['restaurant', 'i18n', this.props.language, 'name'])(this.props)}
               )
             }}
         />

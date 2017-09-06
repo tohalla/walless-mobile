@@ -48,13 +48,13 @@ class Restaurant extends React.Component {
   render() {
     const {
       restaurant: {
-        information: {
+        i18n: {
           [this.props.language]: {
             name, description
           } = {}
         },
         images = []
-      } = {information: {}},
+      } = {i18n: {}},
       navigation,
       disconnectFromServingLocation
     } = this.props;

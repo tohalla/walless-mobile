@@ -37,7 +37,7 @@ class Order extends React.Component {
           {items.map((item, index) => (
             <View key={index}>
               <Text style={text.text}>
-                {get(['menuItem', 'information', language, 'name'])(item)}
+                {get(['menuItem', 'i18n', language, 'name'])(item)}
               </Text>
             </View>
           ))}

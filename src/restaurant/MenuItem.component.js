@@ -22,7 +22,7 @@ class MenuItem extends React.Component {
       'state',
       'params',
       'menuItem',
-      'information',
+      'i18n',
       navigation.language,
       'name']
     )(navigation)
@@ -39,7 +39,7 @@ class MenuItem extends React.Component {
       menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props)
     } = this.props;
     const {
-      information: {
+      i18n: {
         [this.props.language]: {
           name, description
         } = {}

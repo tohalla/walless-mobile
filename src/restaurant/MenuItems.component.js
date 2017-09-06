@@ -71,7 +71,7 @@ class MenuItems extends React.Component {
   };
   handleRenderItem = (menuItem, sectionId, rowId) => {
     const {
-      information: {
+      i18n: {
         [this.props.language]: {
           name, description
         } = {}
