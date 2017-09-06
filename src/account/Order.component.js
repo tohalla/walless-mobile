@@ -26,7 +26,7 @@ class Order extends React.Component {
       language
     } = this.props;
     const {
-      items
+      items = []
     } = order;
     return (
       <ScrollView

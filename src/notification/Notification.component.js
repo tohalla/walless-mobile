@@ -27,7 +27,7 @@ class Notification extends React.Component {
     type: 'neutral'
   };
   handleActionPress = action => () => {
-    action.onPress();
+    action.onPress(this.props);
     if (action.deleteOnPress) {
       this.handleDeleteNotification();
     }
@@ -48,7 +48,7 @@ class Notification extends React.Component {
               key={index}
               onPress={this.handleActionPress(action)}
               style={styles.action}
-              textStyle={text.neutral}
+              textStyle={styles.actionLabel}
           >
             {action.label}
           </Button>
@@ -84,6 +84,9 @@ const styles = EStyleSheet.create({
   action: {
     flex: 0,
     padding: minor
+  },
+  actionLabel: {
+    color: colors.action
   },
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,

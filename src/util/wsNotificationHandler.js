@@ -4,8 +4,11 @@ import I18n from 'react-native-i18n';
 import subscribe from 'walless-graphql/subscribe';
 import config from 'walless-native/config';
 import client from 'walless/apolloClient';
+import store from 'walless/store';
+import {NavigationActions} from 'react-navigation';
+import {addNotification} from 'walless/notification/notification.reducer';
 
-export const initializeNotificationHadnler = async ({notify}) =>
+export const initializeNotificationHadnler = async () =>
   subscribe(
     {
       url: `${config.websocket.protocol}://${config.websocket.url}:${config.websocket.port}/user`,
@@ -17,9 +20,16 @@ export const initializeNotificationHadnler = async ({notify}) =>
         operations.toLowerCase() === 'update' &&
         !(oldRecord && oldRecord.completed) &&
         newRecord.completed &&
-        notify({
+        store.dispatch(addNotification({
           type: 'success',
-          message: I18n.t('notifications.orderCompleted', {order: newRecord.id})
-        })
+          message: I18n.t('notifications.orderCompleted', {order: newRecord.id}),
+          actions: [{
+            label: I18n.t('view'),
+            onPress: () => store.dispatch(NavigationActions.navigate({
+              routeName: 'orders'
+            })),
+            deleteOnPress: true
+          }]
+        }))
       : null
   );

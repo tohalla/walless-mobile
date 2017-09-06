@@ -19,7 +19,6 @@ import {authenticate} from 'walless/util/auth';
 import LoadContent from 'walless/components/LoadContent.component';
 import {connectToServingLocation} from 'walless/restaurant/servingLocation.reducer';
 import Notifications from 'walless/notification/Notifications.component';
-import {addNotification} from 'walless/notification/notification.reducer';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'main'])(state),
@@ -46,7 +45,7 @@ class App extends React.Component {
         this.setState({loading: false});
       }
     } else if (!isEqual(newProps.account)(this.props.account)) {
-      initializeNotificationHadnler({notify: this.props.addNotification});
+      initializeNotificationHadnler();
     }
   }
   componentWillUnmount() {
@@ -105,7 +104,6 @@ export default compose(
   connect(mapStateToProps, dispatch => ({
     connectToServingLocation: value => dispatch(connectToServingLocation(value)),
     setRestaurantNavigation: args => dispatch(setRestaurantNavigation(args)),
-    addNotification: notification => dispatch(addNotification(notification)),
     dispatch
   })),
   getActiveAccount
