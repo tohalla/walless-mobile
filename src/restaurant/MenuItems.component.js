@@ -50,16 +50,15 @@ class MenuItems extends React.Component {
     if (!isEqual(this.props.getMenuItemsByRestaurant)(newProps.getMenuItemsByRestaurant)) {
       const menu = newProps.menu || get(['navigation', 'state', 'params', 'menu'])(newProps);
       this.setState({
-        dataSource:
-          this.state.dataSource.cloneWithRows(
-            Array.isArray(newProps.items) ?
-              newProps.items
-            : menu && typeof menu === 'object' ?
-              menu.menuItems
-            : Array.isArray(newProps.menuItems) ?
-              newProps.menuItems
-            : []
-          )
+        dataSource: this.state.dataSource.cloneWithRows(
+          Array.isArray(newProps.items) ?
+            newProps.items
+          : menu && typeof menu === 'object' ?
+            menu.menuItems
+          : Array.isArray(newProps.menuItems) ?
+            newProps.menuItems
+          : []
+        )
       });
     }
   };

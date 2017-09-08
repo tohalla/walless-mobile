@@ -15,7 +15,7 @@ import text from 'walless/styles/text';
 import LoadContent from 'walless/components/LoadContent.component';
 
 const mapStateToProps = state => ({
-  restaurant: get(['servingLocation', 'restaurant'])(state)
+  restaurantId: get(['servingLocation', 'restaurant'])(state)
 });
 
 class Selection extends React.Component {

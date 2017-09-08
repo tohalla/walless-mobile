@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
 
 class Menus extends React.Component {
   static PropTypes = {
-    restaurant: PropTypes.object.isRequired
+    restaurant: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired
   };
   constructor(props) {
     super(props);

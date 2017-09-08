@@ -63,7 +63,7 @@ class Cart extends React.Component {
   render() {
     const {
       items,
-      restaurant: {currency: {symbol}} = {currency: {}}
+      restaurant
     } = this.props;
     if (items.length) {}
     return items.length ? (
@@ -105,7 +105,10 @@ class Cart extends React.Component {
               {`${I18n.t('restaurant.cart.totalPrice')}: `}
             </Text>
             <Text style={[text.text]}>
-              {`${items.reduce((prev, curr) => prev + curr.price, 0)} ${symbol}`}
+              {
+                items.reduce((prev, curr) => prev + curr.price, 0).toString()
+                + ` ${get(['currency', 'symbol'])(restaurant)}`
+              }
             </Text>
           </View>
         </View>

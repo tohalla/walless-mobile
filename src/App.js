@@ -8,7 +8,7 @@ import {get, isEqual} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
 
-import {initializeNotificationHadnler} from 'walless/util/wsNotificationHandler';
+import {initializeNotificationHandler} from 'walless/util/wsNotificationHandler';
 import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
 import container from 'walless/styles/container';
 import {parse} from 'walless/util/link';
@@ -45,7 +45,7 @@ class App extends React.Component {
         this.setState({loading: false});
       }
     } else if (!isEqual(newProps.account)(this.props.account)) {
-      initializeNotificationHadnler();
+      initializeNotificationHandler();
     }
   }
   componentWillUnmount() {

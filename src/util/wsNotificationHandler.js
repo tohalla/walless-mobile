@@ -8,11 +8,13 @@ import store from 'walless/store';
 import {NavigationActions} from 'react-navigation';
 import {addNotification} from 'walless/notification/notification.reducer';
 
-export const initializeNotificationHadnler = async () =>
+export const initializeNotificationHandler = async () =>
   subscribe(
     {
       url: `${config.websocket.protocol}://${config.websocket.url}:${config.websocket.port}/user`,
-      wsToken: await AsyncStorage.getItem('ws-token'),
+      headers: {
+        authorization: await AsyncStorage.getItem('ws-token')
+      },
       client
     },
     ({newRecord, oldRecord, target, operations}) =>
