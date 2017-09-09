@@ -102,8 +102,8 @@ class App extends React.Component {
 
 export default compose(
   connect(mapStateToProps, dispatch => ({
-    connectToServingLocation: value => dispatch(connectToServingLocation(value)),
-    setRestaurantNavigation: args => dispatch(setRestaurantNavigation(args)),
+    connectToServingLocation: payload => dispatch(connectToServingLocation(payload)),
+    setRestaurantNavigation: payload => dispatch(setRestaurantNavigation(payload)),
     dispatch
   })),
   getActiveAccount

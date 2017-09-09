@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {ScrollView, View, Text, Image} from 'react-native';
 import {get} from 'lodash/fp';
 import {connect} from 'react-redux';
-import I18n from 'react-native-i18n';
 import Swiper from 'react-native-swiper';
 
 import text from 'walless/styles/text';
@@ -10,14 +10,19 @@ import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
 import Button from 'walless/components/Button.component';
 import Diets from 'walless/restaurant/Diets.component';
-import {addCartItems} from 'walless/restaurant/cart.reducer';
 
 const mapStateToProps = state => ({
   language: state.translation.language
 });
 
 class MenuItem extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+  static propTypes = {
+    actions: PropTypes.arrayOf(PropTypes.shape({
+      onPress: PropTypes.func.isRequired,
+      label: PropTypes.string.isRequired
+    }))
+  };
+  static navigationOptions = ({navigation, ...props}) => ({
     title: get([
       'state',
       'params',
@@ -27,16 +32,10 @@ class MenuItem extends React.Component {
       'name']
     )(navigation)
   });
-  handleAddToCart = () => {
-    const {
-      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props),
-      addCartItems
-    } = this.props;
-    addCartItems(menuItem);
-  }
   render() {
     const {
-      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props)
+      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props),
+      actions = []
     } = this.props;
     const {
       i18n: {
@@ -69,13 +68,18 @@ class MenuItem extends React.Component {
         : null}
         <View style={[container.row, container.spread]}>
           <Text style={[text.text, container.padded, text.medium, text.bold]}>{name}</Text>
-          <Button
-              onPress={this.handleAddToCart}
-              padded
-              style={{alignSelf: 'stretch'}}
-          >
-            {I18n.t('restaurant.order.orderItem')}
-          </Button>
+          {
+            actions.map((action, index) => (
+              <Button
+                  key={index}
+                  onPress={action.onPress}
+                  padded
+                  textStyle={{color: colors.action}}
+              >
+                {action.label}
+              </Button>
+            ))
+          }
         </View>
         <View style={container.padded}>
           <Text style={[text.text]}>{description}</Text>
@@ -86,5 +90,5 @@ class MenuItem extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, {addCartItems})(MenuItem);
+export default connect(mapStateToProps)(MenuItem);
 

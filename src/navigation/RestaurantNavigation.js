@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import I18n from 'react-native-i18n';
 
+import {addCartItems} from 'walless/restaurant/cart.reducer';
 import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Button from 'walless/components/Button.component';
 import Restaurant from 'walless/restaurant/Restaurant.component';
@@ -24,6 +25,30 @@ import LoadContent from 'walless/components/LoadContent.component';
 import OpenDrawerButton from 'walless/navigation/OpenDrawerButton.component';
 
 export const initialRouteName = 'restaurantSelection';
+
+class MenuItemWithActions extends React.Component {
+  static navigationOptions = MenuItem.navigationOptions;
+  handleAddToCart = () => {
+    const {
+      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props),
+      addCartItems
+    } = this.props;
+    addCartItems(menuItem);
+  }
+  render() {
+    return (
+      <MenuItem
+          actions={[
+            {
+              label: I18n.t('restaurant.order.orderItem'),
+              onPress: this.handleAddToCart
+            }
+          ]}
+          {...this.props}
+      />
+    );
+  }
+}
 
 export const restaurantRoutes = {
   restaurant: {
@@ -49,7 +74,9 @@ export const restaurantRoutes = {
     navigation: true,
     translationKey: 'restaurant.menuItem.menuItems'
   },
-  restaurantMenuItem: {screen: MenuItem}
+  menuItem: {
+    screen: connect(null, {addCartItems})(MenuItemWithActions)
+  }
 };
 
 const LeftButton = connect(
@@ -74,7 +101,7 @@ export const RestaurantNavigation = new StackNavigator(
   {
     initialRouteName,
     navigationOptions: ({navigation, screenProps: {titles}}) => ({
-      title: titles[navigation.state.routeName],
+      title: titles[navigation.state.routeName] || undefined,
       headerLeft: <LeftButton navigation={navigation} titles={titles}/>,
       headerRight: <CartButton navigation={navigation} />,
       headerStyle: header.header,
@@ -97,7 +124,8 @@ class Navigation extends React.Component {
         <RestaurantNavigation
             navigation={addNavigationHelpers({
               state: this.props.navigationState,
-              dispatch: this.props.dispatch
+              dispatch: this.props.dispatch,
+              language: this.props.language
             })}
             screenProps={{
               titles: Object.assign(

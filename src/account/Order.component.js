@@ -3,7 +3,7 @@ import {ScrollView, View, Text} from 'react-native';
 import {get} from 'lodash/fp';
 import {connect} from 'react-redux';
 
-import text from 'walless/styles/text';
+import MenuItems from 'walless/restaurant/MenuItems.component';
 import container from 'walless/styles/container';
 
 const mapStateToProps = state => ({
@@ -22,8 +22,7 @@ class Order extends React.Component {
   });
   render() {
     const {
-      order = get(['navigation', 'state', 'params', 'order'])(this.props),
-      language
+      order = get(['navigation', 'state', 'params', 'order'])(this.props)
     } = this.props;
     const {
       items = []
@@ -33,15 +32,7 @@ class Order extends React.Component {
           alwaysBounceVertical={false}
           style={[container.container, container.light]}
       >
-        <View style={container.padded}>
-          {items.map((item, index) => (
-            <View key={index}>
-              <Text style={text.text}>
-                {get(['menuItem', 'i18n', language, 'name'])(item)}
-              </Text>
-            </View>
-          ))}
-        </View>
+        <MenuItems items={items.map(item => item.menuItem)} />
       </ScrollView>
     );
   }

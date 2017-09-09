@@ -6,6 +6,7 @@ import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swipeable from 'react-native-swipeable';
+import {NavigationActions} from 'react-navigation';
 
 import {addCartItems} from 'walless/restaurant/cart.reducer';
 import {
@@ -23,7 +24,7 @@ const mapStateToProps = state => ({
 
 class MenuItems extends React.Component {
   static propTypes = {
-    restaurant: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
+    restaurant: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     items: PropTypes.arrayOf(PropTypes.object),
     menu: PropTypes.object,
     swipeable: PropTypes.func
@@ -66,7 +67,7 @@ class MenuItems extends React.Component {
     this.props.addCartItems(menuItem);
   };
   handleItemPress = menuItem => () => {
-    this.props.navigation.navigate('restaurantMenuItem', {menuItem});
+    this.props.navigate({routeName: 'menuItem', params: {menuItem}});
   };
   handleRenderItem = (menuItem, sectionId, rowId) => {
     const {
@@ -127,6 +128,9 @@ class MenuItems extends React.Component {
 }
 
 export default compose(
-  connect(mapStateToProps, {addCartItems}),
+  connect(mapStateToProps, {
+    addCartItems,
+    navigate: NavigationActions.navigate
+  }),
   getMenuItemsByRestaurant
 )(MenuItems);

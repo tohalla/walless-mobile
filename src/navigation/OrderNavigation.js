@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
 import {get} from 'lodash/fp';
 
+import MenuItem from 'walless/restaurant/MenuItem.component';
 import colors from 'walless/styles/colors';
 import header from 'walless/styles/header';
 import Button from 'walless/components/Button.component';
@@ -98,7 +99,8 @@ export const orderRoutes = {
   },
   order: {
     screen: Order
-  }
+  },
+  menuItem: {screen: MenuItem}
 };
 
 const LeftButton = connect(
@@ -138,7 +140,8 @@ class Navigation extends React.Component {
       <OrderNavigation
           navigation={addNavigationHelpers({
             state: this.props.navigationState,
-            dispatch: this.props.dispatch
+            dispatch: this.props.dispatch,
+            language: this.props.language
           })}
           screenProps={{
             titles: Object.keys(orderRoutes).reduce((prev, key) =>

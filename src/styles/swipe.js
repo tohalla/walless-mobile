@@ -14,6 +14,6 @@ export default EStyleSheet.create({
   },
   alert: {
     flex: 1,
-    backgroundColor: colors.alizarin
+    backgroundColor: colors.red
   }
 });
