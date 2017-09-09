@@ -8,6 +8,8 @@ export default class Scan extends React.Component {
     headerStyle: {
       backgroundColor: 'transparent',
       position: 'absolute',
+      shadowColor: 'transparent',
+      borderBottomWidth: 0,
       top: 0,
       left: 0,
       right: 0
