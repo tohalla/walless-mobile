@@ -20,6 +20,7 @@ import Orders from 'walless/account/Orders.component';
 import Order from 'walless/account/Order.component';
 import OpenDrawerButton from 'walless/navigation/OpenDrawerButton.component';
 import text from 'walless/styles/text';
+import {mapToProps} from 'walless/util/component';
 
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'order'])(state),
@@ -98,7 +99,10 @@ export const orderRoutes = {
     translationKey: 'navigation.orders.myOrders'
   },
   order: {
-    screen: Order
+    screen: mapToProps(
+      Order,
+      props => get(['navigation', 'state', 'params'])(props)
+    )
   },
   menuItem: {screen: MenuItem}
 };
