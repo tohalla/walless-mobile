@@ -27,7 +27,8 @@ class MenuItems extends React.Component {
     restaurant: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     items: PropTypes.arrayOf(PropTypes.object),
     menu: PropTypes.object,
-    swipeable: PropTypes.func
+    swipeable: PropTypes.func,
+    listViewProps: PropTypes.object
   };
   constructor(props) {
     super(props);
@@ -122,6 +123,8 @@ class MenuItems extends React.Component {
           enableEmptySections
           renderRow={this.handleRenderItem}
           scrollEnabled={!isSwiping}
+          style={container.container}
+          {...this.props.listViewProps}
       />
     );
   }

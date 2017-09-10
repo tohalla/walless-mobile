@@ -64,6 +64,7 @@ class Menus extends React.Component {
           dataSource={dataSource}
           enableEmptySections
           renderRow={this.handleRenderItem}
+          style={container.container}
       />
     );
   }

@@ -1,4 +1,4 @@
-import StyleSheet from 'react-native';
+import {StyleSheet} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import {normal} from 'walless/styles/spacing';
@@ -20,7 +20,7 @@ export default EStyleSheet.create({
     backgroundColor: colors.backgroundLight
   },
   rowDistinct: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundLight,
     marginBottom: StyleSheet.hairlineWidth
   },
   centerContent: {
