@@ -67,7 +67,7 @@ class Order extends React.Component {
                 <Header label={I18n.t('restaurant.order.items')} />,
               stickyHeadersEnabled: true
             }}
-            swipeable={() => ({})}
+            swipeable={{}}
         />
       </ScrollView>
     );

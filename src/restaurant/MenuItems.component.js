@@ -82,7 +82,7 @@ class MenuItems extends React.Component {
     } = menuItem;
     const swipeable = typeof this.props.swipeable === 'function' ?
       this.props.swipeable({menuItem, rowId}) :
-      {
+      swipeable || {
         leftContent: (
           <View style={[swipe.content, swipe.action, {alignItems: 'flex-end'}]}>
             <Icon

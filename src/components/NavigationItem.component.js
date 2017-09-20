@@ -22,7 +22,7 @@ export default class NavigationItem extends React.Component {
             flexDirection: 'row'
           }}
       >
-        {this.props.children.map((child, index) =>
+        {[].concat(this.props.children).map((child, index) =>
           typeof child === 'string' ?
             <Text key={index} style={text.text}>{child}</Text>
           : <child.type {...child.props} key={index} />

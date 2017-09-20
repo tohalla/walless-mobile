@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView, View, Text, Image} from 'react-native';
-import {get} from 'lodash/fp';
+import {ScrollView, View, Text, Image, Switch} from 'react-native';
+import {get, set} from 'lodash/fp';
 import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 
+import NavigationItem from 'walless/components/NavigationItem.component';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
@@ -32,26 +33,49 @@ class MenuItem extends React.Component {
       'name']
     )(navigation)
   });
+  constructor(props) {
+    super(props);
+    this.state = {
+      orderOptions: (
+        get(['menuItem', 'options'])(props) ||
+        get(['navigation', 'state', 'params', 'menuItem', 'options'])(props)
+      ).reduce(
+        (prev, curr) => Object.assign({}, prev, {[curr.id]: curr.defaultValue}),
+        {}
+      )
+    };
+  }
+  handleOptionToggle = option => () => {
+    const {orderOptions = {}} = this.state;
+    this.setState({
+      orderOptions: set(option.id)(!orderOptions[option.id])(orderOptions)
+    });
+  };
+  handleActionPress = action => () => typeof action.onPress === 'function' ?
+    action.onPress(this.state.options) : null;
   render() {
     const {
       menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props),
-      actions = []
+      actions = [],
+      language
     } = this.props;
+    const {orderOptions} = this.state;
     const {
       i18n: {
-        [this.props.language]: {
+        [language]: {
           name, description
         } = {}
       },
       diets = [],
-      images = []
+      images = [],
+      options = []
     } = menuItem;
     return (
       <ScrollView
           alwaysBounceVertical={false}
           style={[container.container, container.light]}
       >
-        {images.length ?
+        {images.length > 0 &&
           <Swiper
               activeDotColor={colors.foregroundLight}
               dotColor="rgba(0,0,0,0.8)"
@@ -65,25 +89,38 @@ class MenuItem extends React.Component {
               />
             ))}
           </Swiper>
-        : null}
-        <View style={[container.row, container.spread]}>
+        }
+        <View style={container.header}>
           <Text style={[text.text, container.padded, text.medium, text.bold]}>{name}</Text>
-          {
-            actions.map((action, index) => (
-              <Button
-                  key={index}
-                  onPress={action.onPress}
-                  padded
-                  textStyle={{color: colors.action}}
-              >
-                {action.label}
-              </Button>
-            ))
-          }
+          {actions.map((action, index) => (
+            <Button
+                key={index}
+                onPress={this.handleActionPress(action)}
+                padded
+                textStyle={{color: colors.action}}
+            >
+              {action.label}
+            </Button>
+          ))}
         </View>
-        <View style={container.padded}>
-          <Text style={[text.text]}>{description}</Text>
-        </View>
+        {description &&
+          <View style={container.padded}>
+            <Text style={[text.text]}>{description}</Text>
+          </View>
+        }
+        {options.length > 0 &&
+          <View>
+            {options.map((option, index) => (
+              <NavigationItem key={index}>
+                <Text>{get(['i18n', language, 'name'])(option)}</Text>
+                <Switch
+                    onValueChange={this.handleOptionToggle(option)}
+                    value={orderOptions[option.id]}
+                />
+              </NavigationItem>
+            ))}
+          </View>
+        }
         <Diets diets={diets} />
       </ScrollView>
     );

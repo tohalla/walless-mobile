@@ -19,6 +19,13 @@ export default EStyleSheet.create({
   light: {
     backgroundColor: colors.backgroundLight
   },
+  header: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.white
+  },
   rowDistinct: {
     backgroundColor: colors.backgroundLight,
     marginBottom: StyleSheet.hairlineWidth
@@ -28,7 +35,6 @@ export default EStyleSheet.create({
     alignItems: 'center'
   },
   row: {
-    display: 'flex',
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center'
