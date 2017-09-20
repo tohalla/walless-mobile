@@ -9,13 +9,9 @@ import SettingsNavigation, {initialRouteName as settingsRoute} from 'walless/nav
 import OrderNavigation, {initialRouteName as orderRoute} from 'walless/navigation/OrderNavigation';
 import {major} from 'walless/styles/spacing';
 
-export const initialRouteName = 'home';
+export const initialRouteName = restaurantRoute;
 
 export const routes = {
-  [initialRouteName]: {
-    screen: () => null,
-    translationKey: 'navigation.home'
-  },
   [restaurantRoute]: {
     screen: RestaurantNavigation,
     translationKey: 'navigation.restaurant'
