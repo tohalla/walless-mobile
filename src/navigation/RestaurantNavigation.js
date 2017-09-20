@@ -26,19 +26,13 @@ import OpenDrawerButton from 'walless/navigation/OpenDrawerButton.component';
 
 export const initialRouteName = 'restaurantSelection';
 
-class MenuItemWithActions extends React.Component {
+class MenuItemsWithActions extends React.Component {
   static navigationOptions = MenuItem.navigationOptions;
-  handleAddToCart = () => {
-    const {
-      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props),
-      addCartItems
-    } = this.props;
-    addCartItems(menuItem);
-  }
+  handleAddToCart = menuItem => this.props.addCartItems(menuItem);
   render() {
     return (
-      <MenuItem
-          actions={[
+      <MenuItems
+          menuItemActions={[
             {
               label: I18n.t('restaurant.order.orderItem'),
               onPress: this.handleAddToCart
@@ -70,21 +64,26 @@ export const restaurantRoutes = {
     translationKey: 'restaurant.menu.menus'
   },
   restaurantMenuItems: {
-    screen: MenuItems,
+    screen: connect(null, {addCartItems})(MenuItemsWithActions),
     navigation: true,
     translationKey: 'restaurant.menuItem.menuItems'
   },
   menuItem: {
-    screen: connect(null, {addCartItems})(MenuItemWithActions)
+    screen: MenuItem
   }
 };
 
 const LeftButton = connect(
   state => ({navigationState: get(['navigation', 'restaurant'])(state)})
-)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ?
-  <OpenDrawerButton />
+)(({
+  navigationState: {index, routes},
+  navigation,
+  titles,
+  ...props
+}) => index === 0 ?
+  <OpenDrawerButton {...props} />
 : (
-  <Button onPress={() => navigation.goBack()} >
+  <Button onPress={() => navigation.goBack()} {...props}>
     <Icon
         color={colors.headerForeground}
         name="chevron-left"
@@ -100,10 +99,11 @@ export const RestaurantNavigation = new StackNavigator(
   restaurantRoutes,
   {
     initialRouteName,
+    transitionConfig: () => ({transitionSpec: {duration: 0}}),
     navigationOptions: ({navigation, screenProps: {titles}}) => ({
       title: titles[navigation.state.routeName] || undefined,
-      headerLeft: <LeftButton navigation={navigation} titles={titles}/>,
-      headerRight: <CartButton navigation={navigation} />,
+      headerLeft: <LeftButton navigation={navigation} style={header.button} titles={titles} />,
+      headerRight: <CartButton navigation={navigation} style={header.button} />,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
       headerTintColor: colors.headerForeground

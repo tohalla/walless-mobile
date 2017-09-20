@@ -8,10 +8,10 @@ import colors from 'walless/styles/colors';
 
 export default connect(
   null, {navigate: NavigationActions.navigate}
-)(({navigate}) => (
+)(({navigate, ...props}) => (
   <Button
       onPress={() => navigate({routeName: 'DrawerOpen'})}
-      padded
+      {...props}
   >
     <Icon
         color={colors.headerForeground}

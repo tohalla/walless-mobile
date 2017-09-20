@@ -15,14 +15,14 @@ const mapStateToProps = state => ({
 
 class CartButton extends React.Component {
   render() {
-    const {items, routes, navigation} = this.props;
+    const {items, routes, navigation, ...props} = this.props;
     return (
       routes[Math.max(routes.length - 1, 0)].routeName === 'cart' ||
       routes[Math.max(routes.length - 2, 0)].routeName === 'cart'
     ) ? <View /> : (
       <Button
           onPress={() => navigation.navigate('restaurantCart')}
-          padded
+          {...props}
       >
         <Icon
             color={colors.headerForeground}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView, View, Text, Image, Switch} from 'react-native';
-import {get, set} from 'lodash/fp';
+import {get, set, toPairs} from 'lodash/fp';
 import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 
@@ -35,12 +35,18 @@ class MenuItem extends React.Component {
   });
   constructor(props) {
     super(props);
+    const {
+      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props)
+    } = props;
     this.state = {
-      orderOptions: (
-        get(['menuItem', 'options'])(props) ||
-        get(['navigation', 'state', 'params', 'menuItem', 'options'])(props)
-      ).reduce(
-        (prev, curr) => Object.assign({}, prev, {[curr.id]: curr.defaultValue}),
+      orderOptions: (menuItem.orderOptions || menuItem.options || []).reduce(
+        (prev, curr) => Object.assign(
+          {},
+          prev,
+          {[curr.id]: typeof curr.value === 'undefined' ?
+            curr.defaultValue : curr.value
+          }
+          ),
         {}
       )
     };
@@ -51,12 +57,18 @@ class MenuItem extends React.Component {
       orderOptions: set(option.id)(!orderOptions[option.id])(orderOptions)
     });
   };
-  handleActionPress = action => () => typeof action.onPress === 'function' ?
-    action.onPress(this.state.options) : null;
+  handleActionPress = action => () => typeof action.onPress === 'function' &&
+    action.onPress(
+      set('orderOptions')(toPairs(this.state.orderOptions))(
+        this.props.menuItem ||
+        get(['state', 'params', 'menuItem'])(this.props.navigation)
+      )
+    );
   render() {
     const {
       menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props),
-      actions = [],
+      allowEdit = get(['navigation', 'state', 'params', 'allowEdit'])(this.props),
+      actions = get(['navigation', 'state', 'params', 'actions'])(this.props) || [],
       language
     } = this.props;
     const {orderOptions} = this.state;
@@ -114,6 +126,7 @@ class MenuItem extends React.Component {
               <NavigationItem key={index}>
                 <Text>{get(['i18n', language, 'name'])(option)}</Text>
                 <Switch
+                    disabled={!allowEdit}
                     onValueChange={this.handleOptionToggle(option)}
                     value={orderOptions[option.id]}
                 />

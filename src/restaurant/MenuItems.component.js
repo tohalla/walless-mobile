@@ -24,10 +24,15 @@ const mapStateToProps = state => ({
 
 class MenuItems extends React.Component {
   static propTypes = {
+    menuItemActions: PropTypes.arrayOf(PropTypes.shape({
+      onPress: PropTypes.func.isRequired,
+      label: PropTypes.string.isRequired
+    })),
     restaurant: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     items: PropTypes.arrayOf(PropTypes.object),
     menu: PropTypes.object,
-    swipeable: PropTypes.func,
+    allowEdit: PropTypes.bool,
+    swipeable: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     listViewProps: PropTypes.object
   };
   constructor(props) {
@@ -64,12 +69,17 @@ class MenuItems extends React.Component {
       });
     }
   };
-  handleAddToCart = menuItem => {
+  handleAddToCart = menuItem =>
     this.props.addCartItems(menuItem);
-  };
-  handleItemPress = menuItem => () => {
-    this.props.navigate({routeName: 'menuItem', params: {menuItem}});
-  };
+  handleItemPress = menuItem => () =>
+    this.props.navigate({
+      routeName: 'menuItem',
+      params: {
+        menuItem,
+        allowEdit: this.props.allowEdit,
+        actions: this.props.menuItemActions
+      }
+    });
   handleRenderItem = (menuItem, sectionId, rowId) => {
     const {
       i18n: {
@@ -81,8 +91,7 @@ class MenuItems extends React.Component {
       currency: {symbol}
     } = menuItem;
     const swipeable = typeof this.props.swipeable === 'function' ?
-      this.props.swipeable({menuItem, rowId}) :
-      swipeable || {
+      this.props.swipeable({menuItem, rowId}) : swipeable || {
         leftContent: (
           <View style={[swipe.content, swipe.action, {alignItems: 'flex-end'}]}>
             <Icon

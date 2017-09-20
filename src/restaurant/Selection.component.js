@@ -15,12 +15,21 @@ import text from 'walless/styles/text';
 import LoadContent from 'walless/components/LoadContent.component';
 
 const mapStateToProps = state => ({
-  restaurantId: get(['servingLocation', 'restaurant'])(state)
+  restaurant: get(['servingLocation', 'restaurant'])(state)
 });
 
 class Selection extends React.Component {
   static navigationOptions = {
-    header: null
+    headerStyle: {
+      backgroundColor: 'transparent',
+      position: 'absolute',
+      shadowColor: 'transparent',
+      borderBottomWidth: 0,
+      top: 0,
+      left: 0,
+      right: 0
+    },
+    headerRight: null
   };
   constructor(props) {
     super(props);

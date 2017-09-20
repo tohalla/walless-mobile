@@ -1,9 +1,15 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+
 import colors from 'walless/styles/colors';
+import {minor} from 'walless/styles/spacing';
 
 export default EStyleSheet.create({
   header: {
     backgroundColor: colors.headerBackground
+  },
+  button: {
+    flex: 1,
+    padding: minor
   },
   text: {
     color: colors.headerForeground,

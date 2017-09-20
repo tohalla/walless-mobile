@@ -109,10 +109,15 @@ export const orderRoutes = {
 
 const LeftButton = connect(
   state => ({navigationState: get(['navigation', 'order'])(state)})
-)(({navigationState: {index, routes}, navigation, titles}) => index === 0 ?
-  <OpenDrawerButton />
+)(({
+  navigationState: {index, routes},
+  navigation,
+  titles,
+  ...props
+}) => index === 0 ?
+  <OpenDrawerButton {...props} />
 : (
-  <Button onPress={() => navigation.goBack()} >
+  <Button onPress={() => navigation.goBack()} {...props}>
     <Icon
         color={colors.headerForeground}
         name="chevron-left"
@@ -128,9 +133,10 @@ export const OrderNavigation = new StackNavigator(
   orderRoutes,
   {
     initialRouteName,
+    transitionConfig: () => ({transitionSpec: {duration: 0}}),
     navigationOptions: ({navigation, screenProps: {titles}}) => ({
       title: titles[navigation.state.routeName],
-      headerLeft: <LeftButton navigation={navigation} titles={titles}/>,
+      headerLeft: <LeftButton navigation={navigation} style={header.button} titles={titles}/>,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
       headerTintColor: colors.headerForeground
