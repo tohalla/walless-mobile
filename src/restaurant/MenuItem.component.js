@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ScrollView, View, Text, Image, Switch} from 'react-native';
-import {get, set, toPairs} from 'lodash/fp';
+import {get, set} from 'lodash/fp';
+import {mapToProps} from 'walless/util/component';
 import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
 
@@ -18,6 +19,10 @@ const mapStateToProps = state => ({
 
 class MenuItem extends React.Component {
   static propTypes = {
+    menuItem: PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }),
+    allowEdit: PropTypes.bool,
     actions: PropTypes.arrayOf(PropTypes.shape({
       onPress: PropTypes.func.isRequired,
       label: PropTypes.string.isRequired
@@ -35,17 +40,18 @@ class MenuItem extends React.Component {
   });
   constructor(props) {
     super(props);
-    const {
-      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props)
-    } = props;
+    const {menuItem} = props;
     this.state = {
       orderOptions: (menuItem.orderOptions || menuItem.options || []).reduce(
         (prev, curr) => Object.assign(
           {},
           prev,
-          {[curr.id]: typeof curr.value === 'undefined' ?
-            curr.defaultValue : curr.value
-          }
+          {[curr.id]: {
+            value: typeof curr.value === 'undefined' ?
+              curr.defaultValue : curr.value,
+            option: curr.option || curr.id,
+            orderItem: 0
+          }}
           ),
         {}
       )
@@ -54,21 +60,20 @@ class MenuItem extends React.Component {
   handleOptionToggle = option => () => {
     const {orderOptions = {}} = this.state;
     this.setState({
-      orderOptions: set(option.id)(!orderOptions[option.id])(orderOptions)
+      orderOptions: set([option.id, 'value'])(
+        !orderOptions[option.id].value
+      )(orderOptions)
     });
   };
   handleActionPress = action => () => typeof action.onPress === 'function' &&
     action.onPress(
-      set('orderOptions')(toPairs(this.state.orderOptions))(
-        this.props.menuItem ||
-        get(['state', 'params', 'menuItem'])(this.props.navigation)
-      )
+      set('orderOptions')(Object.values(this.state.orderOptions))(this.props.menuItem)
     );
   render() {
     const {
-      menuItem = get(['navigation', 'state', 'params', 'menuItem'])(this.props),
-      allowEdit = get(['navigation', 'state', 'params', 'allowEdit'])(this.props),
-      actions = get(['navigation', 'state', 'params', 'actions'])(this.props) || [],
+      menuItem,
+      allowEdit,
+      actions = [],
       language
     } = this.props;
     const {orderOptions} = this.state;
@@ -128,7 +133,7 @@ class MenuItem extends React.Component {
                 <Switch
                     disabled={!allowEdit}
                     onValueChange={this.handleOptionToggle(option)}
-                    value={orderOptions[option.id]}
+                    value={orderOptions[option.id].value}
                 />
               </NavigationItem>
             ))}
@@ -140,5 +145,7 @@ class MenuItem extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(MenuItem);
+export default connect(mapStateToProps)(
+  mapToProps(MenuItem, props => get(['navigation', 'state', 'params'])(props))
+);
 

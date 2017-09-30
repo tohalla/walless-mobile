@@ -32,6 +32,7 @@ class MenuItemsWithActions extends React.Component {
   render() {
     return (
       <MenuItems
+          allowEdit
           menuItemActions={[
             {
               label: I18n.t('restaurant.order.orderItem'),

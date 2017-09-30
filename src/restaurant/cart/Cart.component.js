@@ -36,20 +36,23 @@ class Cart extends React.Component {
     const {
       addNotification,
       setCartItems,
-      items,
       servingLocation,
       restaurant,
       createOrder,
       account
     } = this.props;
     try {
+      const orderItemsWithOptions = this.props.items.map(item => Object.assign(
+        {item: item.id},
+        get(['orderOptions', 'length'])(item) ? {options: item.orderOptions} : {}
+      ));
       await createOrder(
         {
           createdBy: account.id,
           restaurant: restaurant.id,
           servingLocation: servingLocation
         },
-        items.map(item => item.id)
+        orderItemsWithOptions
       );
       addNotification({
         type: 'success',
