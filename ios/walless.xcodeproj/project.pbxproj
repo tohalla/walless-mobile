@@ -40,6 +40,7 @@
 		581EA3EED3AD4E66A50DACF8 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 132C54100EDB40E38435999A /* MaterialIcons.ttf */; };
 		5C094F5030E54A95A393EBE6 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BDBD077D49A14D3DBB882C45 /* Zocial.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		6746BD5C1F97B37B00193BF3 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6746BD561F97B31C00193BF3 /* libReactNativeConfig.a */; };
 		67832C361F3470B100B221F7 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67832C321F34706600B221F7 /* libRNI18n.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		835B72205D844B31BE3CBBB5 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6692072A4DB44119707C5D8 /* FontAwesome.ttf */; };
@@ -201,6 +202,13 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RCTCamera;
 		};
+		6746BD551F97B31C00193BF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6746BD331F97B31C00193BF3 /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
+			remoteInfo = ReactNativeConfig;
+		};
 		67832C311F34706600B221F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 67832C0D1F34706600B221F7 /* RNI18n.xcodeproj */;
@@ -342,6 +350,7 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		60C5EBD8CC9F47CDA6D5D030 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		61CDDDFD38B447E1839AFF92 /* libjschelpers.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libjschelpers.a; sourceTree = "<group>"; };
+		6746BD331F97B31C00193BF3 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		67832C0D1F34706600B221F7 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		6F890D1BC28B438AAAB01500 /* libcxxreact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libcxxreact.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -368,6 +377,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6746BD5C1F97B37B00193BF3 /* libReactNativeConfig.a in Frameworks */,
 				67832C361F3470B100B221F7 /* libRNI18n.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -548,6 +558,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6746BD341F97B31C00193BF3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6746BD561F97B31C00193BF3 /* libReactNativeConfig.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6746BD5B1F97B37B00193BF3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6769968B1F79297700BBB17A /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -591,6 +616,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				6746BD331F97B31C00193BF3 /* ReactNativeConfig.xcodeproj */,
 				67832C0D1F34706600B221F7 /* RNI18n.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -628,6 +654,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				C876F03DB04A40FDBA4D5DF3 /* Resources */,
 				6769968B1F79297700BBB17A /* Recovered References */,
+				6746BD5B1F97B37B00193BF3 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -828,6 +855,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 6746BD341F97B31C00193BF3 /* Products */;
+					ProjectRef = 6746BD331F97B31C00193BF3 /* ReactNativeConfig.xcodeproj */;
+				},
+				{
 					ProductGroup = 670236491EF7B405000A8F32 /* Products */;
 					ProjectRef = A95CCB5C5BD845818C9B2C06 /* RNDeviceInfo.xcodeproj */;
 				},
@@ -982,6 +1013,13 @@
 			fileType = archive.ar;
 			path = libRCTCamera.a;
 			remoteRef = 6738BA601F0A6A0200F9ACB6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6746BD561F97B31C00193BF3 /* libReactNativeConfig.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeConfig.a;
+			remoteRef = 6746BD551F97B31C00193BF3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		67832C321F34706600B221F7 /* libRNI18n.a */ = {
@@ -1297,6 +1335,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"${SRCROOT}/../node_modules/react-native-config/ios",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 				INFOPLIST_FILE = walless/Info.plist;
@@ -1325,6 +1364,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"${SRCROOT}/../node_modules/react-native-config/ios",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 				INFOPLIST_FILE = walless/Info.plist;

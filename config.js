@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
 
-const api = `${Config.API_PROTOCOL}://${Config.API_URL}${Config.API_PORT === 80 ? '' : `:${Config.API_PORT}`}`;
+const api = `${Config.API_PROTOCOL}://${Config.API_URL}${Config.API_PORT == 80 ? '' : `:${Config.API_PORT}`}`;
 
 module.exports = {
   api: {
@@ -19,7 +19,7 @@ module.exports = {
     }
   },
   websocket: {
-    url: `${Config.WS_PROTOCOL}://${Config.API_URL}${Config.API_PORT === 80 ? '' : `:${Config.API_PORT}`}`,
+    url: `${Config.WS_PROTOCOL}://${Config.API_URL}${Config.API_PORT == 80 ? '' : `:${Config.API_PORT}`}`,
     endpoint: undefined
   }
 };

@@ -4,7 +4,7 @@ import {AsyncStorage} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {addNavigationHelpers} from 'react-navigation';
-import {get, isEqual} from 'lodash/fp';
+import {get, isEqual, isEmpty} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
 
@@ -31,9 +31,9 @@ class App extends React.Component {
   componentDidMount() {
     Linking.addEventListener('url', this.handleOpenURL);
   }
-  componentWillReceiveProps = async(newProps) => {
+  componentWillReceiveProps = async (newProps) => {
     if (
-      !newProps.account &&
+      !isEmpty(newProps.account) &&
       !get(['getActiveAccount', 'loading'])(newProps)
     ) {
       const [[, refreshToken], [, clientId]] =
@@ -65,33 +65,30 @@ class App extends React.Component {
     });
   };
   render() {
-    const {
-      account
-    } = this.props;
+    const {account} = this.props;
     return (
       <View style={container.container}>
         <StatusBar barStyle="light-content" />
         <LoadContent loadProps={this.props} loading={this.state.loading}>
-          {
-            account ?
-              <MainNavigation
-                  navigation={addNavigationHelpers({
-                    state: this.props.navigationState,
-                    dispatch: this.props.dispatch
-                  })}
-                  ref={c => this.navigation = c}
-                  screenProps={{
-                    titles: Object.keys(routes).reduce((prev, key) =>
-                      Object.assign(
-                        {},
-                        prev,
-                        {[key]: routes[key].translationKey ?
-                          I18n.t(routes[key].translationKey) : null
-                        }
-                      ), {}
-                    )
-                  }}
-              /> : <Authentication />
+          {isEmpty(account) ? <Authentication /> :
+            <MainNavigation
+                navigation={addNavigationHelpers({
+                  state: this.props.navigationState,
+                  dispatch: this.props.dispatch
+                })}
+                ref={c => this.navigation = c}
+                screenProps={{
+                  titles: Object.keys(routes).reduce((prev, key) =>
+                    Object.assign(
+                      {},
+                      prev,
+                      {[key]: routes[key].translationKey ?
+                        I18n.t(routes[key].translationKey) : null
+                      }
+                    ), {}
+                  )
+                }}
+            />
         }
         </LoadContent>
         <Notifications />
