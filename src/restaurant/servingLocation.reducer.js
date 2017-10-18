@@ -15,7 +15,7 @@ const setServingLocation = payload => ({
 
 export const connectToServingLocation = code => async(dispatch) =>
   dispatch(setServingLocation(await (await fetch(
-    `${config.api.protocol}://${config.api.url}:${config.api.port}/serving-location`,
+    `${config.api.url}/serving-location`,
     {
       method: 'POST',
       headers: {
@@ -28,7 +28,7 @@ export const connectToServingLocation = code => async(dispatch) =>
 
 export const disconnectFromServingLocation = servingLocation => async(dispatch) => {
   await fetch(
-    `${config.api.protocol}://${config.api.url}:${config.api.port}/serving-location`,
+    `${config.api.url}/serving-location`,
     {
       method: 'DELETE',
       headers: {

@@ -10,7 +10,7 @@ const requestToken = async(payload: Object) => {
     await AsyncStorage.multiGet(['refresh-token', 'client-id']);
   return await (refreshToken ?
     fetch(
-      `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/client`,
+      `${config.api.url}/${config.api.authentication.endpoint}/client`,
       {
         method: 'GET',
         headers: {
@@ -21,7 +21,7 @@ const requestToken = async(payload: Object) => {
       }
     ) :
     fetch(
-      `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/${payload.token ? 'renewToken' : ''}`,
+      `${config.api.url}/${config.api.authentication.endpoint}/`,
       {
         method: 'POST',
         headers: {
@@ -40,7 +40,7 @@ const fetchClientId = async() => {
     return storedClientId;
   }
   const response = await fetch(
-    `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/client`,
+    `${config.api.url}/${config.api.authentication.endpoint}/client`,
     {
       method: 'POST',
       headers: {
@@ -74,7 +74,7 @@ const authenticate = async(email: string, password: string) => {
 
 const logout = async() => Promise.all([
   fetch(
-    `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/client`,
+    `${config.api.url}/${config.api.authentication.endpoint}/client`,
     {
       method: 'DELETE',
       headers: {
@@ -91,7 +91,7 @@ const logout = async() => Promise.all([
 ]);
 
 const createAccount = account => fetch(
-  `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/account`,
+  `${config.api.url}/${config.api.authentication.endpoint}/account`,
   {
     method: 'POST',
     headers: {
@@ -102,7 +102,7 @@ const createAccount = account => fetch(
 );
 
 const changePassword = async(payload) => fetch(
-  `${config.api.protocol}://${config.api.url}:${config.api.port}/${config.api.authentication.endpoint}/password`,
+  `${config.api.url}/${config.api.authentication.endpoint}/password`,
   {
     method: 'PUT',
     headers: {

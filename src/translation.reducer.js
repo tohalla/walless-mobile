@@ -14,7 +14,9 @@ export default (state: Object = initialState, action: Object) =>
   : state;
 
 export const fetchLanguages = () => async(dispatch: Function) => {
-  const languages = await (await fetch(config.i18n.url)).json();
+  const languages = await (await fetch(
+    `${config.api.url}/${config.api.i18n.endpoint}`
+  )).json();
   dispatch({
     type: SET_LANGUAGES,
     payload: {languages}

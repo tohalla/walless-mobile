@@ -11,7 +11,7 @@ import {addNotification} from 'walless/notification/notification.reducer';
 export const initializeNotificationHandler = async () =>
   subscribe(
     {
-      url: `${config.websocket.protocol}://${config.websocket.url}:${config.websocket.port}/user`,
+      url: `${config.websocket.url}/user`,
       headers: {
         authorization: await AsyncStorage.getItem('ws-token')
       },

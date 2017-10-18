@@ -1,14 +1,13 @@
-const url = process.env.NODE_ENV === 'production' ? '172.20.10.2' : '172.20.10.2';
-const port = process.env.NODE_ENV === 'production' ? 8080 : 8080;
+import Config from 'react-native-config';
+
+const api = `${Config.API_PROTOCOL}://${Config.API_URL}${Config.API_PORT === 80 ? '' : `:${Config.API_PORT}`}`;
 
 module.exports = {
-  i18n: {
-    url: 'http://172.20.10.2:8080/translation/'
-  },
   api: {
-    url,
-    port,
-    protocol: process.env.NODE_ENV === 'production' ? 'https' : 'http',
+    url: api,
+    i18n: {
+      endpoint: 'translation'
+    },
     graphQL: {
       endpoint: 'graphql'
     },
@@ -20,9 +19,7 @@ module.exports = {
     }
   },
   websocket: {
-    url,
-    port,
-    protocol: process.env.NODE_ENV === 'production' ? 'wss' : 'ws',
+    url: `${Config.WS_PROTOCOL}://${Config.API_URL}${Config.API_PORT === 80 ? '' : `:${Config.API_PORT}`}`,
     endpoint: undefined
   }
 };
