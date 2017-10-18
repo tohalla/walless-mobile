@@ -5,10 +5,9 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {get, isEqual} from 'lodash/fp';
 import I18n from 'react-native-i18n';
+import {restaurant, account} from 'walless-graphql';
 
 import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
-import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
-import {getActiveAccount} from 'walless-graphql/account/account.queries';
 import Button from 'walless/components/Button.component';
 import container from 'walless/styles/container';
 import text from 'walless/styles/text';
@@ -89,6 +88,6 @@ class Selection extends React.Component {
 
 export default compose(
   connect(mapStateToProps, {setRestaurantNavigation}),
-  getRestaurant,
-  getActiveAccount
+  restaurant.getRestaurant,
+  account.getActiveAccount
 )(Selection);

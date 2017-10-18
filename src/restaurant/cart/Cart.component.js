@@ -5,13 +5,11 @@ import {get, pullAt} from 'lodash/fp';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
 import {View, Text, StyleSheet} from 'react-native';
+import {restaurant, order, account} from 'walless-graphql';
 
 import MenuItems from 'walless/restaurant/MenuItems.component';
-import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
-import {createOrder} from 'walless-graphql/restaurant/order.mutations';
 import container from 'walless/styles/container';
 import {setCartItems} from 'walless/restaurant/cart.reducer';
-import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import text from 'walless/styles/text';
 import colors from 'walless/styles/colors';
 import swipe from 'walless/styles/swipe';
@@ -128,7 +126,7 @@ class Cart extends React.Component {
 
 export default compose(
   connect(mapStateToProps, {setCartItems, addNotification}),
-  getRestaurant,
-  createOrder,
-  getActiveAccount
+  restaurant.getRestaurant,
+  order.createOrder,
+  account.getActiveAccount
 )(Cart);

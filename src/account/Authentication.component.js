@@ -5,7 +5,7 @@ import I18n from 'react-native-i18n';
 import {connect} from 'react-redux';
 import {withApollo, compose} from 'react-apollo';
 import {RESET_NAVIGATION} from 'walless/actionTypes';
-import {getActiveAccount} from 'walless/graphql/account/account.queries';
+import {account} from 'walless-graphql';
 import {isEqual} from 'lodash/fp';
 
 import {authenticate} from 'walless/util/auth';
@@ -76,5 +76,5 @@ class Authentication extends React.Component {
 
 export default withApollo(compose(
   connect(null, {resetNavigation: () => ({type: RESET_NAVIGATION})}),
-  getActiveAccount
+  account.getActiveAccount
 )(Authentication));

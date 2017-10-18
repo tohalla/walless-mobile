@@ -1,7 +1,7 @@
 import {AsyncStorage} from 'react-native';
 import I18n from 'react-native-i18n';
+import {subscribe} from 'walless-graphql';
 
-import subscribe from 'walless-graphql/subscribe';
 import config from 'walless-native/config';
 import client from 'walless/apolloClient';
 import store from 'walless/store';

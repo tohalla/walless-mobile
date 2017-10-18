@@ -4,12 +4,11 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {isEqual} from 'lodash/fp';
 import {NavigationActions} from 'react-navigation';
+import {order, account} from 'walless-graphql';
 
 import {getOrderStateIndicator} from 'walless/util/order';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
-import {getActiveAccount} from 'walless-graphql/account/account.queries';
-import {getOrdersByAccount} from 'walless-graphql/restaurant/order.queries';
 
 class Orders extends React.Component {
   constructor(props) {
@@ -76,6 +75,6 @@ class Orders extends React.Component {
 
 export default compose(
   connect(null, {navigate: NavigationActions.navigate}),
-  getActiveAccount,
-  getOrdersByAccount
+  account.getActiveAccount,
+  order.getOrdersByAccount
 )(Orders);

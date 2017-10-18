@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import {View, Text, ListView, TouchableOpacity} from 'react-native';
 import {get, isEqual} from 'lodash/fp';
 import PropTypes from 'prop-types';
+import {menu} from 'walless-graphql';
 
 import text from 'walless/styles/text';
-import {getMenusByRestaurant} from 'walless-graphql/restaurant/menu.queries';
 import container from 'walless/styles/container';
 
 const mapStateToProps = state => ({
@@ -72,5 +72,5 @@ class Menus extends React.Component {
 
 export default compose(
   connect(mapStateToProps),
-  getMenusByRestaurant
+  menu.getMenusByRestaurant
 )(Menus);

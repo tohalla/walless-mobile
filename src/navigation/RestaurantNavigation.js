@@ -7,9 +7,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import I18n from 'react-native-i18n';
+import {restaurant} from 'walless-graphql';
 
 import {addCartItems} from 'walless/restaurant/cart.reducer';
-import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Button from 'walless/components/Button.component';
 import Restaurant from 'walless/restaurant/Restaurant.component';
 import Cart from 'walless/restaurant/cart/Cart.component';
@@ -150,6 +150,6 @@ class Navigation extends React.Component {
 
 export default compose(
   connect(mapStateToProps),
-  getRestaurant
+  restaurant.getRestaurant
 )(Navigation);
 

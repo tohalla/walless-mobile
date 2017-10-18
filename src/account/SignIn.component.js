@@ -5,6 +5,7 @@ import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {set} from 'lodash/fp';
+import {account} from 'walless-graphql';
 
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
 import LoadContent from 'walless/components/LoadContent.component';
@@ -12,7 +13,6 @@ import Button from 'walless/components/Button.component';
 import Input from 'walless/components/Input.component';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
-import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import {authenticate} from 'walless/util/auth';
 import {addNotification} from 'walless/notification/notification.reducer';
 
@@ -105,5 +105,5 @@ class SignIn extends React.Component {
 
 export default withApollo(compose(
   connect(null, {addNotification}),
-  getActiveAccount
+  account.getActiveAccount
 )(SignIn));

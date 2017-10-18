@@ -1,9 +1,9 @@
 import {AsyncStorage} from 'react-native';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
+import {util} from 'walless-graphql';
 
 import {fetchClientId, authenticate} from 'walless/util/auth';
 import config from 'walless-native/config';
-import {dataIdFromObject} from 'walless-graphql/util';
 
 const networkInterface = createNetworkInterface({
   uri: `${config.api.url}/${config.api.graphQL.endpoint}`
@@ -12,7 +12,7 @@ const networkInterface = createNetworkInterface({
 const apolloClient = new ApolloClient({
   networkInterface,
   shouldBatch: true,
-  dataIdFromObject,
+  dataIdFromObject: util.dataIdFromObject,
   queryDeduplication: true
 });
 

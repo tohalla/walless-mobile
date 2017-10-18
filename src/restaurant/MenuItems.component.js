@@ -9,9 +9,7 @@ import Swipeable from 'react-native-swipeable';
 import {NavigationActions} from 'react-navigation';
 
 import {addCartItems} from 'walless/restaurant/cart.reducer';
-import {
-  getMenuItemsByRestaurant
-} from 'walless-graphql/restaurant/menuItem.queries';
+import {menuItem} from 'walless-graphql';
 import container from 'walless/styles/container';
 import text from 'walless/styles/text';
 import swipe from 'walless/styles/swipe';
@@ -144,5 +142,5 @@ export default compose(
     addCartItems,
     navigate: NavigationActions.navigate
   }),
-  getMenuItemsByRestaurant
+  menuItem.getMenuItemsByRestaurant
 )(MenuItems);

@@ -6,13 +6,13 @@ import {connect} from 'react-redux';
 import {get, isEqual} from 'lodash/fp';
 import Swiper from 'react-native-swiper';
 import I18n from 'react-native-i18n';
+import {restaurant} from 'walless-graphql';
 
 import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
 import {disconnectFromServingLocation} from 'walless/restaurant/servingLocation.reducer';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
-import {getRestaurant} from 'walless-graphql/restaurant/restaurant.queries';
 import Button from 'walless/components/Button.component';
 import {restaurantRoutes} from 'walless/navigation/RestaurantNavigation';
 import LoadContent from 'walless/components/LoadContent.component';
@@ -111,5 +111,5 @@ export default compose(
     disconnectFromServingLocation,
     setRestaurantNavigation
   }),
-  getRestaurant
+  restaurant.getRestaurant
 )(Restaurant);

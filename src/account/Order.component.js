@@ -5,6 +5,7 @@ import I18n from 'react-native-i18n';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import {order} from 'walless-graphql';
 
 import Header from 'walless/components/Header.component';
 import {getOrderStateIndicator} from 'walless/util/order';
@@ -13,7 +14,6 @@ import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
 import {minor, normal} from 'walless/styles/spacing';
 import ItemsWithLabels from 'walless/components/ItemsWithLabels.component';
-import {getOrder} from 'walless-graphql/restaurant/order.queries';
 
 const mapStateToProps = state => ({
   language: state.translation.language
@@ -76,7 +76,7 @@ class Order extends React.Component {
 
 export default compose(
   connect(mapStateToProps),
-  getOrder
+  order.getOrder
 )(Order);
 
 

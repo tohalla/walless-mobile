@@ -4,6 +4,7 @@ import I18n from 'react-native-i18n';
 import {connect} from 'react-redux';
 import {withApollo, compose} from 'react-apollo';
 import ModalDropdown from 'react-native-modal-dropdown';
+import {account} from 'walless-graphql';
 
 import {RESET_NAVIGATION} from 'walless/actionTypes';
 import NavigationItem from 'walless/components/NavigationItem.component';
@@ -11,8 +12,6 @@ import NavigationButton from 'walless/components/NavigationButton.component';
 import {logout} from 'walless/util/auth';
 import container from 'walless/styles/container';
 import text from 'walless/styles/text';
-import {updateAccount} from 'walless-graphql/account/account.mutations';
-import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import {settingsRoutes} from 'walless/navigation/SettingsNavigation';
 
 const mapStateToProps = state => ({
@@ -64,8 +63,8 @@ class Account extends React.Component {
 
 export default withApollo(compose(
   connect(mapStateToProps, {resetNavigation: () => ({type: RESET_NAVIGATION})}),
-  getActiveAccount,
-  updateAccount
+  account.getActiveAccount,
+  account.updateAccount
 )(Account));
 
 const styles = {

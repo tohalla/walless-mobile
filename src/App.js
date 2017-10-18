@@ -7,13 +7,13 @@ import {addNavigationHelpers} from 'react-navigation';
 import {get, isEqual, isEmpty} from 'lodash/fp';
 import I18n from 'react-native-i18n';
 import {StatusBar, View, Linking} from 'react-native';
+import {account} from 'walless-graphql';
 
 import {initializeNotificationHandler} from 'walless/util/wsNotificationHandler';
 import {setRestaurantNavigation} from 'walless/navigation/navigation.actions';
 import container from 'walless/styles/container';
 import {parse} from 'walless/util/link';
 import MainNavigation, {routes} from 'walless/navigation/MainNavigation';
-import {getActiveAccount} from 'walless/graphql/account/account.queries';
 import Authentication from 'walless/account/Authentication.component';
 import {authenticate} from 'walless/util/auth';
 import LoadContent from 'walless/components/LoadContent.component';
@@ -103,5 +103,5 @@ export default compose(
     setRestaurantNavigation: payload => dispatch(setRestaurantNavigation(payload)),
     dispatch
   })),
-  getActiveAccount
+  account.getActiveAccount
 )(App);
