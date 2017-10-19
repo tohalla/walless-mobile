@@ -108,17 +108,21 @@ class MenuItem extends React.Component {
           </Swiper>
         }
         <View style={container.header}>
-          <Text style={[text.text, container.padded, text.medium, text.bold]}>{name}</Text>
-          {actions.map((action, index) => (
-            <Button
-                key={index}
-                onPress={this.handleActionPress(action)}
-                padded
-                textStyle={{color: colors.action}}
-            >
-              {action.label}
-            </Button>
-          ))}
+          <Text style={[text.text, container.padded, text.medium, text.bold, {flexShrink: 1}]}>
+            {name}
+          </Text>
+          <View style={{display: 'flex', flexShrink: 0}}>
+            {actions.map((action, index) => (
+              <Button
+                  key={index}
+                  onPress={this.handleActionPress(action)}
+                  padded
+                  textStyle={{color: colors.action}}
+              >
+                {action.label}
+              </Button>
+            ))}
+          </View>
         </View>
         {description &&
           <View style={container.padded}>

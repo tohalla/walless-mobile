@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import {StackNavigator, addNavigationHelpers} from 'react-navigation';
-import {Text} from 'react-native';
 import {get} from 'lodash/fp';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
@@ -77,9 +76,8 @@ export const restaurantRoutes = {
 const LeftButton = connect(
   state => ({navigationState: get(['navigation', 'restaurant'])(state)})
 )(({
-  navigationState: {index, routes},
+  navigationState: {index},
   navigation,
-  titles,
   ...props
 }) => index === 0 ?
   <OpenDrawerButton {...props} />
@@ -90,9 +88,6 @@ const LeftButton = connect(
         name="chevron-left"
         size={20}
     />
-    <Text style={header.text}>
-      {titles[routes[index - 1].routeName]}
-    </Text>
   </Button>
 ));
 

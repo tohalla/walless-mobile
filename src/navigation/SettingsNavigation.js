@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import {StackNavigator, addNavigationHelpers} from 'react-navigation';
-import {Text} from 'react-native';
 import {connect} from 'react-redux';
 import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -78,9 +77,6 @@ const LeftButton = connect(
         name="chevron-left"
         size={20}
     />
-    <Text style={header.text}>
-      {titles[routes[index - 1].routeName]}
-    </Text>
   </Button>
 ));
 

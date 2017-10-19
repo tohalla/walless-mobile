@@ -82,7 +82,7 @@ class MenuItems extends React.Component {
     const {
       i18n: {
         [this.props.language]: {
-          name, description
+          name
         } = {}
       },
       price,
@@ -111,11 +111,10 @@ class MenuItems extends React.Component {
             onPress={this.handleItemPress(menuItem)}
             style={[container.row, container.rowDistinct, container.padded]}
         >
-          <View>
+          <View style={{flex: 1}}>
             <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
-            <Text style={text.text}>{description}</Text>
           </View>
-          <View style={{justifyContent: 'center', marginLeft: 'auto'}}>
+          <View style={{justifyContent: 'center', flex: 0}}>
             <Text style={text.text}>{`${price} ${symbol}`}</Text>
           </View>
         </TouchableOpacity>
@@ -136,6 +135,7 @@ class MenuItems extends React.Component {
     );
   }
 }
+
 
 export default compose(
   connect(mapStateToProps, {
