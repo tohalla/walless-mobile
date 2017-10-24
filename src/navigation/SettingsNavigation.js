@@ -22,7 +22,7 @@ const ChangePassword = class ChangePassword extends React.Component {
   state = {
     loading: false
   };
-  handleChangePassword = async(payload) => {
+  handleChangePassword = async (payload) => {
     this.setState({loading: true});
     await changePassword(payload);
     this.setState({loading: false});

@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
   language: state.translation.language
 });
 
-const checkRestaurant = async(props) => {
+const checkRestaurant = async (props) => {
   const {getRestaurant: {loading} = {}, restaurant, setRestaurantNavigation} = props;
   if (!restaurant && !loading) {
     setRestaurantNavigation({

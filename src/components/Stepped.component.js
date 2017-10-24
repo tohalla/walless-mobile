@@ -42,7 +42,7 @@ export default class Stepped extends React.Component {
   state = {
     loading: false
   };
-  handleContinuePress = async() => {
+  handleContinuePress = async () => {
     const {step, onContinuePress, steps} = this.props;
     const {allowContinue, validate, onContinue, onError} = steps[step];
     if (typeof allowContinue === 'undefined' || allowContinue) {

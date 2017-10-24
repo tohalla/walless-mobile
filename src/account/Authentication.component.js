@@ -34,7 +34,7 @@ class Authentication extends React.Component {
   setAction = action => () => {
     this.setState({action});
   }
-  handleRegistrationCompleted = async(account) => {
+  handleRegistrationCompleted = async (account) => {
     await authenticate(account.email, account.password);
     this.props.getActiveAccount.refetch();
   };

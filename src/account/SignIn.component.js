@@ -30,7 +30,7 @@ class SignIn extends React.Component {
   handleInputChange = path => value => {
     this.setState(set(path)(value)(this.state));
   };
-  authenticate = async() => {
+  authenticate = async () => {
     const {account: {email, password}} = this.state;
     const {client, onSuccess = () => {}, addNotification} = this.props;
     this.setState({loading: true});

@@ -30,7 +30,7 @@ class Cart extends React.Component {
     const {setCartItems, items} = this.props;
     setCartItems(pullAt(index)(items));
   };
-  handleCreateOrder = async() => {
+  handleCreateOrder = async () => {
     const {
       addNotification,
       setCartItems,

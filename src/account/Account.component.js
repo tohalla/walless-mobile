@@ -19,12 +19,12 @@ const mapStateToProps = state => ({
 });
 
 class Account extends React.Component {
-  handleLogout = async() => {
+  handleLogout = async () => {
     await logout();
     this.props.client.resetStore();
     this.props.resetNavigation();
   };
-  handleLangugageChange = async(language) => {
+  handleLangugageChange = async (language) => {
     const {account, getActiveAccount, updateAccount} = this.props;
     await updateAccount(Object.assign({}, account, {language: language.locale}));
     getActiveAccount.refetch();

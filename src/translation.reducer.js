@@ -13,7 +13,7 @@ export default (state: Object = initialState, action: Object) =>
     Object.assign({}, state, action.payload)
   : state;
 
-export const fetchLanguages = () => async(dispatch: Function) => {
+export const fetchLanguages = () => async (dispatch: Function) => {
   const languages = await (await fetch(
     `${config.api.url}/${config.api.i18n.endpoint}`
   )).json();

@@ -53,7 +53,7 @@ class App extends React.Component {
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
-  handleOpenURL = async(event) => {
+  handleOpenURL = async (event) => {
     const {path, value} = parse(event.url);
     if (path === 'serving-location') {
       await this.props.connectToServingLocation(value);

@@ -29,7 +29,7 @@ class Orders extends React.Component {
       });
     }
   };
-  refresh = async() => {
+  refresh = async () => {
     this.setState({refreshing: true});
     await this.props.getOrdersByAccount.refetch();
     this.setState({refreshing: false});

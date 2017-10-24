@@ -32,7 +32,7 @@ class Register extends React.Component {
     status: '',
     step: 0
   };
-  handleRegister = async() => {
+  handleRegister = async () => {
     const {onSuccess = () => {}} = this.props;
     const {ok} = await createAccount(this.state.account);
     if (ok) {
@@ -83,7 +83,7 @@ class Register extends React.Component {
                   />
                 ),
                 allowContinue: isEmail(email),
-                validate: async() => {
+                validate: async () => {
                   const exists = get(['data', 'accountByEmail', 'email'])(
                     await client.query({
                       query: gql`
