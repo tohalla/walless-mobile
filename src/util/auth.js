@@ -57,21 +57,6 @@ const fetchClientId = async () => {
   return clientId;
 };
 
-const authenticate = async (email: string, password: string) => {
-  const response = await requestToken({email, password});
-  if (response.ok) {
-    const {token, wsToken, refreshToken, expiresAt} = await response.json();
-    await AsyncStorage.multiSet([['expiration', expiresAt.toString()]]
-      .concat(
-        typeof token === 'string' ? [['authorization', token]]: [],
-        typeof wsToken === 'string' ? [['ws-token', wsToken]]: [],
-        typeof refreshToken === 'string' ? [['refresh-token', refreshToken]] : []
-      )
-    );
-  }
-  return pick(['status', 'ok'])(response);
-};
-
 const logout = async () => Promise.all([
   fetch(
     `${config.api.url}/${config.api.authentication.endpoint}/client`,
@@ -89,6 +74,23 @@ const logout = async () => Promise.all([
     'refresh-token'
   ])
 ]);
+
+const authenticate = async (email: string, password: string) => {
+  if (email && password) await logout();
+  const response = await requestToken({email, password});
+  console.log(response);
+  if (response.ok) {
+    const {token, wsToken, refreshToken, expiresAt} = await response.json();
+    await AsyncStorage.multiSet([['expiration', expiresAt.toString()]]
+      .concat(
+        typeof token === 'string' ? [['authorization', token]]: [],
+        typeof wsToken === 'string' ? [['ws-token', wsToken]]: [],
+        typeof refreshToken === 'string' ? [['refresh-token', refreshToken]] : []
+      )
+    );
+  }
+  return pick(['status', 'ok'])(response);
+};
 
 const createAccount = account => fetch(
   `${config.api.url}/${config.api.authentication.endpoint}/account`,
