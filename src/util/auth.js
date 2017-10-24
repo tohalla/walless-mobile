@@ -78,7 +78,6 @@ const logout = async () => Promise.all([
 const authenticate = async (email: string, password: string) => {
   if (email && password) await logout();
   const response = await requestToken({email, password});
-  console.log(response);
   if (response.ok) {
     const {token, wsToken, refreshToken, expiresAt} = await response.json();
     await AsyncStorage.multiSet([['expiration', expiresAt.toString()]]

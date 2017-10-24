@@ -3,15 +3,16 @@ const fs = require('fs');
 const path = require('path');
 
 const set = require('lodash/fp').set;
-const config = require('./config.js');
+
+const url = `http://localhost:8080/translation/`;
 
 module.exports =
-  fetch(config.i18n.url)
+  fetch(url)
     .then(locales => locales.json())
     .then(locales =>
       locales.reduce(
         (prev, curr) =>
-          fetch(`${config.i18n.url}${curr.language_short_code}`)
+          fetch(`${url}${curr.language_short_code}`)
             .then(translations => translations.json())
             .then(translations =>
               Object.assign({}, prev, {[curr.language_short_code]: Object.keys(translations).reduce(
