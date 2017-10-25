@@ -11,11 +11,9 @@ export default class QRScreen extends React.Component {
     onSuccess: PropTypes.func.isRequired,
     onCancel: PropTypes.func
   };
-  componentWillMount() {
-    this.state = {
-      codeRead: false
-    };
-  };
+  state = {
+    codeRead: false
+  }
   handleBarCodeRead = ({data, type, bounds: {origin, size}}) => {
     const {height, width} = Dimensions.get('window');
     if (

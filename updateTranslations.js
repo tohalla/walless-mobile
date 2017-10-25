@@ -12,21 +12,27 @@ module.exports =
     .then(locales =>
       locales.reduce(
         (prev, curr) =>
-          fetch(`${url}${curr.language_short_code}`)
-            .then(translations => translations.json())
-            .then(translations =>
-              Object.assign({}, prev, {[curr.language_short_code]: Object.keys(translations).reduce(
-                (prev, curr) => set(curr)(translations[curr])(prev),
-                {}
-              )})
-            ),
+          Object.assign({}, prev, {[curr.language_short_code]:
+            fetch(`${url}${curr.language_short_code}`)
+              .then(translations => translations.json())
+              .then(translations =>
+                Object.keys(translations).reduce(
+                  (prev, curr) => set(curr)(translations[curr])(prev),
+                  {}
+                )
+              )
+          }),
         {}
       )
     )
     .then(locales =>
-      fs.writeFile(
+      Promise.all(Object.values(locales)).then(translations => fs.writeFile(
         path.resolve(__dirname, 'src', 'translations.json'),
-        JSON.stringify(locales),
+        JSON.stringify(
+          translations.reduce((prev, curr, i) =>
+            Object.assign({}, prev, {[Object.keys(locales)[i]]: curr}),
+            {}
+          )),
         err => {}
-      )
+      ))
     );
