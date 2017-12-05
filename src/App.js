@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {AsyncStorage} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
@@ -23,15 +24,22 @@ import Notifications from 'walless/notification/Notifications.component';
 const mapStateToProps = state => ({
   navigationState: get(['navigation', 'main'])(state),
   servingLocation: state.servingLocation,
-  notification: state.notification
+  notifications: state.notifications
 });
 
 class App extends React.Component {
+  static propTypes = {
+    account: PropTypes.object,
+    connectToServingLocation: PropTypes.func.isRequired,
+    setRestaurantNavigation: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    navigationState: PropTypes.object
+  };
   state = {loading: false};
   componentDidMount() {
     Linking.addEventListener('url', this.handleOpenURL);
   }
-  componentWillReceiveProps = async (newProps) => {
+  componentWillReceiveProps = async(newProps) => {
     if (!isEqual(newProps.account)(this.props.account)) {
       if (
         !isEmpty(newProps.account) &&
@@ -49,11 +57,11 @@ class App extends React.Component {
         initializeNotificationHandler();
       }
     }
-  }
+  };
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
-  handleOpenURL = async (event) => {
+  handleOpenURL = async(event) => {
     const {path, value} = parse(event.url);
     if (path === 'serving-location') {
       await this.props.connectToServingLocation(value);
@@ -70,16 +78,16 @@ class App extends React.Component {
     const {account} = this.props;
     return (
       <View style={container.container}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle='light-content' />
         <LoadContent loadProps={this.props} loading={this.state.loading}>
           {isEmpty(account) ? <Authentication /> :
-            <MainNavigation
-                navigation={addNavigationHelpers({
-                  state: this.props.navigationState,
-                  dispatch: this.props.dispatch
-                })}
-                ref={c => this.navigation = c}
-                screenProps={{
+          <MainNavigation
+            navigation={addNavigationHelpers({
+              state: this.props.navigationState,
+              dispatch: this.props.dispatch
+            })}
+            ref={c => this.navigation = c}
+            screenProps={{
                   titles: Object.keys(routes).reduce((prev, key) =>
                     Object.assign(
                       {},

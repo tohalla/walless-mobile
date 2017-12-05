@@ -13,7 +13,7 @@ const setServingLocation = payload => ({
   payload
 });
 
-export const connectToServingLocation = code => async (dispatch) =>
+export const connectToServingLocation = code => async(dispatch) =>
   dispatch(setServingLocation(await (await fetch(
     `${config.api.url}/serving-location`,
     {
@@ -26,7 +26,7 @@ export const connectToServingLocation = code => async (dispatch) =>
     }
   )).json()));
 
-export const disconnectFromServingLocation = servingLocation => async (dispatch) => {
+export const disconnectFromServingLocation = servingLocation => async(dispatch) => {
   await fetch(
     `${config.api.url}/serving-location`,
     {

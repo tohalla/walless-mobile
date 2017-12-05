@@ -7,9 +7,9 @@ export const mapToProps = (Component, mapper, additionalProps = {}) =>
       const props = typeof mapper === 'function' ? mapper(this.props) : {};
       return (
         <Component
-            {...props}
-            {...additionalProps}
-            {...this.props}
+          {...props}
+          {...additionalProps}
+          {...this.props}
         />
       );
     }

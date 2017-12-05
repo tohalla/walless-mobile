@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {ListView, Text, TouchableOpacity, RefreshControl} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
@@ -6,11 +7,17 @@ import {isEqual} from 'lodash/fp';
 import {NavigationActions} from 'react-navigation';
 import {order, account} from 'walless-graphql';
 
-import {getOrderStateIndicator} from 'walless/util/order';
+import {OrderStateInficator} from 'walless/util/order';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 
 class Orders extends React.Component {
+  static propTypes = {
+    getOrdersByAccount: PropTypes.shape({
+      refetch: PropTypes.func.isRequired
+    }),
+    navigate: PropTypes.func.isRequired
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +36,7 @@ class Orders extends React.Component {
       });
     }
   };
-  refresh = async () => {
+  refresh = async() => {
     this.setState({refreshing: true});
     await this.props.getOrdersByAccount.refetch();
     this.setState({refreshing: false});
@@ -41,8 +48,8 @@ class Orders extends React.Component {
     const {createdAt} = order;
     return (
       <TouchableOpacity
-          onPress={this.handleItemPress(order)}
-          style={[
+        onPress={this.handleItemPress(order)}
+        style={[
             container.row,
             container.rowDistinct,
             container.padded,
@@ -50,7 +57,7 @@ class Orders extends React.Component {
           ]}
       >
         <Text style={text.text}>{createdAt}</Text>
-        {getOrderStateIndicator(order)}
+        <OrderStateInficator {...order} />
       </TouchableOpacity>
     );
   };
@@ -58,16 +65,16 @@ class Orders extends React.Component {
     const {dataSource} = this.state;
     return (
       <ListView
-          dataSource={dataSource}
-          enableEmptySections
-          refreshControl={
-            <RefreshControl
-                onRefresh={this.refresh}
-                refreshing={this.state.refreshing}
+        dataSource={dataSource}
+        enableEmptySections
+        refreshControl={
+          <RefreshControl
+            onRefresh={this.refresh}
+            refreshing={this.state.refreshing}
             />
           }
-          renderRow={this.handleRenderItem}
-          style={container.container}
+        renderRow={this.handleRenderItem}
+        style={container.container}
       />
     );
   }

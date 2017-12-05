@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import I18n from 'react-native-i18n';
 import {connect} from 'react-redux';
@@ -19,12 +20,19 @@ const mapStateToProps = state => ({
 });
 
 class Account extends React.Component {
-  handleLogout = async () => {
+  static propTypes = {
+    client: PropTypes.shape({resetStore: PropTypes.func.isRequired}),
+    resetNavigation: PropTypes.func.isRequired,
+    languages: PropTypes.arrayOf(PropTypes.shape({locale: PropTypes.string})),
+    account: PropTypes.object,
+    navigation: PropTypes.shape({navigate: PropTypes.func.isRequired})
+  };
+  handleLogout = async() => {
     await logout();
     this.props.client.resetStore();
     this.props.resetNavigation();
   };
-  handleLangugageChange = async (language) => {
+  handleLangugageChange = async(language) => {
     const {account, getActiveAccount, updateAccount} = this.props;
     await updateAccount(Object.assign({}, account, {language: language.locale}));
     getActiveAccount.refetch();
@@ -38,18 +46,18 @@ class Account extends React.Component {
         <NavigationItem>
           {I18n.t('language')}
           <ModalDropdown
-              defaultIndex={languages.indexOf(language)}
-              defaultValue={`${language.name} (${language.locale})`}
-              dropdownStyle={styles.dropdown}
-              onSelect={index => this.handleLangugageChange(languages[index])}
-              options={languages.map(lang => `${lang.name} (${lang.locale})`)}
-              selectedValue = {account.language}
-              textStyle={text.text}
+            defaultIndex={languages.indexOf(language)}
+            defaultValue={`${language.name} (${language.locale})`}
+            dropdownStyle={styles.dropdown}
+            onSelect={index => this.handleLangugageChange(languages[index])}
+            options={languages.map(lang => `${lang.name} (${lang.locale})`)}
+            selectedValue={account.language}
+            textStyle={text.text}
           />
         </NavigationItem>
         <NavigationButton
-            key={settingsRoutes.settingsAccountPassword}
-            onPress={() => navigation.navigate('settingsAccountPassword')}
+          key={settingsRoutes.settingsAccountPassword}
+          onPress={() => navigation.navigate('settingsAccountPassword')}
         >
           {I18n.t(settingsRoutes.settingsAccountPassword.translationKey)}
         </NavigationButton>

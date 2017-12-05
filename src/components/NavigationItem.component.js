@@ -6,16 +6,16 @@ import container from 'walless/styles/container';
 import text from 'walless/styles/text';
 
 export default class NavigationItem extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     children: PropTypes.node
   };
   render = () => (
     <View
-        style={[container.row, container.padded, container.rowDistinct]}
-        {...this.props}
+      style={[container.row, container.padded, container.rowDistinct]}
+      {...this.props}
     >
       <View
-          style={{
+        style={{
             flex: 1,
             justifyContent: 'space-between',
             alignItems: 'center',

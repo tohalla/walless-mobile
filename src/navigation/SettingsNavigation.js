@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {StackNavigator, addNavigationHelpers} from 'react-navigation';
 import {connect} from 'react-redux';
 import I18n from 'react-native-i18n';
@@ -19,24 +20,27 @@ import OpenDrawerButton from 'walless/navigation/OpenDrawerButton.component';
 export const initialRouteName = 'settings';
 
 const ChangePassword = class ChangePassword extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({goBack: PropTypes.func.isRequired})
+  };
   state = {
     loading: false
   };
-  handleChangePassword = async (payload) => {
+  handleChangePassword = async(payload) => {
     this.setState({loading: true});
     await changePassword(payload);
     this.setState({loading: false});
     this.props.navigation.goBack();
-  }
+  };
   render = () => (
     <AvoidKeyboard>
       <Password
-          onSubmit={this.handleChangePassword}
-          requireCurrent
-          requireRetype
+        onSubmit={this.handleChangePassword}
+        requireCurrent
+        requireRetype
       />
     </AvoidKeyboard>
-  )
+  );
 };
 
 export const settingsRoutes = {
@@ -73,9 +77,9 @@ const LeftButton = connect(
 : (
   <Button onPress={() => navigation.goBack()} {...props}>
     <Icon
-        color={colors.headerForeground}
-        name="chevron-left"
-        size={20}
+      color={colors.headerForeground}
+      name='chevron-left'
+      size={20}
     />
   </Button>
 ));
@@ -87,7 +91,7 @@ export const SettingsNavigation = new StackNavigator(
     transitionConfig: () => ({transitionSpec: {duration: 0}}),
     navigationOptions: ({navigation, screenProps: {titles}}) => ({
       title: titles[navigation.state.routeName],
-      headerLeft: <LeftButton navigation={navigation} style={header.button} titles={titles}/>,
+      headerLeft: <LeftButton navigation={navigation} style={header.button} titles={titles} />,
       headerStyle: header.header,
       headerTitleStyle: [header.text, header.title],
       headerTintColor: colors.headerForeground
@@ -101,14 +105,18 @@ const mapStateToProps = state => ({
 });
 
 class Navigation extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    navigationState: PropTypes.object
+  };
   render() {
     return (
       <SettingsNavigation
-          navigation={addNavigationHelpers({
+        navigation={addNavigationHelpers({
             state: this.props.navigationState,
             dispatch: this.props.dispatch
           })}
-          screenProps={{
+        screenProps={{
             titles: Object.keys(settingsRoutes).reduce((prev, key) =>
               Object.assign(
                 {},

@@ -32,9 +32,9 @@ class ContentComponent extends React.Component {
       <ScrollView contentContainerStyle={styles.navigationContainer}>
         <View style={styles.logoContainer}>
           <Image
-              resizeMode="contain"
-              source={require('walless-native/img/walless.png')}
-              style={styles.logo}
+            resizeMode='contain'
+            source={require('walless-native/img/walless.png')}
+            style={styles.logo}
           />
         </View>
         <DrawerItems {...this.props} style={{marginTop: 0}} />
@@ -45,7 +45,7 @@ class ContentComponent extends React.Component {
 
 export default new DrawerNavigator(routes, {
   initialRouteName,
-  contentComponent: props => <ContentComponent {...props}/>,
+  contentComponent: props => <ContentComponent {...props} />,
   navigationOptions: ({navigation: {state}, screenProps: {titles}}) => ({
     title: titles[state.routeName]
   })

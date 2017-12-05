@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {StackNavigator, addNavigationHelpers} from 'react-navigation';
 import {get} from 'lodash/fp';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -26,19 +27,21 @@ import OpenDrawerButton from 'walless/navigation/OpenDrawerButton.component';
 export const initialRouteName = 'restaurantSelection';
 
 class MenuItemsWithActions extends React.Component {
-  static navigationOptions = MenuItem.navigationOptions;
+  static propTypes = {
+    addCartItems: PropTypes.func.isRequired
+  };
   handleAddToCart = menuItem => this.props.addCartItems(menuItem);
   render() {
     return (
       <MenuItems
-          allowEdit
-          menuItemActions={[
+        allowEdit
+        menuItemActions={[
             {
               label: I18n.t('restaurant.order.orderItem'),
               onPress: this.handleAddToCart
             }
           ]}
-          {...this.props}
+        {...this.props}
       />
     );
   }
@@ -66,7 +69,7 @@ export const restaurantRoutes = {
   restaurantMenuItems: {
     screen: connect(null, {addCartItems})(MenuItemsWithActions),
     navigation: true,
-    translationKey: 'restaurant.menuItem.menuItems'
+    translationKey: 'restaurant.item.items'
   },
   menuItem: {
     screen: MenuItem
@@ -84,9 +87,9 @@ const LeftButton = connect(
 : (
   <Button onPress={() => navigation.goBack()} {...props}>
     <Icon
-        color={colors.headerForeground}
-        name="chevron-left"
-        size={20}
+      color={colors.headerForeground}
+      name='chevron-left'
+      size={20}
     />
   </Button>
 ));
@@ -114,16 +117,21 @@ const mapStateToProps = state => ({
 });
 
 class Navigation extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    language: PropTypes.string,
+    navigationState: PropTypes.object
+  };
   render() {
     return (
       <LoadContent loadProps={this.props}>
         <RestaurantNavigation
-            navigation={addNavigationHelpers({
+          navigation={addNavigationHelpers({
               state: this.props.navigationState,
               dispatch: this.props.dispatch,
               language: this.props.language
             })}
-            screenProps={{
+          screenProps={{
               titles: Object.assign(
                 Object.keys(restaurantRoutes).reduce((prev, key) =>
                   Object.assign(

@@ -7,17 +7,19 @@ import colors from 'walless/styles/colors';
 import {normal} from 'walless/styles/spacing';
 
 export default class Button extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     children: PropTypes.node.isRequired,
     disabled: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
     padded: PropTypes.bool,
     style: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.object),
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object])),
       PropTypes.object
     ]),
     textStyle: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.object),
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object])),
       PropTypes.object
     ])
   };
@@ -37,13 +39,13 @@ export default class Button extends React.Component {
     return (
       <View style={disabled ? styles.disabled : []}>
         <TouchableOpacity
-            disabled={disabled}
-            onPress={onPress}
-            style={[styles.button].concat(
+          disabled={disabled}
+          onPress={onPress}
+          style={[styles.button].concat(
               style,
               padded ? styles.padded : []
             )}
-            {...rest}
+          {...rest}
         >
           {typeof children === 'string' ?
             <Text style={[styles.text].concat(textStyle)}>

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import I18n from 'react-native-i18n';
 import gql from 'graphql-tag';
@@ -18,9 +19,13 @@ import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import Stepped from 'walless/components/Stepped.component';
 import {createAccount} from 'walless/util/auth';
-import {addNotification} from 'walless/notification/notification.reducer';
+import {addNotification} from 'walless/notification/notifications.reducer';
 
 class Register extends React.Component {
+  static propTypes = {
+    setAction: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired
+  };
   state = {
     account: {
       firstName: '',
@@ -32,7 +37,7 @@ class Register extends React.Component {
     status: '',
     step: 0
   };
-  handleRegister = async () => {
+  handleRegister = async() => {
     const {onSuccess = () => {}} = this.props;
     const {ok} = await createAccount(this.state.account);
     if (ok) {
@@ -55,35 +60,35 @@ class Register extends React.Component {
     return (
       <LoadContent loadProps={this.props} loading={loading}>
         <Stepped
-            color={colors.foregroundLight}
-            contentContainerStyle={[
+          color={colors.foregroundLight}
+          contentContainerStyle={[
               container.container,
               container.colored,
               {alignItems: 'stretch', justifyContent: 'center'}
             ]}
-            onBackPress={this.handleBackPress}
-            onCancelPress={setAction('')}
-            onContinuePress={this.handleContinuePress}
-            onSubmitPress={this.handleRegister}
-            step={step}
-            steps={[
+          onBackPress={this.handleBackPress}
+          onCancelPress={setAction('')}
+          onContinuePress={this.handleContinuePress}
+          onSubmitPress={this.handleRegister}
+          step={step}
+          steps={[
               {
                 component: (
                   <Input
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      autoFocus
-                      keyboardType="email-address"
-                      label={I18n.t('account.email')}
-                      light
-                      maxLength={254}
-                      name="email"
-                      onChangeText={this.handleInputChange(['account', 'email'])}
-                      value={email}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    autoFocus
+                    keyboardType='email-address'
+                    label={I18n.t('account.email')}
+                    light
+                    maxLength={254}
+                    name='email'
+                    onChangeText={this.handleInputChange(['account', 'email'])}
+                    value={email}
                   />
                 ),
                 allowContinue: isEmail(email),
-                validate: async () => {
+                validate: async() => {
                   const exists = get(['data', 'accountByEmail', 'email'])(
                     await client.query({
                       query: gql`
@@ -111,27 +116,27 @@ class Register extends React.Component {
                 component: (
                   <View style={{width: '100%'}}>
                     <Input
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                        autoFocus
-                        label={I18n.t('account.firstName')}
-                        light
-                        maxLength={64}
-                        name="firstName"
-                        onChangeText={this.handleInputChange(['account', 'firstName'])}
-                        onSubmitEditing={() => this.lastNameInput.focus()}
-                        value={firstName}
+                      autoCapitalize='words'
+                      autoCorrect={false}
+                      autoFocus
+                      label={I18n.t('account.firstName')}
+                      light
+                      maxLength={64}
+                      name='firstName'
+                      onChangeText={this.handleInputChange(['account', 'firstName'])}
+                      onSubmitEditing={() => this.lastNameInput.focus()}
+                      value={firstName}
                     />
                     <Input
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                        label={I18n.t('account.lastName')}
-                        light
-                        maxLength={64}
-                        name="lastName"
-                        onChangeText={this.handleInputChange(['account', 'lastName'])}
-                        ref={c => this.lastNameInput = c}
-                        value={lastName}
+                      autoCapitalize='words'
+                      autoCorrect={false}
+                      label={I18n.t('account.lastName')}
+                      light
+                      maxLength={64}
+                      name='lastName'
+                      onChangeText={this.handleInputChange(['account', 'lastName'])}
+                      ref={c => this.lastNameInput = c}
+                      value={lastName}
                     />
                   </View>
                 ),
@@ -140,9 +145,9 @@ class Register extends React.Component {
               {
                 component: (
                   <Password
-                      autoFocus
-                      light
-                      password={{
+                    autoFocus
+                    light
+                    password={{
                         onChangeText: this.handleInputChange(['account', 'password']),
                         value: password
                       }}
@@ -151,12 +156,12 @@ class Register extends React.Component {
               }, {
                 component: (
                   <Input
-                      Input={DatePicker}
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      cancelBtnText={I18n.t('cancel')}
-                      confirmBtnText={I18n.t('confirm')}
-                      customStyles={{
+                    Input={DatePicker}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    cancelBtnText={I18n.t('cancel')}
+                    confirmBtnText={I18n.t('confirm')}
+                    customStyles={{
                         dateTouch: {
                           width: '100%'
                         },
@@ -176,26 +181,26 @@ class Register extends React.Component {
                           margin: 0
                         }
                       }}
-                      date={dateOfBirth}
-                      iconComponent={(
-                        <Icon
-                            color={colors.foregroundLight}
-                            name="event"
-                            size={20}
+                    date={dateOfBirth}
+                    iconComponent={(
+                      <Icon
+                        color={colors.foregroundLight}
+                        name='event'
+                        size={20}
                         />
                       )}
-                      label={I18n.t('account.dateOfBirth')}
-                      light
-                      maxDate={new Date()}
-                      mode="date"
-                      name="dateOfBirth"
-                      onDateChange={this.handleInputChange(['account', 'dateOfBirth'])}
-                      style={{width: '100%'}}
+                    label={I18n.t('account.dateOfBirth')}
+                    light
+                    maxDate={new Date()}
+                    mode='date'
+                    name='dateOfBirth'
+                    onDateChange={this.handleInputChange(['account', 'dateOfBirth'])}
+                    style={{width: '100%'}}
                   />
                 )
               }
             ]}
-            submitLabel={I18n.t('account.register')}
+          submitLabel={I18n.t('account.register')}
         />
       </LoadContent>
     );

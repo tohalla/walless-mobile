@@ -71,51 +71,51 @@ export default class Password extends React.Component {
       <View style={{alignSelf: 'stretch'}} {...rest}>
         {requireCurrent ?
           <Input
-              autoCapitalize="none"
-              autoCorrect={false}
-              label={I18n.t('account.currentPassword')}
-              light={light}
-              name="currentPassword"
-              onChangeText={onChangeCurrent}
-              secureTextEntry
-              value={current}
+            autoCapitalize='none'
+            autoCorrect={false}
+            label={I18n.t('account.currentPassword')}
+            light={light}
+            name='currentPassword'
+            onChangeText={onChangeCurrent}
+            secureTextEntry
+            value={current}
           /> : null
         }
         <Input
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoFocus={autoFocus}
-            label={I18n.t('account.password')}
-            light={light}
-            name="password"
-            onChangeText={onChangePassword}
-            secureTextEntry
-            value={password}
+          autoCapitalize='none'
+          autoCorrect={false}
+          autoFocus={autoFocus}
+          label={I18n.t('account.password')}
+          light={light}
+          name='password'
+          onChangeText={onChangePassword}
+          secureTextEntry
+          value={password}
         />
         {requireRetype ?
           <Input
-              autoCapitalize="none"
-              autoCorrect={false}
-              label={I18n.t('account.retypePassword')}
-              light={light}
-              name="retypePassword"
-              onChangeText={onChangeRetype}
-              secureTextEntry
-              value={retype}
+            autoCapitalize='none'
+            autoCorrect={false}
+            label={I18n.t('account.retypePassword')}
+            light={light}
+            name='retypePassword'
+            onChangeText={onChangeRetype}
+            secureTextEntry
+            value={retype}
           /> : null
         }
         {displayScore ? <Score max={4} score={score} /> : null}
         {typeof onSubmit === 'function' ? (
           <View style={[container.row, {justifyContent: 'flex-end'}]}>
             <Button
-                disabled={
+              disabled={
                   !(requireRetype && retype === password) ||
                   !(requireCurrent && current) ||
                   score <= 2
                 }
-                onPress={() => onSubmit({password, currentPassword: current})}
-                padded
-                textStyle={[].concat(light ? text.light : [])}
+              onPress={() => onSubmit({password, currentPassword: current})}
+              padded
+              textStyle={[].concat(light ? text.light : [])}
             >
               {I18n.t('account.changePassword')}
             </Button>

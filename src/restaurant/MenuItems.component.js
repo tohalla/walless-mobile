@@ -31,7 +31,12 @@ class MenuItems extends React.Component {
     menu: PropTypes.object,
     allowEdit: PropTypes.bool,
     swipeable: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    listViewProps: PropTypes.object
+    listViewProps: PropTypes.object,
+    getMenuItemsByRestaurant: PropTypes.object,
+    addCartItems: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired,
+    menuItems: PropTypes.array,
+    language: PropTypes.string
   };
   constructor(props) {
     super(props);
@@ -93,9 +98,9 @@ class MenuItems extends React.Component {
         leftContent: (
           <View style={[swipe.content, swipe.action, {alignItems: 'flex-end'}]}>
             <Icon
-                color={colors.foregroundLight}
-                name="add-shopping-cart"
-                size={20}
+              color={colors.foregroundLight}
+              name='add-shopping-cart'
+              size={20}
             />
           </View>
         ),
@@ -103,13 +108,13 @@ class MenuItems extends React.Component {
       };
     return (
       <Swipeable
-          onSwipeRelease={() => this.setState({isSwiping: false})}
-          onSwipeStart={() => this.setState({isSwiping: true})}
-          {...swipeable}
+        onSwipeRelease={() => this.setState({isSwiping: false})}
+        onSwipeStart={() => this.setState({isSwiping: true})}
+        {...swipeable}
       >
         <TouchableOpacity
-            onPress={this.handleItemPress(menuItem)}
-            style={[container.row, container.rowDistinct, container.padded]}
+          onPress={this.handleItemPress(menuItem)}
+          style={[container.row, container.rowDistinct, container.padded]}
         >
           <View style={{flex: 1}}>
             <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
@@ -125,12 +130,12 @@ class MenuItems extends React.Component {
     const {dataSource, isSwiping} = this.state;
     return (
       <ListView
-          dataSource={dataSource}
-          enableEmptySections
-          renderRow={this.handleRenderItem}
-          scrollEnabled={!isSwiping}
-          style={container.container}
-          {...this.props.listViewProps}
+        dataSource={dataSource}
+        enableEmptySections
+        renderRow={this.handleRenderItem}
+        scrollEnabled={!isSwiping}
+        style={container.container}
+        {...this.props.listViewProps}
       />
     );
   }

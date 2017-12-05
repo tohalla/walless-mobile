@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
@@ -18,6 +19,12 @@ const mapStateToProps = state => ({
 });
 
 class Selection extends React.Component {
+  static propTypes = {
+    restaurant: PropTypes.object,
+    account: PropTypes.object,
+    navigation: PropTypes.shape({navigate: PropTypes.func.isRequired}),
+    setRestaurantNavigation: PropTypes.func.isRequired
+  };
   static navigationOptions = {
     headerStyle: {
       backgroundColor: 'transparent',
@@ -58,7 +65,7 @@ class Selection extends React.Component {
     return (
       <LoadContent loadProps={this.props}>
         <View
-            style={[
+          style={[
               container.container,
               container.colored,
               container.centerContent
@@ -66,18 +73,18 @@ class Selection extends React.Component {
         >
           {account ?
             <Button
-                onPress={() => navigation.navigate('restaurantScan')}
-                padded
-                textStyle={text.light}
+              onPress={() => navigation.navigate('restaurantScan')}
+              padded
+              textStyle={text.light}
             >
               {'Scan QR code'}
             </Button> :
             <Button
-                onPress={() => navigation.navigate('authentication')}
-                padded
-                textStyle={text.light}
+              onPress={() => navigation.navigate('authentication')}
+              padded
+              textStyle={text.light}
             >
-                {I18n.t('account.authenticate')}
+              {I18n.t('account.authenticate')}
             </Button>
           }
         </View>

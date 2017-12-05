@@ -7,19 +7,19 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {pick} from 'lodash/fp';
 
 import {minor} from 'walless/styles/spacing';
-import {deleteNotification} from 'walless/notification/notification.reducer';
+import {deleteNotification} from 'walless/notification/notifications.reducer';
 import text from 'walless/styles/text';
 import colors from 'walless/styles/colors';
 import Button from 'walless/components/Button.component';
 
 class Notification extends React.Component {
   static propTypes = {
+    deleteNotification: PropTypes.func.isRequired,
     actions: PropTypes.arrayOf(PropTypes.shape({
       onPress: PropTypes.func.isRequired,
       label: PropTypes.node.isRequired,
       deleteOnPress: PropTypes.bool
     })),
-    createdAt: PropTypes.instanceOf(Date),
     message: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['alert', 'danger', 'success', 'neutral'])
   };
@@ -45,19 +45,19 @@ class Notification extends React.Component {
         </Text>
         {actions.map((action, index) => (
           <Button
-              key={index}
-              onPress={this.handleActionPress(action)}
-              style={styles.action}
-              textStyle={styles.actionLabel}
+            key={index}
+            onPress={this.handleActionPress(action)}
+            style={styles.action}
+            textStyle={styles.actionLabel}
           >
             {action.label}
           </Button>
         ))}
         <Button onPress={this.handleDeleteNotification} style={styles.action}>
           <Icon
-              color={colors.neutral}
-              name="close"
-              size={20}
+            color={colors.neutral}
+            name='close'
+            size={20}
           />
         </Button>
       </View>

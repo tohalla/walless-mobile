@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   Keyboard,
@@ -7,11 +8,15 @@ import {
 
 import Notification from 'walless/notification/Notification.component';
 
-const mapStateToProps = state => ({
-  notification: state.notification
-});
+const mapStateToProps = state => ({notifications: state.notifications});
 
 class Notifications extends React.Component {
+  static propTypes = {
+    notifications: PropTypes.arrayOf(PropTypes.shape({
+      message: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(['alert', 'danger', 'success', 'neutral'])
+    }))
+  };
   componentWillMount() {
     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
     this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
@@ -34,10 +39,10 @@ class Notifications extends React.Component {
     }).start();
   };
   render() {
-    const {notification} = this.props;
+    const {notifications} = this.props;
     return (
       <Animated.View
-          style={{
+        style={{
             position: 'absolute',
             bottom: 0,
             left: 0,
@@ -46,7 +51,7 @@ class Notifications extends React.Component {
             paddingBottom: this.keyboardHeight
           }}
       >
-        {notification
+        {notifications
           .sort((a, b) => a.createdAt < b.createdAt)
           .map((n, index) =>
             <Notification key={index} {...n} />

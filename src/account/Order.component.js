@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {ScrollView} from 'react-native';
 import {get} from 'lodash/fp';
 import I18n from 'react-native-i18n';
@@ -8,7 +9,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import {order} from 'walless-graphql';
 
 import Header from 'walless/components/Header.component';
-import {getOrderStateIndicator} from 'walless/util/order';
+import {OrderStateInficator} from 'walless/util/order';
 import MenuItems from 'walless/restaurant/MenuItems.component';
 import container from 'walless/styles/container';
 import colors from 'walless/styles/colors';
@@ -20,6 +21,9 @@ const mapStateToProps = state => ({
 });
 
 class Order extends React.Component {
+  static propTypes = {
+    order: PropTypes.shape({id: PropTypes.number})
+  };
   static navigationOptions = ({navigation}) => ({
     title: get([
       'state',
@@ -40,11 +44,11 @@ class Order extends React.Component {
     } = order;
     return (
       <ScrollView
-          alwaysBounceVertical={false}
-          contentContainerStyle={container.container}
+        alwaysBounceVertical={false}
+        contentContainerStyle={container.container}
       >
         <ItemsWithLabels
-            items={[
+          items={[
               {
                 label: I18n.t('restaurant.order.createdAt'),
                 item: createdAt
@@ -55,19 +59,19 @@ class Order extends React.Component {
               },
               {
                 label: I18n.t('restaurant.order.state.state'),
-                item: getOrderStateIndicator(order)
+                item: <OrderStateInficator {...order} />
               }
             ]}
-            style={styles.information}
+          style={styles.information}
         />
         <MenuItems
-            items={items.map(item => item.menuItem)}
-            listViewProps={{
+          items={items.map(item => item.menuItem)}
+          listViewProps={{
               renderSectionHeader: () =>
                 <Header label={I18n.t('restaurant.order.items')} />,
               stickyHeadersEnabled: true
             }}
-            swipeable={{}}
+          swipeable={{}}
         />
       </ScrollView>
     );

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
@@ -14,6 +15,11 @@ const mapStateToProps = state => ({
 });
 
 class CartButton extends React.Component {
+  static propTypes = {
+    items: PropTypes.array,
+    routes: PropTypes.arrayOf(PropTypes.shape({routeName: PropTypes.string})),
+    navigation: PropTypes.shape({navigate: PropTypes.func})
+  };
   render() {
     const {items, routes, navigation, ...props} = this.props;
     return (
@@ -21,13 +27,13 @@ class CartButton extends React.Component {
       routes[Math.max(routes.length - 2, 0)].routeName === 'cart'
     ) ? <View /> : (
       <Button
-          onPress={() => navigation.navigate('restaurantCart')}
-          {...props}
+        onPress={() => navigation.navigate('restaurantCart')}
+        {...props}
       >
         <Icon
-            color={colors.headerForeground}
-            name="shopping-cart"
-            size={20}
+          color={colors.headerForeground}
+          name='shopping-cart'
+          size={20}
         />
         {items.length ?
           <View style={header.cartItems}>

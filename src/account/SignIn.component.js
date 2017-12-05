@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
@@ -14,9 +15,12 @@ import Input from 'walless/components/Input.component';
 import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 import {authenticate} from 'walless/util/auth';
-import {addNotification} from 'walless/notification/notification.reducer';
+import {addNotification} from 'walless/notification/notifications.reducer';
 
 class SignIn extends React.Component {
+  static propTypes = {
+    onCancel: PropTypes.func.isRequired
+  };
   state = {
     account: {
       email: '',
@@ -30,7 +34,7 @@ class SignIn extends React.Component {
   handleInputChange = path => value => {
     this.setState(set(path)(value)(this.state));
   };
-  authenticate = async () => {
+  authenticate = async() => {
     const {account: {email, password}} = this.state;
     const {client, onSuccess = () => {}, addNotification} = this.props;
     this.setState({loading: true});
@@ -51,48 +55,48 @@ class SignIn extends React.Component {
     return (
       <LoadContent loadProps={this.props} loading={loading}>
         <AvoidKeyboard
-            contentContainerStyle={[container.container, container.colored, container.centerContent]}
-            style={container.colored}
+          contentContainerStyle={[container.container, container.colored, container.centerContent]}
+          style={container.colored}
         >
           <Input
-              autoCapitalize="none"
-              autoCorrect={false}
-              autoFocus
-              keyboardType="email-address"
-              label={I18n.t('account.email')}
-              light
-              maxLength={254}
-              name="email"
-              onChangeText={this.handleInputChange(['account', 'email'])}
-              onSubmitEditing={() => this.passwordInput.focus()}
-              value={email}
+            autoCapitalize='none'
+            autoCorrect={false}
+            autoFocus
+            keyboardType='email-address'
+            label={I18n.t('account.email')}
+            light
+            maxLength={254}
+            name='email'
+            onChangeText={this.handleInputChange(['account', 'email'])}
+            onSubmitEditing={() => this.passwordInput.focus()}
+            value={email}
           />
           <Input
-              autoCapitalize="none"
-              autoCorrect={false}
-              label={I18n.t('account.password')}
-              light
-              name="password"
-              onChangeText={this.handleInputChange(['account', 'password'])}
-              ref={c => this.passwordInput = c}
-              secureTextEntry
-              value={password}
+            autoCapitalize='none'
+            autoCorrect={false}
+            label={I18n.t('account.password')}
+            light
+            name='password'
+            onChangeText={this.handleInputChange(['account', 'password'])}
+            ref={c => this.passwordInput = c}
+            secureTextEntry
+            value={password}
           />
           <View style={[container.row, container.spread]}>
             {typeof onCancel === 'function' ? (
               <Button
-                  onPress={onCancel}
-                  padded
-                  textStyle={text.light}
+                onPress={onCancel}
+                padded
+                textStyle={text.light}
               >
                 {I18n.t('cancel')}
               </Button>
             ) : null}
             <Button
-                disabled={!(email && password)}
-                onPress={this.authenticate}
-                padded
-                textStyle={text.light}
+              disabled={!(email && password)}
+              onPress={this.authenticate}
+              padded
+              textStyle={text.light}
             >
               {I18n.t('account.authenticate')}
             </Button>

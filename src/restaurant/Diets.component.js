@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {get} from 'lodash/fp';
 import {View, Text} from 'react-native';
@@ -14,10 +15,10 @@ const mapStateToProps = state => ({
 
 const Diet = ({diets, language, ...props}) => diets.length ? (
   <View style={styles.container} {...props}>
-    {diets.map((diet, index) => (
+    {diets.map((diet) => (
       <View
-          key={index}
-          style={[styles.diet, {backgroundColor: diet.color || colors.neutral}]}
+        key={diet.id}
+        style={[styles.diet, {backgroundColor: diet.color || colors.neutral}]}
       >
         <Text style={[text.text, text.light]}>
           {get(['i18n', language, 'name'])(diet)}
@@ -41,3 +42,11 @@ const styles = EStyleSheet.create({
     borderRadius: 5
   }
 });
+
+Diet.propTypes = {
+  language: PropTypes.string,
+  diets: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    i18n: PropTypes.object
+  }))
+};

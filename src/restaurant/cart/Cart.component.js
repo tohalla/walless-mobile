@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import {get, pullAt} from 'lodash/fp';
@@ -14,7 +15,7 @@ import text from 'walless/styles/text';
 import colors from 'walless/styles/colors';
 import swipe from 'walless/styles/swipe';
 import Button from 'walless/components/Button.component';
-import {addNotification} from 'walless/notification/notification.reducer';
+import {addNotification} from 'walless/notification/notifications.reducer';
 
 const mapStateToProps = state => ({
   restaurant: get(['servingLocation', 'restaurant'])(state),
@@ -26,11 +27,22 @@ class Cart extends React.Component {
   static navigationOptions = {
     headerRight: <View />
   };
+  static propTypes = {
+    setCartItems: PropTypes.func.isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      orderOptions: PropTypes.array
+    })),
+    restaurant: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number
+    ]).isRequired
+  };
   handleDeleteItem = index => {
     const {setCartItems, items} = this.props;
     setCartItems(pullAt(index)(items));
   };
-  handleCreateOrder = async () => {
+  handleCreateOrder = async() => {
     const {
       addNotification,
       setCartItems,
@@ -70,14 +82,14 @@ class Cart extends React.Component {
     return items.length ? (
       <View style={container.container}>
         <MenuItems
-            items={items}
-            swipeable={({rowId}) => ({
+          items={items}
+          swipeable={({rowId}) => ({
               rightContent: (
                 <View style={[swipe.content, swipe.alert, {alignItems: 'flex-start'}]}>
                   <Icon
-                      color={colors.foregroundLight}
-                      name="remove-shopping-cart"
-                      size={20}
+                    color={colors.foregroundLight}
+                    name='remove-shopping-cart'
+                    size={20}
                   />
                 </View>
               ),
@@ -85,7 +97,7 @@ class Cart extends React.Component {
             })}
         />
         <View
-            style={[
+          style={[
               container.light,
               container.spread,
               {

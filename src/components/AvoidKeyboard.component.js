@@ -8,9 +8,18 @@ import {
 } from 'react-native';
 
 export default class AvoidKeyboard extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     children: PropTypes.node,
-    contentContainerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array])
+    contentContainerStyle: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object])),
+      PropTypes.object
+    ]),
+    style: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object])),
+      PropTypes.object
+    ])
   };
   componentWillMount() {
     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
@@ -38,11 +47,11 @@ export default class AvoidKeyboard extends React.Component {
     <View style={[{flex: 1}].concat(this.props.style)}>
       <Animated.View style={{flex: 1, paddingBottom: this.keyboardHeight}}>
         <ScrollView
-            bounce={false}
-            contentContainerStyle={this.props.contentContainerStyle}
-            keyboardShouldPersistTaps="handled"
-            ref={c => this.scrollView = c}
-            style={{flex: 1}}
+          bounce={false}
+          contentContainerStyle={this.props.contentContainerStyle}
+          keyboardShouldPersistTaps='handled'
+          ref={c => this.scrollView = c}
+          style={{flex: 1}}
         >
           {this.props.children}
         </ScrollView>

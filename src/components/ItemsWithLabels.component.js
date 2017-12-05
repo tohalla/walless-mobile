@@ -13,7 +13,12 @@ export default class ItemsWithLabels extends React.Component {
         item: PropTypes.node
       }),
       PropTypes.node
-    ]))
+    ])),
+    style: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object])),
+      PropTypes.number,
+      PropTypes.object
+    ])
   };
   constructor(props) {
     super(props);

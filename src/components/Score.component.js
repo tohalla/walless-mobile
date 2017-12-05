@@ -16,8 +16,8 @@ export default class Score extends React.Component {
     for (const i = 1; i <= max; i++) {
       steps.push(
         <View
-            key={i}
-            style={[styles.step].concat(
+          key={i}
+          style={[styles.step].concat(
               i > score ? [{opacity: .2}]
               : score / max > .5 ? {backgroundColor: colors.success}
               : score / max > .2 ? {backgroundColor: colors.alert}

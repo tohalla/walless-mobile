@@ -16,12 +16,12 @@ export default class Scan extends React.Component {
     },
     headerRight: null
   };
-  handleBarCodeRead = async (data) => {
+  handleBarCodeRead = async(data) => {
     await Linking.openURL(data);
-  }
+  };
   render = () => (
     <QRScreen
-        onSuccess={this.handleBarCodeRead}
+      onSuccess={this.handleBarCodeRead}
     />
    );
 };

@@ -10,13 +10,13 @@ export default connect(
   null, {navigate: NavigationActions.navigate}
 )(({navigate, ...props}) => (
   <Button
-      onPress={() => navigate({routeName: 'DrawerOpen'})}
-      {...props}
+    onPress={() => navigate({routeName: 'DrawerOpen'})}
+    {...props}
   >
     <Icon
-        color={colors.headerForeground}
-        name="menu"
-        size={20}
+      color={colors.headerForeground}
+      name='menu'
+      size={20}
     />
   </Button>
 ));

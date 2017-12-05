@@ -8,12 +8,11 @@ const scanArea = 250;
 
 export default class QRScreen extends React.Component {
   static propTypes = {
-    onSuccess: PropTypes.func.isRequired,
-    onCancel: PropTypes.func
+    onSuccess: PropTypes.func.isRequired
   };
   state = {
     codeRead: false
-  }
+  };
   handleBarCodeRead = ({data, type, bounds: {origin, size}}) => {
     const {height, width} = Dimensions.get('window');
     if (
@@ -32,10 +31,10 @@ export default class QRScreen extends React.Component {
   };
   render = () => (
     <Camera
-        aspect={Camera.constants.Aspect.fill}
-        onBarCodeRead={this.handleBarCodeRead}
-        playSoundOnCapture={false}
-        style={styles.container}
+      aspect={Camera.constants.Aspect.fill}
+      onBarCodeRead={this.handleBarCodeRead}
+      playSoundOnCapture={false}
+      style={styles.container}
     >
       <View style={styles.shade} />
       <View style={styles.middle}>

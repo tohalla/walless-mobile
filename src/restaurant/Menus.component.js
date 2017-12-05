@@ -15,8 +15,10 @@ const mapStateToProps = state => ({
 });
 
 class Menus extends React.Component {
-  static PropTypes = {
-    restaurant: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired
+  static propTypes = {
+    navigation: PropTypes.shape({navigate: PropTypes.func.isRequired}),
+    getMenusByRestaurant: PropTypes.object,
+    language: PropTypes.string
   };
   constructor(props) {
     super(props);
@@ -45,10 +47,10 @@ class Menus extends React.Component {
     } = menu;
     return (
       <TouchableOpacity
-          onPress={() =>
+        onPress={() =>
             this.props.navigation.navigate('restaurantMenuItems', {menu})
           }
-          style={[container.row, container.rowDistinct, container.padded]}
+        style={[container.row, container.rowDistinct, container.padded]}
       >
         <View>
           <Text style={[text.text, text.medium, text.bold]}>{name}</Text>
@@ -61,10 +63,10 @@ class Menus extends React.Component {
     const {dataSource} = this.state;
     return (
       <ListView
-          dataSource={dataSource}
-          enableEmptySections
-          renderRow={this.handleRenderItem}
-          style={container.container}
+        dataSource={dataSource}
+        enableEmptySections
+        renderRow={this.handleRenderItem}
+        style={container.container}
       />
     );
   }

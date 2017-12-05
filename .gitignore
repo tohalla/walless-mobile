@@ -53,6 +53,7 @@ buck-out/
 */fastlane/screenshots
 
 *.sublime-*
+.vscode
 
 src/translations.json
 

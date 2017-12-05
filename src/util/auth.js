@@ -5,7 +5,7 @@ import {pick} from 'lodash/fp';
 
 import config from 'walless-native/config';
 
-const requestToken = async (payload: Object) => {
+const requestToken = async(payload: Object) => {
   const [[, refreshToken], [, clientId]] =
     await AsyncStorage.multiGet(['refresh-token', 'client-id']);
   return await (refreshToken ?
@@ -34,7 +34,7 @@ const requestToken = async (payload: Object) => {
   );
 };
 
-const fetchClientId = async () => {
+const fetchClientId = async() => {
   const storedClientId = await AsyncStorage.getItem('client-id');
   if (storedClientId) {
     return storedClientId;
@@ -57,7 +57,7 @@ const fetchClientId = async () => {
   return clientId;
 };
 
-const logout = async () => Promise.all([
+const logout = async() => Promise.all([
   fetch(
     `${config.api.url}/${config.api.authentication.endpoint}/client`,
     {
@@ -75,7 +75,7 @@ const logout = async () => Promise.all([
   ])
 ]);
 
-const authenticate = async (email: string, password: string) => {
+const authenticate = async(email: string, password: string) => {
   if (email && password) await logout();
   const response = await requestToken({email, password});
   if (response.ok) {
@@ -102,10 +102,10 @@ const createAccount = account => fetch(
   }
 );
 
-const changePassword = async (payload) => fetch(
+const changePassword = async(payload) => fetch(
   `${config.api.url}/${config.api.authentication.endpoint}/password`,
   {
-    method: 'PUT',
+    method: 'POST',
     headers: {
       'authorization': await AsyncStorage.getItem('authorization'),
       'content-type': 'application/json; charset=utf-8'

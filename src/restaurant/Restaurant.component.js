@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View, Text, ScrollView, Image} from 'react-native';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
@@ -22,7 +23,7 @@ const mapStateToProps = state => ({
   language: state.translation.language
 });
 
-const checkRestaurant = async (props) => {
+const checkRestaurant = async(props) => {
   const {getRestaurant: {loading} = {}, restaurant, setRestaurantNavigation} = props;
   if (!restaurant && !loading) {
     setRestaurantNavigation({
@@ -38,6 +39,15 @@ const checkRestaurant = async (props) => {
 };
 
 class Restaurant extends React.Component {
+  static propTypes = {
+    restaurant: PropTypes.shape({
+      i18n: PropTypes.object,
+      images: PropTypes.array
+    }),
+    language: PropTypes.string,
+    navigation: PropTypes.shape({navigate: PropTypes.func.isRequired}),
+    disconnectFromServingLocation: PropTypes.func.isRequired
+  };
   constructor(props) {
     super(props);
     checkRestaurant(props);
@@ -61,40 +71,40 @@ class Restaurant extends React.Component {
     return (
       <LoadContent loadProps={this.props}>
         <ScrollView
-            alwaysBounceVertical={false}
-            style={[container.container]}
+          alwaysBounceVertical={false}
+          style={[container.container]}
         >
           {images.length ?
             <Swiper
-                activeDotColor={colors.foregroundLight}
-                dotColor="rgba(0,0,0,0.8)"
-                height={250}
+              activeDotColor={colors.foregroundLight}
+              dotColor='rgba(0,0,0,0.8)'
+              height={250}
             >
               {images.map((image, index) => (
                 <Image
-                    key={index}
-                    source={{uri: image.uri}}
-                    style={container.slide}
+                  key={index}
+                  source={{uri: image.uri}}
+                  style={container.slide}
                 />
               ))}
             </Swiper>
           : null}
           <View style={[container.container, container.light, {alignItems: 'stretch'}]}>
-              {
+            {
                 Object.keys(restaurantRoutes).map(route => (
                   restaurantRoutes[route].navigation &&
                   <Button
-                      key={route}
-                      onPress={() => navigation.navigate(route)}
-                      padded
+                    key={route}
+                    onPress={() => navigation.navigate(route)}
+                    padded
                   >
                     {I18n.t(restaurantRoutes[route].translationKey)}
                   </Button>
                 ))
               }
-              <Button onPress={disconnectFromServingLocation} padded>
-                {I18n.t('restaurant.servingLocation.checkout')}
-              </Button>
+            <Button onPress={disconnectFromServingLocation} padded>
+              {I18n.t('restaurant.servingLocation.checkout')}
+            </Button>
           </View>
           <View style={[container.container, container.padded]}>
             <Text style={[text.text, text.bold, text.medium]}>{name}</Text>

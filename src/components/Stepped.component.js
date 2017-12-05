@@ -16,7 +16,11 @@ import Button from 'walless/components/Button.component';
 export default class Stepped extends React.Component {
   static propTypes = {
     color: PropTypes.string,
-    contentContainerStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
+    contentContainerStyle: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object])),
+      PropTypes.number,
+      PropTypes.object
+    ]),
     displayProgressBar: PropTypes.bool,
     steps: PropTypes.arrayOf(PropTypes.shape({
       allowContinue: PropTypes.bool,
@@ -42,7 +46,7 @@ export default class Stepped extends React.Component {
   state = {
     loading: false
   };
-  handleContinuePress = async () => {
+  handleContinuePress = async() => {
     const {step, onContinuePress, steps} = this.props;
     const {allowContinue, validate, onContinue, onError} = steps[step];
     if (typeof allowContinue === 'undefined' || allowContinue) {
@@ -88,9 +92,9 @@ export default class Stepped extends React.Component {
       color,
       backLabel = (
         <Icon
-            color={this.props.color}
-            name="chevron-left"
-            size={20}
+          color={this.props.color}
+          name='chevron-left'
+          size={20}
         />
       )
     } = this.props;
@@ -98,27 +102,27 @@ export default class Stepped extends React.Component {
     const step = Math.min(this.props.step, steps.length - 1);
     const LeftButton = props => (
       <Button
-          disabled={loading}
-          onPress={step === 0 ? this.handleCancelPress : this.handleBackPress}
-          padded
-          textStyle={{color}}
-          {...props}
+        disabled={loading}
+        onPress={step === 0 ? this.handleCancelPress : this.handleBackPress}
+        padded
+        textStyle={{color}}
+        {...props}
       >
         {step === 0 ? cancelLabel : backLabel}
       </Button>
     );
     const RightButton = props => (
       <Button
-          disabled={
+        disabled={
             loading || (
               typeof steps[step].allowContinue !== 'undefined' &&
               !steps[step].allowContinue
             )
           }
-          onPress={step === steps.length - 1 ? this.handleSubmitPress : this.handleContinuePress}
-          padded
-          textStyle={{color}}
-          {...props}
+        onPress={step === steps.length - 1 ? this.handleSubmitPress : this.handleContinuePress}
+        padded
+        textStyle={{color}}
+        {...props}
       >
         {step === steps.length - 1 ? submitLabel : continueLabel}
       </Button>
@@ -126,7 +130,7 @@ export default class Stepped extends React.Component {
     const ProgressBar = () => displayProgressBar ? (
       <View style={styles.progressBarContainer}>
         <View
-            style={{
+          style={{
               flex: 0,
               flexBasis: Dimensions.get('window').width * (step + .5) / steps.length,
               backgroundColor: color,

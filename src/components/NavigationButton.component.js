@@ -9,7 +9,7 @@ import text from 'walless/styles/text';
 import container from 'walless/styles/container';
 
 export default class NavigationButton extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     children: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
     onPress: PropTypes.func.isRequired
@@ -19,11 +19,11 @@ export default class NavigationButton extends React.Component {
   };
   render = () => (
     <Button
-        {...this.props}
-        style={[container.row, container.padded, container.rowDistinct]}
+      {...this.props}
+      style={[container.row, container.padded, container.rowDistinct]}
     >
       <View
-          style={{
+        style={{
             flex: 1,
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -32,9 +32,9 @@ export default class NavigationButton extends React.Component {
       >
         <Text style={text.text}>{this.props.children}</Text>
         <Icon
-            color={colors.lightGray}
-            name="chevron-right"
-            size={20}
+          color={colors.lightGray}
+          name='chevron-right'
+          size={20}
         />
       </View>
     </Button>

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import I18n from 'react-native-i18n';
 import {connect} from 'react-redux';
@@ -17,6 +18,10 @@ import container from 'walless/styles/container';
 import LoadContent from 'walless/components/LoadContent.component';
 
 class Authentication extends React.Component {
+  static propTypes = {
+    getActiveAccount: PropTypes.shape({refetch: PropTypes.func.isRequired}),
+    account: PropTypes.object
+  };
   state = {
     action: ''
   };
@@ -33,8 +38,8 @@ class Authentication extends React.Component {
   }
   setAction = action => () => {
     this.setState({action});
-  }
-  handleRegistrationCompleted = async (account) => {
+  };
+  handleRegistrationCompleted = async(account) => {
     await authenticate(account.email, account.password);
     this.props.getActiveAccount.refetch();
   };
@@ -46,23 +51,23 @@ class Authentication extends React.Component {
           action === 'authenticate' ? <SignIn onCancel={this.setAction('')} />
           : action === 'register' ? (
             <Register
-                onSuccess={this.handleRegistrationCompleted}
-                setAction={this.setAction}
+              onSuccess={this.handleRegistrationCompleted}
+              setAction={this.setAction}
             />
           )
           : (
             <View style={[container.container, container.colored, container.centerContent]}>
               <Button
-                  onPress={this.setAction('authenticate')}
-                  padded
-                  textStyle={text.light}
+                onPress={this.setAction('authenticate')}
+                padded
+                textStyle={text.light}
               >
                 {I18n.t('account.authenticate')}
               </Button>
               <Button
-                  onPress={this.setAction('register')}
-                  padded
-                  textStyle={text.light}
+                onPress={this.setAction('register')}
+                padded
+                textStyle={text.light}
               >
                 {I18n.t('account.register')}
               </Button>

@@ -26,7 +26,8 @@ class MenuItem extends React.Component {
     actions: PropTypes.arrayOf(PropTypes.shape({
       onPress: PropTypes.func.isRequired,
       label: PropTypes.string.isRequired
-    }))
+    })),
+    language: PropTypes.string
   };
   static navigationOptions = ({navigation, ...props}) => ({
     title: get([
@@ -89,20 +90,20 @@ class MenuItem extends React.Component {
     } = menuItem;
     return (
       <ScrollView
-          alwaysBounceVertical={false}
-          style={[container.container, container.light]}
+        alwaysBounceVertical={false}
+        style={[container.container, container.light]}
       >
         {images.length > 0 &&
           <Swiper
-              activeDotColor={colors.foregroundLight}
-              dotColor="rgba(0,0,0,0.8)"
-              height={250}
+            activeDotColor={colors.foregroundLight}
+            dotColor='rgba(0,0,0,0.8)'
+            height={250}
           >
             {images.map((image, index) => (
               <Image
-                  key={index}
-                  source={{uri: image.uri}}
-                  style={container.slide}
+                key={index}
+                source={{uri: image.uri}}
+                style={container.slide}
               />
             ))}
           </Swiper>
@@ -114,10 +115,10 @@ class MenuItem extends React.Component {
           <View style={{display: 'flex', flexShrink: 0}}>
             {actions.map((action, index) => (
               <Button
-                  key={index}
-                  onPress={this.handleActionPress(action)}
-                  padded
-                  textStyle={{color: colors.action}}
+                key={index}
+                onPress={this.handleActionPress(action)}
+                padded
+                textStyle={{color: colors.action}}
               >
                 {action.label}
               </Button>
@@ -135,9 +136,9 @@ class MenuItem extends React.Component {
               <NavigationItem key={index}>
                 <Text>{get(['i18n', language, 'name'])(option)}</Text>
                 <Switch
-                    disabled={!allowEdit}
-                    onValueChange={this.handleOptionToggle(option)}
-                    value={orderOptions[option.id].value}
+                  disabled={!allowEdit}
+                  onValueChange={this.handleOptionToggle(option)}
+                  value={orderOptions[option.id].value}
                 />
               </NavigationItem>
             ))}
