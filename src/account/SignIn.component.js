@@ -108,6 +108,5 @@ class SignIn extends React.Component {
 }
 
 export default withApollo(compose(
-  connect(null, {addNotification}),
-  account.getActiveAccount
+  connect(null, {addNotification})
 )(SignIn));

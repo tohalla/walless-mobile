@@ -40,21 +40,21 @@ class App extends React.Component {
     Linking.addEventListener('url', this.handleOpenURL);
   }
   componentWillReceiveProps = async(newProps) => {
-    if (!isEqual(newProps.account)(this.props.account)) {
-      if (
-        !isEmpty(newProps.account) &&
-        !get(['getActiveAccount', 'loading'])(newProps)
-      ) {
+    if (
+      !isEqual(newProps.account)(this.props.account) &&
+      !get(['getActiveAccount', 'loading'])(this.props) &&
+      !get(['getActiveAccount', 'loading'])(newProps)
+    ) {
+      if (isEmpty(newProps.account)) {
+        initializeNotificationHandler();
+      } else {
         const [[, refreshToken], [, clientId]] =
           await AsyncStorage.multiGet(['refresh-token', 'client-id']);
         if (refreshToken && clientId) {
           this.setState({loading: true});
           await authenticate();
-          await newProps.getActiveAccount.refetch();
           this.setState({loading: false});
         }
-      } else if (!isEqual(newProps.account)(this.props.account)) {
-        initializeNotificationHandler();
       }
     }
   };

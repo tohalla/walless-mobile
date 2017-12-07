@@ -6,8 +6,7 @@ import {pick} from 'lodash/fp';
 import config from 'walless-native/config';
 
 const requestToken = async(payload: Object) => {
-  const [[, refreshToken], [, clientId]] =
-    await AsyncStorage.multiGet(['refresh-token', 'client-id']);
+  const refreshToken = await AsyncStorage.getItem('refresh-token');
   return await (refreshToken ?
     fetch(
       `${config.api.url}/${config.api.authentication.endpoint}/client`,
@@ -15,7 +14,7 @@ const requestToken = async(payload: Object) => {
         method: 'GET',
         headers: {
           'content-type': 'application/json; charset=utf-8',
-          'client-id': clientId,
+          'client-id': await fetchClientId(),
           'refresh-token': refreshToken
         }
       }
@@ -26,7 +25,7 @@ const requestToken = async(payload: Object) => {
         method: 'POST',
         headers: {
           'content-type': 'application/json; charset=utf-8',
-          'client-id': clientId
+          'client-id': await fetchClientId()
         },
         body: JSON.stringify(payload)
       }
@@ -57,27 +56,30 @@ const fetchClientId = async() => {
   return clientId;
 };
 
-const logout = async() => Promise.all([
-  fetch(
+const logout = async() => {
+  await fetch(
     `${config.api.url}/${config.api.authentication.endpoint}/client`,
     {
       method: 'DELETE',
       headers: {
-        'client-id': await AsyncStorage.getItem('client-id')
+        'client-id': await fetchClientId()
       }
     }
-  ),
-  AsyncStorage.multiRemove([
+  );
+  return AsyncStorage.multiRemove([
     'authorization',
     'client-id',
     'ws-token',
     'refresh-token'
   ])
-]);
+};
 
 const authenticate = async(email: string, password: string) => {
   if (email && password) await logout();
-  const response = await requestToken({email, password});
+  const response = await requestToken({
+    email: email && email.trim(),
+    password
+  });
   if (response.ok) {
     const {token, wsToken, refreshToken, expiresAt} = await response.json();
     await AsyncStorage.multiSet([['expiration', expiresAt.toString()]]
