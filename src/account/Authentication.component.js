@@ -5,10 +5,10 @@ import {View} from 'react-native';
 import I18n from 'react-native-i18n';
 import {connect} from 'react-redux';
 import {withApollo, compose} from 'react-apollo';
-import {RESET_NAVIGATION} from 'walless/actionTypes';
 import {account} from 'walless-graphql';
 import {isEqual} from 'lodash/fp';
 
+import {RESET_NAVIGATION} from 'walless/actionTypes';
 import {authenticate} from 'walless/util/auth';
 import Button from 'walless/components/Button.component';
 import text from 'walless/styles/text';

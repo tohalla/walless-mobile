@@ -4275,6 +4275,10 @@ react-native-modal-dropdown@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-modal-dropdown/-/react-native-modal-dropdown-0.5.0.tgz#f6c4cd4d077792e56902b43b14d83959f5f40f46"
 
+react-native-permissions@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-1.0.6.tgz#504f01728191431ad4b82895c4a349981fb5802b"
+
 react-native-swipeable@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/react-native-swipeable/-/react-native-swipeable-0.6.0.tgz#0fe551330018b83c754d27f505709a594f554370"
