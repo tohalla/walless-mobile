@@ -71,7 +71,7 @@ const logout = async() => {
     'client-id',
     'ws-token',
     'refresh-token'
-  ])
+  ]);
 };
 
 const authenticate = async(email: string, password: string) => {

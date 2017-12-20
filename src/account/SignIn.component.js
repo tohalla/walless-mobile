@@ -6,7 +6,6 @@ import I18n from 'react-native-i18n';
 import {withApollo, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {set} from 'lodash/fp';
-import {account} from 'walless-graphql';
 
 import AvoidKeyboard from 'walless/components/AvoidKeyboard.component';
 import LoadContent from 'walless/components/LoadContent.component';
